@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from .data import DataSelection
 from .selectors import LassoTool
 from .fit_functions import LineTool
+from .utils import BlitManager
 
 plt.rcParams['toolbar'] = 'toolmanager'
 
@@ -13,6 +14,7 @@ class Fitter:
         self.ax = self.figure.gca()
         self.fits = {}
         self.selections = {}
+        self.blit_manager = BlitManager(self)
         
         
     def __call__(self):

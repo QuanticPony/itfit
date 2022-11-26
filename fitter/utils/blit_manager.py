@@ -1,6 +1,7 @@
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.artist import Artist
-import numpy as np
+
 from . import DragPointManager, DragPoint
 
 class BlitManager:
@@ -36,6 +37,7 @@ class BlitManager:
         
         for a in self.artists:
             a.poly.set_visible(True)
+            a.update()
             self.ax.draw_artist(a.poly)
             
         self.canvas.blit(self.ax.bbox)

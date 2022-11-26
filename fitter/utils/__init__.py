@@ -5,7 +5,7 @@ except NameError:
 
 if not __FITTER_IMPORTED__:
     from .point import DragPoint, DragPointManager
-    from .line import DragLine
+    from .line import DragLineManager
     from .blit_manager import BlitManager
     
     
