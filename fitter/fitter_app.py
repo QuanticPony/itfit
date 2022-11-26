@@ -16,7 +16,7 @@ class Fitter:
         
         
     def __call__(self):
-        self.ax.plot(self.data.xdata, self.data.ydata)
+        self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
         
         self.figure.canvas.manager.toolmanager.add_tool('Lasso', LassoTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Lasso', 'fitter')

@@ -6,9 +6,10 @@ from scipy import optimize
 from ..data import DataSelection
 
 class Line():
-    def __init__(self, fig, ax, data: DataSelection) -> None:
-        self.fig = fig
-        self.ax = ax
+    def __init__(self, app, data: DataSelection) -> None:
+        self.app = app
+        self.fig = app.figure
+        self.ax = app.ax
         self.data = data
         self.p = np.zeros((2,2))
         self.fixed_p = np.zeros((2,2))
@@ -76,8 +77,11 @@ class Line():
                 xdata, ydata = self.data.get_selected()
                 if np.sum(self.data.indexes_used)==0:
                     xdata, ydata = self.data.xdata.copy(), self.data.ydata.copy()
-                self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args())
-                print(self.fit)
+                self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args(), full_output=True)
+                
+                self.app.fits.update({f"linear-{np.random.randint(0,100)}" : (self.fit, self.data.get_selected())})
+                
+                
                 self.fit_line.set_alpha(1)
                 self.fit_line.set_data(xdata, self.function(xdata, *self.fit[0]))
                 # self.fit_line.set_ydata(self.function(xdata, *self.fit[0]))
@@ -124,7 +128,7 @@ class LineTool(ToolToggleBase):
         super().__init__(*args, **kwargs)
 
     def enable(self, *args):
-        self.line = Line(self.figure, self.figure.get_axes()[0], self.data)
+        self.line = Line(self.app, self.data)
 
     def disable(self, *args):
         self.line.delete()
