@@ -11,4 +11,3 @@ if not __FITTER_IMPORTED__:
     
     
 __FITTER_IMPORTED__ = True
-
