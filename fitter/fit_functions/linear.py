@@ -1,26 +1,44 @@
 from matplotlib.backend_bases import MouseButton
 from matplotlib.backend_tools import ToolToggleBase
+from matplotlib.lines import Line2D
+from matplotlib.widgets import Button
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import optimize
 from ..data import DataSelection
+from ..utils import DragLineManager, DragPoint, DragPointManager
 
 class Line():
-    def __init__(self, app, data: DataSelection) -> None:
+    def __init__(self, app, data: DataSelection):
         self.app = app
         self.fig = app.figure
         self.ax = app.ax
         self.data = data
+
+        self.drag_points = [DragPoint(*self.ax.transAxes.transform((0.2,0.3)), None), 
+                            DragPoint(*self.ax.transAxes.transform((0.8,0.7)), None)]
+        self.drag_points_managers = [DragPointManager(p, self.app.blit_manager) for p in self.drag_points]
+        self.adjustable_segment = DragLineManager(self.drag_points, self.app.blit_manager)
+        
+        for dpm in self.drag_points_managers:
+            self.app.blit_manager.artists.append(dpm)
+        self.app.blit_manager.artists.append(self.adjustable_segment)
+        
+        
+        # TODO: mejorar
+        self.button_axes = plt.axes([0.81, 0.000001, 0.1, 0.055])
+        self.button = Button(self.button_axes, "Fit",color="red")
+        
+        self.button.on_clicked(self.on_fit)
+        
+        self.fig.canvas.draw_idle()
+        
         self.p = np.zeros((2,2))
-        self.fixed_p = np.zeros((2,2))
-        self.clics = 0
-        self.line, = self.ax.plot(self.p[0], self.p[1], '-', color='red')
-        self.fit_line, = self.ax.plot(self.data.xdata, self.data.ydata, '--', color='r', alpha=0)
-        self.MAX_CLICS = 2
-        self._connect_motion()
-        self._connect_clic()
+
     
     def get_args(self):
+        self.p[:,0] = np.array(self.adjustable_segment.get_xdata())
+        self.p[:,1] = np.array(self.adjustable_segment.get_ydata())
         p = self.p
         m = (p[0,1] - p[1,1])/(p[0,0] - p[1,0])
         return m, m*(-p[1,0])+p[1,1]
@@ -28,20 +46,6 @@ class Line():
     @staticmethod
     def function(x,m,n):
         return x*m+n
-        
-    def _connect_motion(self):
-        self.bind_id_motion = plt.connect('motion_notify_event', self.on_move)
-        
-    def _unbin_motion(self):
-        plt.disconnect(self.bind_id_motion)
-        self.bind_id_motion = None
-        
-    def _connect_clic(self):
-        self.bind_id_clic = plt.connect('button_press_event', self.on_click) 
-        
-    def _unbin_clic(self):
-        plt.disconnect(self.bind_id_clic) 
-        self.bind_id_clic = None
         
     def __call__(self, x):
         p = self.p
@@ -51,65 +55,53 @@ class Line():
             m=0
         
         return m*(x-p[1,0])+p[1,1]
-    
-    def draw(self, out=False):
-        lims = self.ax.get_xlim() if not out else []
-        points = self(lims) if not out else []
-        self.line.set_xdata(lims)
-        self.line.set_ydata(points)
-        self.ax.figure.canvas.draw()
         
-    def on_move(self, event):
-        point = np.array([event.xdata, event.ydata])
-        if event.inaxes:
-            self.p[:] = self.fixed_p
-            self.p[1-self.clics] = point
-            self.draw()
-        
-    def on_click(self, event):
-        
-        if event.button is MouseButton.LEFT and self.clics <= self.MAX_CLICS:
-            self.fixed_p[:] = self.p
-            self.clics += 1
-            if self.clics == self.MAX_CLICS:
-                self._unbin_motion()
-                m, n = self.get_args()
-                xdata, ydata = self.data.get_selected()
-                if np.sum(self.data.indexes_used)==0:
-                    xdata, ydata = self.data.xdata.copy(), self.data.ydata.copy()
-                self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args(), full_output=True)
-                
-                self.app.fits.update({f"linear-{np.random.randint(0,100)}" : (self.fit, self.data.get_selected())})
-                
-                
-                self.fit_line.set_alpha(1)
-                self.fit_line.set_data(xdata, self.function(xdata, *self.fit[0]))
-                # self.fit_line.set_ydata(self.function(xdata, *self.fit[0]))
-                self.fit_line.set_label(f"m={self.fit[0][0]}\nn={self.fit[0][1]}")
-                self.ax.legend()
-                self.draw(out=True)
-                # self.line.remove()
-                return
-                
-            
-        if event.button is MouseButton.RIGHT: 
-            self.clics -= 1
-            self.clics = max(0, self.clics)
-            
-            if self.clics < self.MAX_CLICS and not self.bind_id_motion:
-                self._connect_motion()
+    def on_fit(self, event):
+        # m, n = self.get_args()
+        xdata, ydata = self.data.get_selected()
+        if np.sum(self.data.indexes_used)==0:
+            xdata, ydata = self.data.xdata.copy(), self.data.ydata.copy()
+        self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args(), full_output=True)
 
-        self.draw()
+
+        # This part is for ploting the fit line in the background
+        self.app.blit_manager.disable()
+        
+        self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
+        self.ax.add_artist(self.fit_line)
+        self.fit_line.set_label(f"m={self.fit[0][0]}\nn={self.fit[0][1]}")
+        self.ax.legend()
+        self.ax.draw_artist(self.fit_line)
+        
+        self.app.blit_manager.enable()
+
+
+        self.app.fits.update({f"linear-{np.random.randint(0,100)}" : (self.fit, self.data.get_selected(), self.fit_line)})
+        
+        # self.delete()
+        
+
         
     def delete(self):
         #TODO: add a zoom plot?? 
-        self._unbin_clic()
-        self._unbin_motion()
-        self.fit_line.remove()
-        self.line.remove()
-        del self.fit_line
-        del self.line
-        self.fig.canvas.draw_idle()
+        try:
+            del self.button
+            self.button_axes.remove()
+        
+
+            # Remove artists in order to clean canvas
+            
+            for pm in self.drag_points_managers:
+                pm.dragpoint.remove()
+                self.app.blit_manager.artists.remove(pm)
+
+            self.adjustable_segment.remove()
+            self.app.blit_manager.artists.remove(self.adjustable_segment) 
+        except AttributeError:
+            pass
+        
+        # TODO? esto no se si debería estar aquí
+        self.ax.add_artist(self.fit_line)
 
 
 
@@ -128,7 +120,10 @@ class LineTool(ToolToggleBase):
         super().__init__(*args, **kwargs)
 
     def enable(self, *args):
+        self.app.blit_manager.enable()
         self.line = Line(self.app, self.data)
 
     def disable(self, *args):
         self.line.delete()
+        self.app.blit_manager.disable()
+        self.app.figure.canvas.draw_idle()
