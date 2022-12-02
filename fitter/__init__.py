@@ -6,7 +6,7 @@ except NameError:
 if not __FITTER_IMPORTED__:
     from . import data
     from . import fit_functions
-    from . import selectors
+    from . import data_selectors
     from .fitter_app import Fitter
     
     

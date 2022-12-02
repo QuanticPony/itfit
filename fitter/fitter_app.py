@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 from .data import DataSelection
-from .selectors import LassoTool
+from .data_selectors import LassoTool
 from .fit_functions import LineTool
 from .utils import BlitManager
 

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from fitter.data import DataSelection
-from fitter.selectors import LassoTool
+from fitter.data_selectors import LassoTool
 from fitter.fit_functions import LineTool
 from fitter import Fitter
 
