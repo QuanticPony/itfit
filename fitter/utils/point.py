@@ -13,7 +13,6 @@ class DragPoint:
     def remove(self):
         self.patch.remove()
 
-
 class DragPointManager:
     def __init__(self, dragpoint: DragPoint, blit_manager):
         """Manages a DragPoint's BlitManager connection, callbacks on matplotlib events and automatic drawing.
@@ -40,10 +39,9 @@ class DragPointManager:
         
         self._ind = None # Used for enabling mouse motion.
 
-
     def update(self):
+        """Needed for BlitManager"""
         pass
-
 
     def get_xy(self, x, y):
         """Aplies correct transformation from display to data coordinates"""
@@ -54,7 +52,7 @@ class DragPointManager:
         return self.ax.transData.transform((x,y))
 
     def on_button_press(self, event):
-        """Callback for mouse button presses."""
+        """Callback for mouse button presses"""
         if event.inaxes is None:
             return
         if event.button != 1:
@@ -64,23 +62,21 @@ class DragPointManager:
         x, y = self.set_xy(x, y)
         if np.hypot(*(self.poly.center - np.array([x,y]))) < 1.5*self.poly.get_radius():
             self._ind = 0
-
     
     def on_button_release(self, event):
-        """Callback for mouse button releases."""
+        """Callback for mouse button releases"""
         if event.button != 1:
             return
         self._ind = None
 
     def on_key_press(self, event):
-        """Callback for key presses."""
+        """Callback for key presses"""
         #! This may be useful later.
         if not event.inaxes:
             return
 
-
     def on_mouse_move(self, event):
-        """Callback for mouse movements."""
+        """Callback for mouse movements"""
         if self._ind is None:
             return
         if event.inaxes is None:
