@@ -4,6 +4,8 @@ except NameError:
     __FITTER_FIT_FUNCTIONS_IMPORTED__= False
 
 if not __FITTER_FIT_FUNCTIONS_IMPORTED__:
+    from .generic_fitter import GenericFitter, GenericFitterTool
     from .linear import LineTool
+    from .quadratic import QuadraticTool
     
 __FITTER_FIT_FUNCTIONS_IMPORTED__ = True

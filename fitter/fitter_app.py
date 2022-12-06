@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 from .data import DataSelection
 from .data_selectors import LassoTool
-from .fit_functions import LineTool
+from .fit_functions import LineTool, QuadraticTool
 from .utils import BlitManager
 
 plt.rcParams['toolbar'] = 'toolmanager'
@@ -25,5 +25,8 @@ class Fitter:
         
         self.figure.canvas.manager.toolmanager.add_tool('Line', LineTool, app=self, data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Line', 'fitter')
+        
+        self.figure.canvas.manager.toolmanager.add_tool('Quadratic', QuadraticTool, app=self, data=self.data)
+        self.figure.canvas.manager.toolbar.add_tool('Quadratic', 'fitter')
 
         plt.show()

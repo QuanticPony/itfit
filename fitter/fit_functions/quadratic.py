@@ -1,14 +1,14 @@
 from . import GenericFitter, GenericFitterTool
 from ..data import DataSelection
-from ..utils import DragPoint, DragPointManager, DragLineManager
+from ..utils import DragPoint, DragPointManager, DragQuadraticManager
 
 
-class LineFitter(GenericFitter):
+class QuadraticFitter(GenericFitter):
 
-    name = 'linear'
+    name = 'quadratic'
     
     def __init__(self, app, data: DataSelection):
-        """Linear fitter following function `f(x)=m*x + n`
+        """Linear fitter following function `f(x)=a*x^2 + b*x + c`
 
         Parameters
         ----------
@@ -21,12 +21,12 @@ class LineFitter(GenericFitter):
         
         ## Create DragPoints and DragLines needed
         
-        self.drag_points = [DragPoint(*self.ax.transAxes.transform((0.2,0.3)), None), 
-                            DragPoint(*self.ax.transAxes.transform((0.8,0.7)), None)]
+        self.drag_points = [DragPoint(*self.ax.transAxes.transform((0.5,0.2)), None), 
+                            DragPoint(*self.ax.transAxes.transform((0.7,0.5)), None)]
         self.drag_points_managers = [DragPointManager(p, self.app.blit_manager) for p in self.drag_points]
-        self.fitter_drag_collection = DragLineManager(self.drag_points, self.app.blit_manager)
+        self.fitter_drag_collection = DragQuadraticManager(self.drag_points, self.app.blit_manager)
         
-        ## Connect Line to Points change events
+        ## Connect Quadratic to Points change events
         self.drag_points_cids = [] # Connections ids for change events
         for dp in self.drag_points_managers:
             self.drag_points_cids.append(
@@ -41,23 +41,23 @@ class LineFitter(GenericFitter):
         self.fig.canvas.draw_idle()
     
 
-class LineTool(GenericFitterTool):
-    """Toggles Line Tool."""
+class QuadraticTool(GenericFitterTool):
+    """Toggles Quadratic Tool."""
     
     # default_keymap = ''
-    description = 'Line me please'
+    description = 'Quadratic me please'
     default_toggled = False
     radio_group = "fitter"
 
     def enable(self, *args):
-        """Triggered when LineTool is enabled.
+        """Triggered when QuadraticTool is enabled.
         Uses BlitManager for faster rendering of DragObjects.
         """
         super().enable()
-        self.fitter = LineFitter(self.app, self.data)
+        self.fitter = QuadraticFitter(self.app, self.data)
 
     def disable(self, *args):
-        """Triggered when LineTool is disabled.
+        """Triggered when QuadraticTool is disabled.
         Removes DragObjects and disables BlitManager.
         """
         super().disable()
