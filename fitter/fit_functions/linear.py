@@ -48,10 +48,18 @@ class Line():
         
         
         ## Create DragPoints and DragLines needed
+        
         self.drag_points = [DragPoint(*self.ax.transAxes.transform((0.2,0.3)), None), 
                             DragPoint(*self.ax.transAxes.transform((0.8,0.7)), None)]
         self.drag_points_managers = [DragPointManager(p, self.app.blit_manager) for p in self.drag_points]
         self.adjustable_segment = DragLineManager(self.drag_points, self.app.blit_manager)
+        
+        ## Connect Line to Points change events
+        self.drag_points_cids = [] # Connections ids for change events
+        for dp in self.drag_points_managers:
+            self.drag_points_cids.append(
+                dp.connect(self.adjustable_segment.update)
+            )
         
         ## Add created DragPoints and DragLines to BlitManager
         self.app.blit_manager.artists.append(self.adjustable_segment)

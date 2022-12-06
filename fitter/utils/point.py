@@ -31,6 +31,8 @@ class DragPointManager:
         self.blit_manager.ax.add_patch(self.dragpoint.patch)
         
         self.poly = self.dragpoint.patch
+        self.connection_callbacks = {}
+        self.restricction_callback = lambda x,y: (x,y)
 
         self.canvas.mpl_connect('button_press_event', self.on_button_press)
         self.canvas.mpl_connect('key_press_event', self.on_key_press)
@@ -39,9 +41,24 @@ class DragPointManager:
         
         self._ind = None # Used for enabling mouse motion.
 
-    def update(self):
-        """Needed for BlitManager"""
-        pass
+    def connect(self, function):
+        """Connects a callback for change envents. Function must have signature `def f(event)`"""
+        key = np.random.randint(1000000)
+        self.connection_callbacks.update({key: function})
+        return key
+    
+    def disconnect(self, cid):
+        """Disconnects the callback with given `cid`"""
+        if cid in self.connection_callbacks.keys():
+            self.connection_callbacks.pop(cid)
+            
+    def add_restriction(self, function):
+        """Adds a restriction to object movement. Function must have signature `def f(new_x,new_y): -> Tuple(float, float)`"""
+        self.restricction_callback = function
+    
+    def remove_restriction(self):
+        """Removes the restriction to object movemet"""
+        self.restricction_callback = lambda x,y:(x,y)
 
     def get_xy(self, x, y):
         """Aplies correct transformation from display to data coordinates"""
@@ -85,8 +102,11 @@ class DragPointManager:
             return
         x, y = event.xdata, event.ydata
         x, y = self.set_xy(x, y)
+        x, y = self.restricction_callback(x, y)
 
         prop = {'center': np.array([x,y])}
         Artist.update(self.poly, prop)
+        for k,v in self.connection_callbacks.items():
+            v(x,y)
         
         self.blit_manager.draw()

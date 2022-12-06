@@ -27,8 +27,9 @@ class DragLineManager:
         
         self.patch = self.blit_manager.ax.add_patch(self.poly)  
         
-    def update(self):
-        """Updates the line information. Must be call prior to blit."""
+    def update(self, *args, **kargs):
+        """Updates the line information. Must be call prior to blit.
+        Can be used as a connection for change events"""
         self.poly.set_xdata(self.get_xdata_display())
         self.poly.set_ydata(self.get_ydata_display())
         
