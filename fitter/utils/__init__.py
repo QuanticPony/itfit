@@ -1,12 +1,16 @@
 try:
-    __FITTER_IMPORTED__
+    __FITTER_UTILS_IMPORTED__
 except NameError:
-    __FITTER_IMPORTED__= False
+    __FITTER_UTILS_IMPORTED__= False
 
-if not __FITTER_IMPORTED__:
-    from .point import DragPoint, DragPointManager
-    from .line import DragLineManager
+if not __FITTER_UTILS_IMPORTED__:
     from .blit_manager import BlitManager
     
+    from .point import DragPoint, DragPointManager
+    from .collection import DragPointCollection
     
-__FITTER_IMPORTED__ = True
+    from .line import DragLineManager
+    from .quadratic import DragQuadraticManager
+    
+    
+__FITTER_UTILS_IMPORTED__ = True

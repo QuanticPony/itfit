@@ -1,63 +1,58 @@
-from matplotlib.lines import Line2D
+import numpy as np
 
-from . import DragPoint
+from . import DragPoint, DragPointCollection, BlitManager
 
-class DragLineManager:
-    def __init__(self, dragpoints: list[DragPoint], blit_manager):
+
+class DragLineManager(DragPointCollection):
+    @staticmethod
+    def function(x, m, n):
+        return m*x + n
+    
+    def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
         """Line between multiple DragPoints. Updates with them.
 
         Args:
             dragpoints (list[DragPoint]): line vertices.
             blit_manager (BlitManager): used for automtic ploting.
         """
-        
-        self.dragpoints = dragpoints
-        self.blit_manager = blit_manager
-        
-        self.ax = blit_manager.ax
-        self.canvas = blit_manager.canvas
-        
-        self.poly = Line2D(
-            self.get_xdata_display(),
-            self.get_ydata_display(),
-            linestyle='-',
-            color='red',
-            transform=None
-        )
-        
-        self.patch = self.blit_manager.ax.add_patch(self.poly)  
-        
+        super().__init__(dragpoints, blit_manager)
+        self.update()
+    
     def update(self, *args, **kargs):
-        """Updates the line information. Must be call prior to blit.
-        Can be used as a connection for change events"""
-        self.poly.set_xdata(self.get_xdata_display())
-        self.poly.set_ydata(self.get_ydata_display())
+        """Updates line data with DragObjects positions"""
+        x0, x1 = self.get_xdata()
+        m, n = self.get_args()
         
-    def get_xy(self, x, y):
-        """Aplies correct transformation from display to data coordinates"""
-        return self.ax.transData.inverted().transform((x,y))
-    
-    def set_xy(self, x, y):
-        """Aplies correct transformation from data coordinates to display"""
-        return self.ax.transData.transform((x,y))
+        if (m,n) == (0,0):
+            self.poly.set_xdata(self.get_xdata_display())
+            self.poly.set_ydata(self.get_ydata_display())
+
+        # create x and y data
+        dx = abs(x0-x1)*0.5
+        x = np.linspace(min(x0,x1)-dx, max(x0,x1)+dx, 250)
+        y = self.function(x, m, n)
         
-    def get_xdata_display(self):
-        """Gets xdata from DragPoints in display coordinates"""
-        return [p.patch.get_center()[0] for p in self.dragpoints]
-    
-    def get_ydata_display(self):
-        """Gets ydata from DragPoints in display coordinates"""
-        return [p.patch.get_center()[1] for p in self.dragpoints]
-    
-    def get_xdata(self):
-        """Gets xdata from DragPoints in data coordinates"""
-        return [self.get_xy(*p.patch.get_center())[0] for p in self.dragpoints]
-    
-    def get_ydata(self):
-        """Gets ydata from DragPoints in data coordinates"""
-        return [self.get_xy(*p.patch.get_center())[1] for p in self.dragpoints]
-    
-    def remove(self):
-        """Removes the patch from the axes"""
-        self.patch.remove()
+        # from data coordinates to display coordinates
+        xy = np.array((x,y)).T.reshape(-1, 2)
+        x_data, y_data = self.set_xy(xy).T
         
+        # set new data
+        self.poly.set_xdata(x_data)
+        self.poly.set_ydata(y_data)
+ 
+    def get_args(self):
+        """Gives linear function parameters.
+
+        Returns
+        -------
+        Tuple(Float, Float)
+            `m` and `n` of `f(x)=m*x + n`.
+        """
+        x0, x1 = self.get_xdata()
+        y0, y1 = self.get_ydata()
+
+        if (x1-x0)==0:
+            return 0.,0.
+        m:float = (y1 - y0)/(x1 - x0)
+        n:float = m*(-x1)+y1
+        return m, n

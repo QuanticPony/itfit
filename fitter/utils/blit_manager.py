@@ -1,9 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.artist import Artist
-
-from . import DragPointManager, DragPoint
-
 class BlitManager:
     def __init__(self, app):
         """Class for managing blitting. DragObjects must be appended to `self.artists`.
@@ -86,7 +80,6 @@ class BlitManager:
         return self
     
     def __enter__(self, *_):
-        
         pass
         
     def __exit__(self, *_):
