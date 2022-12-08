@@ -16,7 +16,7 @@ class DragExponentialManager(DragPointCollection):
             blit_manager (BlitManager): used for automatic ploting.
         """ 
         super().__init__(dragpoints,blit_manager)
-        # name poitns based on use 
+        # name points based on use 
         self.point_1 = self.dragpoints[0]
         self.point_2 = self.dragpoints[1]
         self.update()
