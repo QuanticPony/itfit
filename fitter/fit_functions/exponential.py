@@ -2,7 +2,7 @@ from . import GenericFitter, GenericFitterTool
 from ..data import DataSelection
 from ..utils import DragPoint, DragPointManager, DragExponentialManager
 
-class ExponentialFitter(GenericFitter): #no me he atrevido a mirar generic fitter
+class ExponentialFitter(GenericFitter):
 
     name = 'exponential'
 
@@ -17,22 +17,22 @@ class ExponentialFitter(GenericFitter): #no me he atrevido a mirar generic fitte
             Data to fit
         """
 
-        super().__init__(app,data) #que hace super
+        super().__init__(app,data)
 
-        ##Create DragPOints and DragLines needed
+        ## Create DragPoints and DragLines needed
 
         self.drag_points = [DragPoint(*self.ax.transAxes.transform((0.4,0.2)), None),
-                            DragPoint(*self.ax.transAxes.transform((0.3,0.5)), None)] #las coordenadas inciales de los puntos
-        self.drag_points_managers = [DragPointManager(p,self.app.blit_manager) for p in self.drag_points] # no entiendo esta
+                            DragPoint(*self.ax.transAxes.transform((0.3,0.5)), None)]
+        self.drag_points_managers = [DragPointManager(p,self.app.blit_manager) for p in self.drag_points]
         self.fitter_drag_collection = DragExponentialManager(self.drag_points, self.app.blit_manager)
 
-        ##Connect Exponential to Points change events
+        ## Connect Exponential to Points change events
 
         self.drag_points_cids = [] #Connection ids for change events
         for dp in self.drag_points_managers:
             self.drag_points_cids.append(
                 dp.connect(self.fitter_drag_collection.update)
-            ) # lo mismo no acabo de entender la sintaxis, entiendo lo que ahce
+            )
 
         ## Add created DragPoints and DragLines to BlitManager's artists
         self.app.blit_manager.artists.append(self.fitter_drag_collection)

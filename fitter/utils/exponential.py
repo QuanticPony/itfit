@@ -1,15 +1,18 @@
-import numpy as np 
-from . import DragPointCollection, DragPoint, BlitManager
+import numpy as np
+
+from . import BlitManager, DragPoint, DragPointCollection
+
 
 class DragExponentialManager(DragPointCollection):
     @staticmethod 
     def function(x,a,b):
         return a*np.exp(b*x)
+    
     def __init__(self,dragpoints: list[DragPoint],blit_manager: BlitManager):
         """Exponential line between 2 DragPoints. Updates with them.
 
         Args:
-            dragpoints (list[DragPOint]): line vertices.
+            dragpoints (list[DragPoint]): line vertices.
             blit_manager (BlitManager): used for automatic ploting.
         """ 
         super().__init__(dragpoints,blit_manager)
@@ -25,7 +28,7 @@ class DragExponentialManager(DragPointCollection):
 
         #create x and y data of exponential line of an exponential that moves across two poitns
         dx = abs(p1_x-p2_x) * 1.5 
-        x = np.linspace(min(p1_x,p2_x)-dx,max(p1_x,p2_x)+dx,250) #creo que así funciona bien
+        x = np.linspace(min(p1_x,p2_x)-dx,max(p1_x,p2_x)+dx,250)
         y = self.function(x, a, b)
 
         # from data coordinates to display coordinates
@@ -50,6 +53,4 @@ class DragExponentialManager(DragPointCollection):
         b = 1/(p1_x - p2_x) * np.log(p1_y/p2_y)
 
         a = p1_y / np.exp(b*p1_x)
-        return a,b 
-
-
+        return a, b 
