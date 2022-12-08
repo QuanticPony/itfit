@@ -11,6 +11,7 @@ if not __FITTER_UTILS_IMPORTED__:
     
     from .line import DragLineManager
     from .quadratic import DragQuadraticManager
+    from .exponential import DragExponentialManager
     
     
 __FITTER_UTILS_IMPORTED__ = True
