@@ -4,11 +4,12 @@ import numpy as np
 
 class DragPoint:
     def __init__(self, x, y, style, *args):
-        self._x = x
-        self._y = y
         self._style = style
-        
+        self.restriction_callback = lambda x,y: (x,y)
         self.patch = Circle(np.array([x,y]), 10)
+        
+    def get_center(self):
+        return self.restriction_callback(*self.patch.get_center())
         
     def remove(self):
         self.patch.remove()
@@ -55,10 +56,12 @@ class DragPointManager:
     def add_restriction(self, function):
         """Adds a restriction to object movement. Function must have signature `def f(new_x,new_y): -> Tuple(float, float)`"""
         self.restricction_callback = function
+        self.dragpoint.restriction_callback = self.restricction_callback
     
     def remove_restriction(self):
         """Removes the restriction to object movemet"""
         self.restricction_callback = lambda x,y:(x,y)
+        self.dragpoint.restriction_callback = self.restricction_callback
 
     def get_xy(self, x, y):
         """Aplies correct transformation from display to data coordinates"""
@@ -101,8 +104,8 @@ class DragPointManager:
         if event.button != 1:
             return
         x, y = event.xdata, event.ydata
-        x, y = self.set_xy(x, y)
         x, y = self.restricction_callback(x, y)
+        x, y = self.set_xy(x, y)
 
         prop = {'center': np.array([x,y])}
         Artist.update(self.poly, prop)
