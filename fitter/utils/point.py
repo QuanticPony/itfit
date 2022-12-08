@@ -18,7 +18,7 @@ class DragPointManager:
         """Manages a DragPoint's BlitManager connection, callbacks on matplotlib events and automatic drawing.
 
         Args:
-            dragpoint (_type_): _description_
+            dragpoint (DragPoint): contains patch.
             blit_manager (BlitManager): used for automtic ploting.
         """
         self.dragpoint = dragpoint
