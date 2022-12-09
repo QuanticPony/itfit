@@ -50,19 +50,19 @@ class DragPointCollection:
         
     def get_xdata_display(self):
         """Gets xdata from DragPoints in display coordinates"""
-        return [p.patch.get_center()[0] for p in self.dragpoints]
+        return [p.get_center()[0] for p in self.dragpoints]
     
     def get_ydata_display(self):
         """Gets ydata from DragPoints in display coordinates"""
-        return [p.patch.get_center()[1] for p in self.dragpoints]
+        return [p.get_center()[1] for p in self.dragpoints]
     
     def get_xdata(self):
         """Gets xdata from DragPoints in data coordinates"""
-        return [self.get_xy(*p.patch.get_center())[0] for p in self.dragpoints]
+        return [self.get_xy(*p.get_center())[0] for p in self.dragpoints]
     
     def get_ydata(self):
         """Gets ydata from DragPoints in data coordinates"""
-        return [self.get_xy(*p.patch.get_center())[1] for p in self.dragpoints]
+        return [self.get_xy(*p.get_center())[1] for p in self.dragpoints]
     
     def remove(self):
         """Removes the patch from the axes"""
