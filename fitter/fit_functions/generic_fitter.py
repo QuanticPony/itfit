@@ -36,7 +36,7 @@ class GenericFitter():
         Parameters
         ----------
         app : Fitter
-            Main aplication
+            Main application
         data : DataSelection
             Data to fit
         """

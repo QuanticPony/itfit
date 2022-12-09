@@ -8,5 +8,6 @@ if not __FITTER_FIT_FUNCTIONS_IMPORTED__:
     from .linear import LineTool
     from .quadratic import QuadraticTool
     from .exponential import ExponentialTool
+    from .gaussian import GaussianTool
     
 __FITTER_FIT_FUNCTIONS_IMPORTED__ = True
