@@ -7,7 +7,7 @@ class GaussianFitter(GenericFitter):
     name = 'gaussian'
 
     def __init__(self,app,data: DataSelection):
-        """ Gaussian fitter following function 'f(x) = A*exp(0.5*(x-m)^2/s^2)
+        """ Gaussian fitter following function `f(x) = A*exp(0.5*(x-m)^2/s^2)`
 
         Parameters
         ----------
