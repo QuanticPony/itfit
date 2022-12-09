@@ -1,5 +1,7 @@
-import numpy as np 
+import numpy as np
+
 from . import BlitManager, DragPoint, DragPointCollection
+
 
 class DragGaussianManager(DragPointCollection):
     @staticmethod
@@ -45,19 +47,15 @@ class DragGaussianManager(DragPointCollection):
         Returns
         -------
         Tuple(Float,Float,Float)
-            'A', 'm', and 's' of 'f(x) = A*exp(0.5*(x-m)^2 / s^2)'
+            `A`, `m`, and `s` of `f(x) = A*exp(0.5*(x-m)^2 / s^2)`
         """
         peak_x, peak_y = self.get_xy(*self.peak.patch.get_center())
         side_x, side_y = self.get_xy(*self.side.patch.get_center())
 
-
-
-        if peak_y < side_y and peak_y>0:
-            peak_x, peak_y = self.get_xy(*self.side.patch.get_center())
-            side_x, side_y = self.get_xy(*self.peak.patch.get_center())
-        if peak_y >= side_y and peak_y<0:
-            peak_x, peak_y = self.get_xy(*self.side.patch.get_center())
-            side_x, side_y = self.get_xy(*self.peak.patch.get_center())
+        if (peak_y < side_y and peak_y > 0) or \
+           (peak_y >= side_y and peak_y < 0):
+                peak_x, peak_y = self.get_xy(*self.side.patch.get_center())
+                side_x, side_y = self.get_xy(*self.peak.patch.get_center())
         
         m = peak_x
         A = peak_y

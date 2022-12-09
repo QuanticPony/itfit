@@ -7,7 +7,7 @@ class ExponentialFitter(GenericFitter):
     name = 'exponential'
 
     def __init__(self,app,data: DataSelection):
-        """ Exponential fitter following function 'f(x) = a*exp(b*x)
+        """ Exponential fitter following function `f(x) = a*exp(b*x)`
 
         Parameters
         ----------

@@ -45,7 +45,7 @@ class DragExponentialManager(DragPointCollection):
         Returns
         -------
         Tuple(Float,Float)
-            'a', and 'b' of 'f(x) = a*exp(b*x)'
+            `a`, and `b` of `f(x) = a*exp(b*x)`
         """ 
         p1_x, p1_y = self.get_xy(*self.point_1.patch.get_center())
         p2_x, p2_y = self.get_xy(*self.point_2.patch.get_center())
