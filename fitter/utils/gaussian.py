@@ -50,8 +50,19 @@ class DragGaussianManager(DragPointCollection):
         peak_x, peak_y = self.get_xy(*self.peak.patch.get_center())
         side_x, side_y = self.get_xy(*self.side.patch.get_center())
 
-        m = peak_x
-        A = peak_y 
 
-        s =  abs(side_x-peak_x) * np.sqrt( 0.5 / np.log(peak_y/side_y) )
+
+        if peak_y < side_y and peak_y>0:
+            peak_x, peak_y = self.get_xy(*self.side.patch.get_center())
+            side_x, side_y = self.get_xy(*self.peak.patch.get_center())
+        if peak_y >= side_y and peak_y<0:
+            peak_x, peak_y = self.get_xy(*self.side.patch.get_center())
+            side_x, side_y = self.get_xy(*self.peak.patch.get_center())
+        
+        m = peak_x
+        A = peak_y
+
+        #create a case for negative peaks
+        s =  abs(side_x-peak_x) * np.sqrt( 0.5 / np.log(abs(peak_y/side_y)) )
+        
         return A,m,s
