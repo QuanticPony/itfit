@@ -1,0 +1,42 @@
+[build-system]
+# Minimum requirements for the build system to execute.
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "interactive-fitter"
+version = "0.0.1"
+requires-python = ">=3.8"
+
+description = ""
+
+authors = [
+    {name =  "Unai Lería Fortea"   , email =  "unaileria@gmail.com"},
+    {name =  "Pablo Vizcaíno García"   , email =  "pablovizcainogarcia@gmail.com"}]
+
+maintainers = [
+    {name =  "Unai Lería Fortea"   , email =  "unaileria@gmail.com"},
+    {name =  "Pablo Vizcaíno García"   , email =  "pablovizcainogarcia@gmail.com"}] 
+
+
+readme = "README.md"
+license = { text="MIT license" }
+
+classifiers = [
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Visualization"]
+
+dependencies = ['numpy', 'matplotlib', 'scipy']
+
+[project.urls]
+"GitHub" = "https://github.com/QuanticPony/interactive_fitter"
