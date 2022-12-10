@@ -1,4 +1,11 @@
 include README.md
-recursive-include examples *
+include LICENSE
+include setup.cfg
+include setup.py
+
 recursive-include fitter
+recursive-include examples
+recursive-include images
+
+prune interactive_fitter.egg-info
 prune */__pycache__
