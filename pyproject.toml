@@ -49,6 +49,7 @@ push = true
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = [
+    '^version = "{version}"',
     'current_version = "{version}"',
 ]
 "fitter/__init__.py" = [
