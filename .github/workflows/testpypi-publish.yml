@@ -17,6 +17,7 @@ jobs:
       with:
         ref: develop
         token: ${{ github.token }}
+        fetch-depth: 0
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
@@ -28,13 +29,13 @@ jobs:
         pip install bumpver
     - name: Update patch version
       run: |
-        git pull
         bumpver update --patch --dry
         bumpver update --patch
     - name: Commit and push
       run: |
         git config user.name github-actions
         git config user.email github-actions@github.com
+        git pull
         git commit -a --amend --no-edit
         git push
 
