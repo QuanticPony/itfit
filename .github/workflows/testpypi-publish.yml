@@ -9,7 +9,6 @@ on:
 
 permissions:
   contents: read
-  id-token: read
 
 jobs:
   deploy:
@@ -31,6 +30,15 @@ jobs:
       run: |
         bumpver update --patch --dry
         bumpver update --patch
+    - name: Commit and push
+      run: |
+<<<<<<< HEAD
+=======
+        git config --global
+>>>>>>> d772f052f1622780e3743fec5503dc1e558455ec
+        git commit -amend --no-edit
+        git push
+
     - name: Build package
       run: python -m build
     - name: Publish package to TestPyPI
