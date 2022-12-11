@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "interactive-fitter"
-version = "0.0.1"
+version = "0.0.3"
 requires-python = ">=3.8"
 
 description = "Simple, intuitive and interactive application to help fitting common functions to your data"
@@ -40,7 +40,7 @@ dependencies = ['numpy', 'matplotlib', 'scipy']
 "GitHub" = "https://github.com/QuanticPony/interactive_fitter"
 
 [tool.bumpver]
-current_version = "0.0.2"
+current_version = "0.0.3"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Update version: {old_version} -> {new_version}"
 commit = true
