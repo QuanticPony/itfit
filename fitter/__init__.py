@@ -2,6 +2,8 @@ try:
     __FITTER_IMPORTED__
 except NameError:
     __FITTER_IMPORTED__= False
+    
+__version__ = "0.0.1"
 
 if not __FITTER_IMPORTED__:
     from . import data
