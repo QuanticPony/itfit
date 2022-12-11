@@ -43,9 +43,9 @@ dependencies = ['numpy', 'matplotlib', 'scipy']
 current_version = "0.0.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Update version: {old_version} -> {new_version}"
-commit = true
-tag = true
-push = true
+commit = false
+tag = false
+push = false
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = [
