@@ -28,6 +28,7 @@ jobs:
         pip install bumpver
     - name: Update patch version
       run: |
+        git pull
         bumpver update --patch --dry
         bumpver update --patch
     - name: Commit and push
