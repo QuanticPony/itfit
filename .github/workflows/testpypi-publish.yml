@@ -24,21 +24,16 @@ jobs:
         python-version: '3.x'
     - name: Install dependencies
       run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
         python -m pip install --upgrade pip
         pip install build
         pip install bumpver
     - name: Update patch version
       run: |
+        git checkout
         bumpver update --patch --dry
         bumpver update --patch
-    - name: Commit and push
-      run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git pull
-        git commit -a --amend --no-edit
-        git push
-
     - name: Build package
       run: python -m build
     - name: Publish package to TestPyPI
