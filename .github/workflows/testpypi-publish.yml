@@ -9,7 +9,7 @@ on:
 
 permissions:
   contents: read
-  id-token: read|write
+  id-token: read
 
 jobs:
   deploy:
