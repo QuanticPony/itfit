@@ -1,11 +1,11 @@
 [build-system]
 # Minimum requirements for the build system to execute.
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel", "bumpver"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "interactive-fitter"
-version = "0.0.1"
+version = "0.0.3"
 requires-python = ">=3.8"
 
 description = "Simple, intuitive and interactive application to help fitting common functions to your data"
@@ -40,15 +40,16 @@ dependencies = ['numpy', 'matplotlib', 'scipy', 'mkdocstrings[python]>=0.18", "m
 "GitHub" = "https://github.com/QuanticPony/interactive_fitter"
 
 [tool.bumpver]
-current_version = "0.0.1"
+current_version = "0.0.3"
 version_pattern = "MAJOR.MINOR.PATCH"
-commit_message = "bump version {old_version} -> {new_version}"
+commit_message = "Update version: {old_version} -> {new_version}"
 commit = true
 tag = true
-push = false
+push = true
 
 [tool.bumpver.file_patterns]
 "pyproject.toml" = [
+    '^version = "{version}"',
     'current_version = "{version}"',
 ]
 "fitter/__init__.py" = [
