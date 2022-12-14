@@ -4,14 +4,30 @@ from . import DragPoint, DragPointCollection, BlitManager
 
 
 class DragLineManager(DragPointCollection):
+    """Collection of DragPoints representing a straight line."""
+    
     @staticmethod
     def function(x, m, n):
+        """Straight line function.
+
+        Parameters:
+            x (float):
+                independent variable.
+            m (float):
+                slope.
+            n (float):
+                value at `x=0`.
+
+        Returns:
+            (float):
+                `f(x) = m*x+n`
+        """
         return m*x + n
     
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
         """Line between multiple DragPoints. Updates with them.
 
-        Args:
+        Parameters:
             dragpoints (list[DragPoint]): line vertices.
             blit_manager (BlitManager): used for automtic ploting.
         """
@@ -43,10 +59,9 @@ class DragLineManager(DragPointCollection):
     def get_args(self):
         """Gives linear function parameters.
 
-        Returns
-        -------
-        Tuple(Float, Float)
-            `m` and `n` of `f(x)=m*x + n`.
+        Returns:
+            (Tuple[float, float]):
+                `m` and `n` of `f(x)=m*x + n`.
         """
         x0, x1 = self.get_xdata()
         y0, y1 = self.get_ydata()

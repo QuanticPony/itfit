@@ -4,8 +4,24 @@ from . import BlitManager, DragPoint, DragPointCollection
 
 
 class DragExponentialManager(DragPointCollection):
+    """Collection of DragPoints representing a straight line."""
+    
     @staticmethod 
     def function(x,a,b):
+        """Exponential function.
+
+        Parameters:
+            x (float):
+                independent variable.
+            a (float):
+                scales exponential function.
+            b (float):
+                scales x.
+
+        Returns:
+            (float):
+                `f(x) = a*exp(b*x)`
+        """
         return a*np.exp(b*x)
     
     def __init__(self,dragpoints: list[DragPoint],blit_manager: BlitManager):
@@ -42,10 +58,9 @@ class DragExponentialManager(DragPointCollection):
     def get_args(self):
         """Gives exponential function parameters.
 
-        Returns
-        -------
-        Tuple(Float,Float)
-            `a`, and `b` of `f(x) = a*exp(b*x)`
+        Returns:
+            (Tuple[float,float]):
+                `a`, and `b` of `f(x) = a*exp(b*x)`
         """ 
         p1_x, p1_y = self.get_xy(*self.point_1.patch.get_center())
         p2_x, p2_y = self.get_xy(*self.point_2.patch.get_center())
