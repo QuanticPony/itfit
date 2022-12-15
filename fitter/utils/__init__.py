@@ -14,5 +14,10 @@ if not __FITTER_UTILS_IMPORTED__:
     from .exponential import DragExponentialManager
     from .gaussian import DragGaussianManager
     
+    LinearFunction = DragLineManager.function
+    QuadraticFunction = DragQuadraticManager.function
+    ExponentialFunction = DragExponentialManager.function
+    GaussianFunction = DragGaussianManager.function
+    
     
 __FITTER_UTILS_IMPORTED__ = True

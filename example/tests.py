@@ -19,5 +19,7 @@ def main():
     f = Fitter(xdata, ydata)
     f()
     
+    plt.show()
+    
 if __name__=='__main__':
     main()
