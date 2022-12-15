@@ -34,7 +34,7 @@ classifiers = [
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Visualization"]
 
-dependencies = ['numpy', 'matplotlib', 'scipy']
+dependencies = ['numpy', 'matplotlib', 'scipy', 'mkdocstrings[python]>=0.18", "mkdocs-material"]
 
 [project.urls]
 "GitHub" = "https://github.com/QuanticPony/interactive_fitter"

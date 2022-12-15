@@ -8,9 +8,19 @@ from ..data import DataSelection
 
 
 class LassoManager:
-    def __init__(self, ax, data: DataSelection):
-        self.axes = ax
-        self.canvas = ax.figure.canvas
+    """
+    """
+    def __init__(self, app, data: DataSelection):
+        """Creates a lasso selector and applies the selection to the given data.
+
+        Parameters:
+            app (Fitter):
+                Main application.
+            data (DataSelection): 
+                Data to apply selection.
+        """
+        self.axes = app
+        self.canvas = self.axes.figure.canvas
         self.data = data
 
         self.Nxy = len(data.xdata)
@@ -30,9 +40,9 @@ class LassoManager:
             6, sizes=(40,),
             facecolors=self.collection_facecolors,
             offsets=self.data.get_data(),
-            offset_transform=ax.transData)
+            offset_transform=self.axes.transData)
 
-        ax.add_collection(self.collection)
+        self.axes.add_collection(self.collection)
 
     def callback(self, verts):
         facecolors = self.collection.get_facecolors()
@@ -74,12 +84,24 @@ class LassoTool(ToolToggleBase):
     radio_group = "fitter"
 
     def __init__(self, *args, app, data: DataSelection, **kwargs):
+        """Creates a lasso tool.
+
+        Parameters:
+            app (Fitter): 
+                Main application.
+            data (DataSelection): 
+                Data to apply selection.
+        """
         self.app = app
         self.data = data
         super().__init__(*args, **kwargs)
 
     def enable(self, *args):
-        self.lasso_manager = LassoManager(self.figure.get_axes()[0], self.data)
+        """Enables the lasso tool. Interaction is locked until mouse button is released.
+        """
+        self.lasso_manager = LassoManager(self.app, self.data)
 
     def disable(self, *args):
+        """Disables the lasso tool. After tool unselect or data selection applied.
+        """
         self.lasso_manager.delete()

@@ -2,23 +2,47 @@ from matplotlib.patches import Circle
 from matplotlib.artist import Artist
 import numpy as np
 
+
 class DragPoint:
+    """Data containter for draggable points. In the future it may support form, size and colour change.
+    """
     def __init__(self, x, y, style, *args):
+        """Creates a patch in given display coordinates.
+
+        Parameters:
+            x (float):
+                y position in display units (between 0 and 1).
+            y (float):
+                y position in display units (between 0 and 1).
+            style : Any
+                No used.
+        """
         self._style = style
         self.restriction_callback = lambda x,y: (x,y)
         self.patch = Circle(np.array([x,y]), 10)
         
     def get_center(self):
+        """Returns the center position in display coordinates.
+
+        Returns:
+            (Tuple[float,float]):
+                Center in display coordinates.
+        """
         return self.restriction_callback(*self.patch.get_center())
         
     def remove(self):
+        """Removes the point from the figure."""
         self.patch.remove()
+        
+        
 
 class DragPointManager:
+    """Manages `DragPoints`: event connection, automatic replotting on change/update, blitting and restrictions.
+    """
     def __init__(self, dragpoint: DragPoint, blit_manager):
         """Manages a DragPoint's BlitManager connection, callbacks on matplotlib events and automatic drawing.
 
-        Args:
+        Parameters:
             dragpoint (DragPoint): contains patch.
             blit_manager (BlitManager): used for automtic ploting.
         """
@@ -43,32 +67,71 @@ class DragPointManager:
         self._ind = None # Used for enabling mouse motion.
 
     def connect(self, function):
-        """Connects a callback for change envents. Function must have signature `def f(event)`"""
-        key = np.random.randint(1000000)
-        self.connection_callbacks.update({key: function})
-        return key
+        """Connects a callback for change envents. 
+        
+        Parameters:
+            function (callable):
+                Function to be executed when the DragPoint updates. Must have signature `def f(event)`.    
+        Returns:
+            (Int):
+                Connection id. Can be used in `DragPointManager.disconnect`.
+        """
+        cin = np.random.randint(1000000)
+        self.connection_callbacks.update({cin: function})
+        return cin
     
     def disconnect(self, cid):
-        """Disconnects the callback with given `cid`"""
+        """Disconnects the callback with given `cid`.
+        
+        Parameters:
+            cid (Int):
+                Connection id.
+        """
+
         if cid in self.connection_callbacks.keys():
             self.connection_callbacks.pop(cid)
             
     def add_restriction(self, function):
-        """Adds a restriction to object movement. Function must have signature `def f(new_x,new_y): -> Tuple(float, float)`"""
+        """Adds a restriction to point movement. 
+        
+        Parameters:
+            function (callable):
+                Must have signature `def f(new_x,new_y): -> Tuple[float, float]`
+        """
         self.restricction_callback = function
         self.dragpoint.restriction_callback = self.restricction_callback
     
     def remove_restriction(self):
-        """Removes the restriction to object movemet"""
+        """Removes the restriction to point movement"""
         self.restricction_callback = lambda x,y:(x,y)
         self.dragpoint.restriction_callback = self.restricction_callback
 
     def get_xy(self, x, y):
-        """Aplies correct transformation from display to data coordinates"""
+        """Aplies correct transformation from display to data coordinates.
+        
+        Parameters:
+            x (float):
+                x in display coordinates.
+            y (float):
+                y in display coordinates.  
+        Returns:
+            (Tuple[float,float]):
+                x and y in data coordinates.
+        """
         return self.ax.transData.inverted().transform((x,y))
     
     def set_xy(self, x, y):
-        """Aplies correct transformation from data coordinates to display"""
+        """Aplies correct transformation from data coordinates to display
+        
+        Parameters:
+            x (float): 
+                x in data coordinates.
+            y (float):
+                y in data coordinates.
+        Returns:
+            (Tuple[float,float]):
+                x and y in display coordinates.
+        """
         return self.ax.transData.transform((x,y))
 
     def on_button_press(self, event):

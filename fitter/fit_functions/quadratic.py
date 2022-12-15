@@ -4,18 +4,17 @@ from ..utils import DragPoint, DragPointManager, DragQuadraticManager
 
 
 class QuadraticFitter(GenericFitter):
-
+    """Quadratic function fitter."""
     name = 'quadratic'
     
     def __init__(self, app, data: DataSelection):
-        """Linear fitter following function `f(x)=a*x^2 + b*x + c`
+        """Quadratic fitter following function `f(x)=a*x^2 + b*x + c`
 
-        Parameters
-        ----------
-        app : Fitter
-            Main application
-        data : DataSelection
-            Data to fit
+        Parameters:
+            app (Fitter): 
+                Main application.
+            data (DataSelection): 
+                Data to fit.
         """
         super().__init__(app, data)
         
