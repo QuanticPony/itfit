@@ -1,5 +1,7 @@
 # interactive-fitter
 
-:::fitter.fitter_app.Fitter
+Work in progress...
 
-:::fitter.utils.collection.DragPointCollection
+![image](images/sample.gif)
+
+:::fitter.fitter_app.Fitter
