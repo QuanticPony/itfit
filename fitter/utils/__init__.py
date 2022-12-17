@@ -6,6 +6,7 @@ except NameError:
 
 if not __FITTER_UTILS_IMPORTED__:
     from .blit_manager import BlitManager
+    from .fit_container import FitResultContainer
     
     from .point import DragPoint, DragPointManager
     from .collection import DragPointCollection

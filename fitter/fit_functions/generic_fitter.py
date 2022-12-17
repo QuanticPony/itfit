@@ -5,11 +5,10 @@ from matplotlib.lines import Line2D
 from matplotlib.widgets import Button
 from scipy import optimize
 
-from ..data import DataSelection
-from ..utils import DragPointCollection
+from ..data import DataSelection, DataContainer
+from ..utils import DragPointCollection, FitResultContainer
 
-
-class GenericFitter():
+class GenericFitter:
     """GenericFitter is a base implementation of a fit function.
     All fit functions must inherit GenericFitter."""
     
@@ -74,7 +73,8 @@ class GenericFitter():
             xdata, ydata = self.data.xdata.copy(), self.data.ydata.copy()
         
         self.fit = optimize.curve_fit(self.fitter_drag_collection.function, xdata, ydata, p0=self.get_args(), full_output=True)
-
+        fit_result = FitResultContainer(DataContainer(xdata, ydata), self, self.fit)
+        
         # Plot fit line in background
         with self.app.blit_manager.disabled():
         
@@ -90,7 +90,7 @@ class GenericFitter():
         self.app.blit_manager.draw()
 
         # Save fit in app
-        self.app.fits.update({f"{self.name}-{np.random.randint(0,100)}" : (self.fit, self.data.get_selected(), self.fit_line)})
+        self.app.fits.update({f"{self.name}-{np.random.randint(0,100)}" : fit_result})
         
     def delete(self):
         """Remove trigger. Used when tool is disabled."""

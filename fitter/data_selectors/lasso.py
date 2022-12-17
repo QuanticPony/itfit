@@ -19,7 +19,8 @@ class LassoManager:
             data (DataSelection): 
                 Data to apply selection.
         """
-        self.axes = app
+        self.app = app
+        self.axes = app.ax
         self.canvas = self.axes.figure.canvas
         self.data = data
 
