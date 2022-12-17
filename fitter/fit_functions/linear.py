@@ -4,18 +4,17 @@ from ..utils import DragPoint, DragPointManager, DragLineManager
 
 
 class LineFitter(GenericFitter):
-
+    """Linear function fitter."""
     name = 'linear'
     
     def __init__(self, app, data: DataSelection):
-        """Linear fitter following function `f(x)=m*x + n`
+        """Linear fitter following function `f(x)=m*x + n`.
 
-        Parameters
-        ----------
-        app : Fitter
-            Main application
-        data : DataSelection
-            Data to fit
+        Parameters:
+            app (Fitter): 
+                Main application.
+            data (DataSelection): 
+                Data to fit.
         """
         super().__init__(app, data)
         

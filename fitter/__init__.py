@@ -1,9 +1,10 @@
+"""TODO"""
 try:
     __FITTER_IMPORTED__
 except NameError:
     __FITTER_IMPORTED__= False
     
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 if not __FITTER_IMPORTED__:
     from . import data

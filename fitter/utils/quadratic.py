@@ -4,8 +4,26 @@ from . import DragPointCollection, DragPoint, BlitManager
 
 
 class DragQuadraticManager(DragPointCollection):
+    """Collection of DragPoints representing a quadratic line."""
+    
     @staticmethod
     def function(x, a, b, c):
+        """Quadratic function.
+
+        Parameters:
+            x (float):
+                independent variable.
+            a (float):
+                x^2 coefficient.
+            b (float):
+                x^1 coefficient.
+            c (float):
+                constant coefficient.
+
+        Returns:
+            (float):
+                `f(x)=a*x^2 + b*x + c`
+        """
         return a*x*x + b*x + c
     
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
@@ -42,10 +60,9 @@ class DragQuadraticManager(DragPointCollection):
     def get_args(self):
         """Gives quadratic function parameters.
 
-        Returns
-        -------
-        Tuple(Float, Float, Float)
-            `a`, `b` and `c` of `f(x)=a*x^2 + b*x + c`.
+        Returns:
+            (Tuple[float, float, float]):
+                `a`, `b` and `c` of `f(x)=a*x^2 + b*x + c`.
         """
         cp_x, cp_y = self.get_xy(*self.center_point.patch.get_center())
         lp_x, lp_y = self.get_xy(*self.lateral_point.patch.get_center())

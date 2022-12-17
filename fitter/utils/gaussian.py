@@ -4,8 +4,26 @@ from . import BlitManager, DragPoint, DragPointCollection
 
 
 class DragGaussianManager(DragPointCollection):
+    """Collection of DragPoints representing a Gaussian function."""
+    
     @staticmethod
     def function(x,A,m,s):
+        """Gaussian function.
+
+        Parameters:
+            x (float):
+                independent variable.
+            A (float):
+                value at `x=m`.
+            m (float):
+                central point.
+            s (float):
+                sigma.
+
+        Returns:
+            (float):
+                `f(x) = A*exp(0.5*(x-m)^2 / s^2)`
+        """
         return A*np.exp(- 0.5 * (x - m)**2 / s**2)
     
     def __init__(self,dragpoints: list[DragPoint],blit_manager: BlitManager):
@@ -44,10 +62,9 @@ class DragGaussianManager(DragPointCollection):
     def get_args(self):
         """Gives Gaussian function parameters.
 
-        Returns
-        -------
-        Tuple(Float,Float,Float)
-            `A`, `m`, and `s` of `f(x) = A*exp(0.5*(x-m)^2 / s^2)`
+        Returns:
+            (Tuple[float, float, float]):
+                `A`, `m`, and `s` of `f(x) = A*exp(0.5*(x-m)^2 / s^2)`
         """
         peak_x, peak_y = self.get_xy(*self.peak.patch.get_center())
         side_x, side_y = self.get_xy(*self.side.patch.get_center())

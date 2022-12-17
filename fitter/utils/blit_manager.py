@@ -1,13 +1,13 @@
 class BlitManager:
+    """**Do not use this class unless you know what blitting is and you are familiar with the rest of the code.**"""
     def __init__(self, app):
         """Class for managing blitting. DragObjects must be appended to `self.artists`.
         BlitManager must be manualy enabled and disabled.
-        `with` statements can be used to enable or disable blitting temporaly
+        `with` statements can be used to enable or disable blitting temporaly.
 
-        Parameters
-        ----------
-        app : Fitter
-            Aplication using BlitManager
+        Parameters:
+            app (Fitter):
+                Aplication using BlitManager.
         """
         
         self.app = app
@@ -21,7 +21,7 @@ class BlitManager:
         self.draw_event_connection_id = None
         
     def get_background(self):
-        """"Gets current background and saves it, used in blitting process"""
+        """"Gets current background and saves it, used in blitting process."""
         for a in self.artists:
             a.poly.set_visible(False)
         
@@ -33,11 +33,11 @@ class BlitManager:
         return self.canvas.copy_from_bbox(self.ax.bbox)
     
     def update_background(self):
-        """Updates saved background, used in blitting process"""
+        """Updates saved background, used in blitting process."""
         self.background = self.get_background()
 
     def draw(self, artists_visible=True):
-        """Draws the canvas using blitting"""
+        """Draws the canvas using blitting."""
         self.canvas.restore_region(self.background)
         
         for a in self.artists:
@@ -51,30 +51,30 @@ class BlitManager:
         self.canvas.blit(self.ax.bbox)
         
     def on_draw(self, event):
-        """Trigger for draw event"""
+        """Trigger for draw event."""
         self.draw()
               
     def enable(self):
-        """Enables BlitManager"""
+        """Enables BlitManager."""
         if not self._enabled_:
             self.update_background()
             self._enabled_ = True
             self.draw_event_connection_id = self.canvas.mpl_connect('draw_event', self.on_draw)
             
     def disable(self):
-        """Disables BlitManager"""
+        """Disables BlitManager."""
         if self._enabled_:
             self._enabled_ = False
             self.canvas.mpl_disconnect(self.draw_event_connection_id)
             self.draw_event_connection_id = None
       
     def enabled(self):
-        """Enables Blit Manager and returns itself"""
+        """Enables Blit Manager and returns itself."""
         self.enable()
         return self     
      
     def disabled(self):
-        """Disables BlitManager, redraws without DragObjects and returns itself"""
+        """Disables BlitManager, redraws without DragObjects and returns itself."""
         self.disable()
         self.draw(artists_visible=False)
         return self
