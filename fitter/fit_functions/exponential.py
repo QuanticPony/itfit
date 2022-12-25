@@ -3,18 +3,17 @@ from ..data import DataSelection
 from ..utils import DragPoint, DragPointManager, DragExponentialManager
 
 class ExponentialFitter(GenericFitter):
-
+    """Exponential function fitter."""
     name = 'exponential'
 
     def __init__(self,app,data: DataSelection):
         """ Exponential fitter following function `f(x) = a*exp(b*x)`
 
-        Parameters
-        ----------
-        app: Fitter
-            Main application
-        data : DataSelection
-            Data to fit
+        Parameters:
+            app (Fitter): 
+                Main application.
+            data (DataSelection): 
+                Data to fit.
         """
 
         super().__init__(app,data)

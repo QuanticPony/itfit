@@ -48,5 +48,3 @@ class Fitter:
 
         self.figure.canvas.manager.toolmanager.add_tool('Gaussian', GaussianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Gaussian', 'fitter')
-
-        plt.show()

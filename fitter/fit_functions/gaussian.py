@@ -3,18 +3,17 @@ from ..data import DataSelection
 from ..utils import DragPoint, DragPointManager, DragGaussianManager
 
 class GaussianFitter(GenericFitter):
-
+    """Gaussian function fitter."""
     name = 'gaussian'
 
     def __init__(self,app,data: DataSelection):
         """ Gaussian fitter following function `f(x) = A*exp(0.5*(x-m)^2/s^2)`
 
-        Parameters
-        ----------
-        app : Fitter
-            Main application
-        data : DataSelection
-            Data to fit
+        Parameters:
+            app (Fitter): 
+                Main application.
+            data (DataSelection): 
+                Data to fit.
         """
 
         super().__init__(app,data)

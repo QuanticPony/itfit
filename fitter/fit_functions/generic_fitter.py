@@ -5,40 +5,38 @@ from matplotlib.lines import Line2D
 from matplotlib.widgets import Button
 from scipy import optimize
 
-from ..data import DataSelection
-from ..utils import DragPointCollection
+from ..data import DataSelection, DataContainer
+from ..utils import DragPointCollection, FitResultContainer
 
-
-class GenericFitter():
+class GenericFitter:
+    """GenericFitter is a base implementation of a fit function.
+    All fit functions must inherit GenericFitter."""
     
     name = "generic"
 
     @staticmethod
     def function(x,*args):
-        """Fit function: `f(x,*args)=...`
+        """Fit function: `f(x,*args)=...`.
 
-        Parameters TODO:
-        ----------
-        x : Float
-            Independent variable
-        args: List(Float)
-            0, 1 or multiple arguments
-        Returns
-        -------
-        Float
-            f(x, *args)
+        Parameters:
+            x (float):
+                Independent variable.
+            *args (list[float,...]):
+                0, 1 or multiple arguments.
+        Returns:
+            (Float):
+                `f(x, *args)`
         """
         ...
     
     def __init__(self, app, data: DataSelection):
-        """Generic fitter constructor
+        """Generic fitter constructor.
 
-        Parameters
-        ----------
-        app : Fitter
-            Main application
-        data : DataSelection
-            Data to fit
+        Parameters:
+            app (Fitter):
+                Main application.
+            data (DataSelection):
+                Data to fit.
         """
         self.app = app
         self.fig = app.figure
@@ -53,22 +51,20 @@ class GenericFitter():
         self.button.on_clicked(self.on_fit)
         
     def get_args(self):
-        """Return arguments needed for `self.function`
+        """Return arguments needed for `self.function`.
 
-        Returns
-        -------
-        Tuple(Float)
-            0, 1 or multiple arguments
+        Returns:
+            (Tuple[float]):
+                0, 1 or multiple arguments.
         """
         return self.fitter_drag_collection.get_args()
     
     def on_fit(self, event):
-        """Event for fit button
+        """Event for fit button.
 
-        Parameters
-        ----------
-        event : Matplotlib event
-            Not used
+        Parameters:
+            event (Matplotlib event): 
+                Not used
         """
 
         # If there is not data selected use all data
@@ -77,7 +73,8 @@ class GenericFitter():
             xdata, ydata = self.data.xdata.copy(), self.data.ydata.copy()
         
         self.fit = optimize.curve_fit(self.fitter_drag_collection.function, xdata, ydata, p0=self.get_args(), full_output=True)
-
+        fit_result = FitResultContainer(DataContainer(xdata, ydata), self, self.fit)
+        
         # Plot fit line in background
         with self.app.blit_manager.disabled():
         
@@ -93,10 +90,10 @@ class GenericFitter():
         self.app.blit_manager.draw()
 
         # Save fit in app
-        self.app.fits.update({f"{self.name}-{np.random.randint(0,100)}" : (self.fit, self.data.get_selected(), self.fit_line)})
+        self.app.fits.update({f"{self.name}-{np.random.randint(0,100)}" : fit_result})
         
     def delete(self):
-        """Remove trigger. Used when tool is disabled"""
+        """Remove trigger. Used when tool is disabled."""
         try:
             del self.button
             self.button_axes.remove()
@@ -118,6 +115,14 @@ class GenericFitterTool(ToolToggleBase):
     """Toggles Generic Fitter Tool."""
 
     def __init__(self, *args, app, data: DataSelection, **kwargs):
+        """Creates a GenericFitterTool.
+
+        Parameters:
+            app (Fitter):
+                Main application.
+            data (DataSelection):
+                Data selected.
+        """
         self.app = app
         self.data = data
         self.fitter: GenericFitter
