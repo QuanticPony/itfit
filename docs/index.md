@@ -1,4 +1,4 @@
-# interactive-fitter
+# itfit
 
 Work in progress...
 
