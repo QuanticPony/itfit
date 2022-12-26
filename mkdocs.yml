@@ -1,0 +1,56 @@
+site_name: "itfit"
+site_description: "Simple and intuitive visual simple function fitter."
+# site_url: "https://mkdocstrings.github.io/"
+repo_url: "https://github.com/QuanticPony/interactive_fitter"
+edit_uri: "master/docs/"
+repo_name: "QuanticPony/interactive_fitter"
+site_dir: "site"
+watch: [README.md, LICENSE, fitter]
+
+nav:
+- Home:
+  - Overview: index.md
+#   - Changelog: changelog.md
+#   - Credits: credits.md
+  - License: /../LICENSE
+- Code Reference: reference/
+
+theme:
+    name: "material"
+    palette:
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: slate
+      primary: cyan
+      accent: light-blue
+      toggle:
+        icon: material/brightness-3
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: default
+      primary: cyan
+      accent: light-blue
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+
+plugins:
+- search
+- autorefs
+plugins:
+- search
+- autorefs
+- gen-files:
+    scripts:
+      - docs/generate_reference_docs.py
+- literate-nav:
+    nav_file: reference/SUMMARY.md
+- mkdocstrings:
+    custom_templates: templates
+    default_handler: python
+    handlers:
+      python:
+        options:
+          show_source: true

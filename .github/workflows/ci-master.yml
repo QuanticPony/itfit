@@ -1,0 +1,60 @@
+# TODO:
+# name: Upload Python Package to PyPi
+
+# on:
+#   push:
+#     branches: 
+#     - main
+
+# permissions:
+#   contents: write
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - uses: actions/checkout@v3
+#       with:
+#         ref: develop
+#         token: ${{ github.token }}
+#         fetch-depth: 0
+
+#     - name: Set up Python
+#       uses: actions/setup-python@v3
+#       with:
+#         python-version: '3.x'
+
+#     - name: Install dependencies
+#       run: |
+#         git config user.name github-actions
+#         git config user.email github-actions@github.com
+#         python -m pip install --upgrade pip
+#         pip install build
+#         pip install bumpver
+
+#     - name: Update minor version
+#       run: |
+#         git checkout
+#         cd docs
+#         python3 generate_reference_docs.py
+#         cd ..
+#         bumpver update --minor --dry
+#         bumpver update --minor
+#     - name: Build package
+#       run: python -m build
+#     # - name: Publish package to TestPyPI
+#     #   uses: pypa/gh-action-pypi-publish@release/v1
+#     #   with:
+#     #     password: ${{ secrets.PYPI_API_TOKEN }}
+#     #     repository_url: https://pypi.org/legacy/
+
+#     # - name: Build documentation
+#     #   run: |
+#     #     cd docs
+#     #     python3 generate_reference_docs.py
+#     #     mkdocs build
+
+#     - name: Update develop
+#       run:
+#       git checkout develop

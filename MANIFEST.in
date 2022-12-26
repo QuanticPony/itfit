@@ -7,5 +7,5 @@ recursive-include fitter
 recursive-include examples
 recursive-include images
 
-prune interactive_fitter.egg-info
+prune itfit.egg-info
 prune */__pycache__
