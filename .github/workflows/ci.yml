@@ -4,6 +4,7 @@ on:
   push:
     branches: 
     - develop
+    workflow_dispatch:
 
 permissions:
   contents: write
@@ -54,8 +55,7 @@ jobs:
 
     - name: Build documentation
       run: |
-        cd docs
-        python3 generate_reference_docs.py
+        python3 docs/generate_reference_docs.py
         mkdocs build
 
     - name: Update github-pages
