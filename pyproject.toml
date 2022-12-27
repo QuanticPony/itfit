@@ -52,6 +52,6 @@ push = true
     '^version = "{version}"',
     'current_version = "{version}"',
 ]
-"fitter/__init__.py" = [
+"itfit/__init__.py" = [
     '__version__ = "{version}"',
 ]
