@@ -52,13 +52,14 @@ jobs:
         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository_url: https://test.pypi.org/legacy/
 
-    # - name: Build documentation
-    #   run: |
-    #     cd docs
-    #     python3 generate_reference_docs.py
+    - name: Build documentation
+      run: |
+        cd docs
+        python3 generate_reference_docs.py
+        mkdocs build
 
-
-    # - name: Update github-pages
-    #   uses: JamesIves/github-pages-deploy-action@v4
-    #   with:
-    #     folder: build
+    - name: Update github-pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: site
+        token: ${{ secrets.ITFIT_QP_TOKEN }}
