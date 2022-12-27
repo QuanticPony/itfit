@@ -107,7 +107,7 @@ class DragPointManager:
         self.dragpoint.restriction_callback = self.restricction_callback
 
     def get_xy(self, x, y):
-        """Aplies correct transformation from display to data coordinates.
+        """Applies correct transformation from display to data coordinates.
         
         Parameters:
             x (float):
@@ -121,7 +121,7 @@ class DragPointManager:
         return self.ax.transData.inverted().transform((x,y))
     
     def set_xy(self, x, y):
-        """Aplies correct transformation from data coordinates to display
+        """Applies correct transformation from data coordinates to display
         
         Parameters:
             x (float): 
