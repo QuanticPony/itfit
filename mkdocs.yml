@@ -1,11 +1,11 @@
 site_name: "itfit"
 site_description: "Simple and intuitive visual simple function fitter."
 # site_url: "https://mkdocstrings.github.io/"
-repo_url: "https://github.com/QuanticPony/interactive_fitter"
+repo_url: "https://github.com/QuanticPony/itfit"
 edit_uri: "master/docs/"
-repo_name: "QuanticPony/interactive_fitter"
+repo_name: "QuanticPony/itfit"
 site_dir: "site"
-watch: [README.md, LICENSE, fitter]
+watch: [README.md, LICENSE, itfit]
 
 nav:
 - Home:
