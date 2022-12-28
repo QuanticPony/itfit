@@ -38,6 +38,7 @@ dependencies = ['numpy', 'matplotlib', 'scipy', 'mkdocstrings[python]>=0.18', 'm
 
 [project.urls]
 "GitHub" = "https://github.com/QuanticPony/itfit"
+"Documentation" = "https://quanticpony.github.io/itfit/"
 
 [tool.bumpver]
 current_version = "0.0.7"
