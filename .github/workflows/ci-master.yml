@@ -1,4 +1,4 @@
-name: Upload Python Package to PyPi
+name: PyPi and Docs
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  deploy:
+  deploy-pypi:
     runs-on: ubuntu-latest
 
     steps:
@@ -41,8 +41,47 @@ jobs:
         bumpver update --minor
     - name: Build package
       run: python -m build
-    - name: Publish package to TestPyPI
+
+    - name: Publish package to PyPi
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
         repository_url: https://pypi.org/
+
+
+  deploy-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install dependencies
+      run: |
+        git config user.name ${{ secrets.ITFIT_QP_TOKEN }}
+        python -m pip install --upgrade pip
+        pip install build
+        pip install bumpver
+        pip install mkdocs
+        pip install mkdocstrings[python]>=0.18
+        pip install mkdocs-gen-files
+        pip install mkdocs-material
+        pip install mkdocs-literate-nav
+        pip install Pygments>=2.12
+
+    - name: Update patch version
+      run: |
+        git checkout
+        python3 docs/generate_reference_docs.py
+        bumpver update --patch --dry
+        bumpver update --patch
+    - name: Build package
+      run: python -m build
+
+    - name: Build documentation
+      run: |
+        python3 docs/generate_reference_docs.py
+        mkdocs build
+
+    - name: Update github-pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: site
+        token: ${{ secrets.ITFIT_QP_TOKEN }}
