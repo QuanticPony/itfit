@@ -1,0 +1,32 @@
+name: bumpver-minor
+
+on:
+  workflow_dispatch:
+      
+permissions:
+  contents: write
+  
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: develop
+          token: ${{ github.token }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          git config user.name ${{ secrets.ITFIT_QP_TOKEN }}
+          pip install build
+          pip install bumpver
+          git checkout -b release
+          git merge develop
+          bumpver update --minor --no-push
+          git push

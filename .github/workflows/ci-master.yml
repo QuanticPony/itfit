@@ -27,18 +27,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
+        git config user.name ${{ secrets.ITFIT_QP_TOKEN }}
         python -m pip install --upgrade pip
         pip install build
         pip install bumpver
 
-    - name: Update minor version
-      run: |
-        git checkout
-        python3 docs/generate_reference_docs.py
-        bumpver update --minor --dry
-        bumpver update --minor
     - name: Build package
       run: python -m build
 
@@ -65,15 +58,6 @@ jobs:
         pip install mkdocs-material
         pip install mkdocs-literate-nav
         pip install Pygments>=2.12
-
-    - name: Update patch version
-      run: |
-        git checkout
-        python3 docs/generate_reference_docs.py
-        bumpver update --patch --dry
-        bumpver update --patch
-    - name: Build package
-      run: python -m build
 
     - name: Build documentation
       run: |
