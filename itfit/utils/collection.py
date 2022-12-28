@@ -42,7 +42,7 @@ class DragPointCollection:
         self.patch = self.blit_manager.ax.add_patch(self.poly)  
         
     def get_xy(self, *args):
-        """Aplies and returns correct transformation from display to data coordinates.
+        """Applies and returns correct transformation from display to data coordinates.
         
         Parameters:
             *args (List[float,float] | List[List[float,float],...]):
@@ -56,7 +56,7 @@ class DragPointCollection:
         return self.ax.transData.inverted().transform(args)
     
     def set_xy(self, *args):
-        """Aplies and returns correct transformation from data coordinates to display.
+        """Applies and returns correct transformation from data coordinates to display.
         
         Parameters:
             *args (List[float] | List[List[float,float]]):

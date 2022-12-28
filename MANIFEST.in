@@ -3,7 +3,7 @@ include LICENSE
 include setup.cfg
 include setup.py
 
-recursive-include fitter
+recursive-include itfit
 recursive-include examples
 recursive-include images
 

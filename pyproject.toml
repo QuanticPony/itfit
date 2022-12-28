@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "itfit"
-version = "0.0.4"
+version = "0.0.9"
 requires-python = ">=3.8"
 
 description = "Simple, intuitive and interactive application to help fitting common functions to your data"
@@ -38,9 +38,10 @@ dependencies = ['numpy', 'matplotlib', 'scipy', 'mkdocstrings[python]>=0.18', 'm
 
 [project.urls]
 "GitHub" = "https://github.com/QuanticPony/itfit"
+"Documentation" = "https://quanticpony.github.io/itfit/"
 
 [tool.bumpver]
-current_version = "0.0.4"
+current_version = "0.0.9"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Update version: {old_version} -> {new_version}"
 commit = true
@@ -52,6 +53,6 @@ push = true
     '^version = "{version}"',
     'current_version = "{version}"',
 ]
-"fitter/__init__.py" = [
+"itfit/__init__.py" = [
     '__version__ = "{version}"',
 ]
