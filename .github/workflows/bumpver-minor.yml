@@ -23,7 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          git config user.name ${{ secrets.ITFIT_QP_TOKEN }}
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           pip install build
           pip install bumpver
           git checkout -b release
