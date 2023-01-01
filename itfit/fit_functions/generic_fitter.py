@@ -90,7 +90,7 @@ class GenericFitter:
         self.app.blit_manager.draw()
 
         # Save fit in app
-        self.app.fits.update({f"{self.name}-{np.random.randint(0,100)}" : fit_result})
+        self.app._add_fit(fit_result)
         
     def delete(self):
         """Remove trigger. Used when tool is disabled."""

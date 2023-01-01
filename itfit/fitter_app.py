@@ -13,11 +13,15 @@
 # limitations under the License.
 
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.axes import Axes
 
 from .data import DataSelection
 from .data_selectors import LassoTool
 from .fit_functions import LineTool, QuadraticTool, ExponentialTool, GaussianTool
 from .utils import BlitManager
+from .utils.fit_container import FitResultContainer
+from .plot_builder import PlotBuilder
 
 plt.rcParams['toolbar'] = 'toolmanager'
 
@@ -26,9 +30,10 @@ class Fitter:
         self.data = DataSelection(xdata, ydata)
         self.figure = plt.figure()
         self.ax = self.figure.gca()
-        self.fits = {}
+        self.fits: dict[int, FitResultContainer] = {}
         self.selections = {}
         self.blit_manager = BlitManager(self)
+        self._last_fit = None
         
         
     def __call__(self):
@@ -48,3 +53,48 @@ class Fitter:
 
         self.figure.canvas.manager.toolmanager.add_tool('Gaussian', GaussianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Gaussian', 'fitter')
+
+
+    def _add_fit(self, fit: FitResultContainer):
+        """Adds the fit to the application
+
+        Parameters:
+            fit (FitResultContainer):
+                Fit to add
+        """
+        self._last_fit = hash(fit)
+        self.fits.update({self._last_fit: fit})
+        
+    def get_last_fit(self):
+        """Returns the last fit
+
+        Returns:
+            (FitResultContainer)
+        """
+        return self.fits.get(self._last_fit) if (self._last_fit is not None) else None
+    
+    
+    def get_plot_builder(self, *, in_figure=None, in_axes=None):
+        """_summary_
+
+        Parameters:
+            in_figure
+            in_axes
+            
+        """
+        if in_figure is None:
+            if in_axes is None:
+                fig = plt.figure()
+                ax = fig.gca()
+            else:
+                ax = in_axes
+                fig = ax.figure
+        else:
+            fig = in_figure
+            ax = fig.ax
+            
+        self._last_fit_fig = fig
+        self._last_fit_ax = ax
+        
+        fit = self.get_last_fit()
+        return PlotBuilder(self, fig, ax, fit)
