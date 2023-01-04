@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from itfit import Fitter
-import pylustrator
+# import pylustrator
 
 def gauss(x, A, x0, sigma):
     return A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))

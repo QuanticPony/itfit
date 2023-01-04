@@ -12,8 +12,8 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib import rcParams
 
-from .labels import titleLabelBuilder, xLabelBuilder, yLabelBuilder
-
+from .labels import LabelBuilder, titleLabelBuilder, xLabelBuilder, yLabelBuilder
+from .spines import SpineBuilder
 
 class PlotBuilder:
     """PlotBuilder is a class whose intent is to uase the user in plot customization. 
@@ -98,6 +98,14 @@ class PlotBuilder:
             (itfit.plot.labels.titleLabelBuilder): A titleLabelBuilder.
         """
         return titleLabelBuilder(self, title)
+    
+    def labels(self):
+        """Starts labels builder.
+
+        Returns:
+            (itfit.plot.labels.LabelBuilder): label builder.
+        """
+        return LabelBuilder(self)
 
     def xlabel(self, xlabel):
         """Starts a x label builder.
@@ -108,7 +116,7 @@ class PlotBuilder:
         Returns:
             (itfit.plot.labels.xLabelBuilder): A xLabelBuilder.
         """
-        return xLabelBuilder(self, xlabel)
+        return LabelBuilder(self).start_x_label(xlabel)
 
     def ylabel(self, ylabel):
         """Starts a y label builder.
@@ -119,7 +127,7 @@ class PlotBuilder:
         Returns:
             (itfit.plot.labels.yLabelBuilder): A yLabelBuilder.
         """
-        return yLabelBuilder(self, ylabel)
+        return LabelBuilder(self).start_y_label(ylabel)
 
     def legend(self, *args, **kargs):
         """Toggles the legend in the plot.
@@ -139,7 +147,7 @@ class PlotBuilder:
         self.ax.grid(*args, **kwargs)
         return self
 
-    def set_xlim(self, left=None, right=None, **kargs):
+    def set_xlim(self, left: float, right: float, **kargs):
         """Sets the left and right plot limits on x axis.
         
         Args:
@@ -152,7 +160,7 @@ class PlotBuilder:
         self.ax.set_xlim(left=left, right=right, **kargs)
         return self
 
-    def set_ylim(self, bottom=None, top=None, **kargs):
+    def set_ylim(self, bottom: float, top: float, **kargs):
         """Sets the bottom and top plot limits on y axis.
         
         Args:
@@ -191,6 +199,14 @@ class PlotBuilder:
             factor = 1/rcParams['figure.dpi']
         self.fig.set_size_inches(size[0]*factor, size[1]*factor, forward=True)
         return self
+
+    def spines(self):
+        """Starts spines builder.
+
+        Returns:
+            (itfit.plot.spines.SpineBuilder): spine builder.
+        """
+        return SpineBuilder(self)
 
     def save_fig(self, filename, transparent=False, **kargs):
         """Saves the figure with the given filename
