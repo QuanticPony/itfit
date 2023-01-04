@@ -12,20 +12,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from . import data, utils
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
+    
+
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
-from matplotlib.axes import Axes
 
 from .data import DataSelection
 from .data_selectors import LassoTool
 from .fit_functions import LineTool, QuadraticTool, ExponentialTool, GaussianTool
 from .utils import BlitManager
 from .utils.fit_container import FitResultContainer
-from .plot_builder import PlotBuilder
+from .plot.builder import PlotBuilder
 
 plt.rcParams['toolbar'] = 'toolmanager'
 
 class Fitter:
+    data : data.DataSelection
+    figure : Figure
+    ax : Axes
+    fits : dict[int, utils.FitResultContainer]
+    selections : dict
+    blit_manager : utils.BlitManager
+    
+    _last_fit : int
     def __init__(self, xdata, ydata, *args, **kargs):
         self.data = DataSelection(xdata, ydata)
         self.figure = plt.figure()
@@ -35,7 +49,7 @@ class Fitter:
         self.blit_manager = BlitManager(self)
         self._last_fit = None
         
-        
+    
     def __call__(self):
         self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
         

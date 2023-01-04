@@ -6,9 +6,9 @@ class FitResultContainer:
         """_summary_
 
         Parameters:
-            data (DataContainer):
+            data (itfit.data.DataContainer):
                 Data fitted.
-            fit_manager (GenericFitter):
+            fit_manager (itfit.fit_functions.GenericFitter):
                 Fit function used
             scipy_result (dict):
                 Dictionary of `scipy.optimize.curve_fit` output.

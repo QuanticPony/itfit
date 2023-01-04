@@ -23,6 +23,8 @@ fit = fitter_app.get_plot_builder()\
     .set_ylim(-10, 30)\
     .xlabel("label_x").fontsize(8).color('red').end_xlabel()\
     .ylabel("y_label").fontsize(14).color('blue').end_ylabel()\
-    .title("Pato").fontsize(21).color('green').end_title()
+    .title("Duck").fontsize(21).color('green').end_title()
 
 plt.show()
+
+

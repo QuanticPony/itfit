@@ -1,3 +1,8 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .. import Fitter
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backend_tools import ToolToggleBase
@@ -114,7 +119,7 @@ class GenericFitter:
 class GenericFitterTool(ToolToggleBase):
     """Toggles Generic Fitter Tool."""
 
-    def __init__(self, *args, app, data: DataSelection, **kwargs):
+    def __init__(self, *args, app: Fitter, data: DataSelection, **kwargs):
         """Creates a GenericFitterTool.
 
         Parameters:
