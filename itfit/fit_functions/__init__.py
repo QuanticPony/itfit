@@ -10,5 +10,6 @@ if not __FITTER_FIT_FUNCTIONS_IMPORTED__:
     from .quadratic import QuadraticTool
     from .exponential import ExponentialTool
     from .gaussian import GaussianTool
+    from .trigonometric import TrigonometricTool
     
 __FITTER_FIT_FUNCTIONS_IMPORTED__ = True

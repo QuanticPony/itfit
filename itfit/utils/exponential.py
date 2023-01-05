@@ -42,7 +42,7 @@ class DragExponentialManager(DragPointCollection):
         p1_x, p2_x = self.get_xdata()
         a,b = self.get_args()
 
-        #create x and y data of exponential line of an exponential that moves across two poitns
+        #create x and y data of an exponential that moves across two poitns
         dx = abs(p1_x-p2_x) * 1.5 
         x = np.linspace(min(p1_x,p2_x)-dx,max(p1_x,p2_x)+dx,250)
         y = self.function(x, a, b)

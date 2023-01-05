@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 from .data import DataSelection
 from .data_selectors import LassoTool
-from .fit_functions import LineTool, QuadraticTool, ExponentialTool, GaussianTool
+from .fit_functions import LineTool, QuadraticTool, ExponentialTool, GaussianTool, TrigonometricTool
 from .utils import BlitManager
 
 plt.rcParams['toolbar'] = 'toolmanager'
@@ -48,3 +48,6 @@ class Fitter:
 
         self.figure.canvas.manager.toolmanager.add_tool('Gaussian', GaussianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Gaussian', 'fitter')
+
+        self.figure.canvas.manager.toolmanager.add_tool('Trigonometric', TrigonometricTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolbar.add_tool('Trigonometric', 'fitter')
