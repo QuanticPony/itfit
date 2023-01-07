@@ -11,6 +11,8 @@ if TYPE_CHECKING:
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib import rcParams
+from matplotlib import style as mpl_style
+from matplotlib import pyplot as plt
 
 from .labels import LabelBuilder, titleLabelBuilder, xLabelBuilder, yLabelBuilder
 from .spines import SpineBuilder
@@ -20,7 +22,9 @@ class PlotBuilder:
     Using PlotBuilder with jupyther/notebook is strongly recomended as changes are interactive and figures are preserved.
     ![image](example1.PNG)
     """
-    def __init__(self, app: Fitter, figure: Figure, axe: Axes, fit, **kargs):
+    fig: Figure
+    ax: Axes
+    def __init__(self, app: Fitter, fit, **kargs):
         """_summary_
 
         Args:
@@ -29,9 +33,7 @@ class PlotBuilder:
             axe (Axes): Axes to modify.
             fit (itfit.utils.FitResultContainer): FitResultContainer of the fit.
         """
-        self.ax = axe
         self.app = app
-        self.fig = figure
         self.fit = fit
 
     def plot_fit(self, fmt='--', color='black', label='', **kargs):
@@ -45,6 +47,7 @@ class PlotBuilder:
         Returns:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
+        self._start_()
         self._line, = self.ax.plot(*(self.fit.get_fit_data().T), fmt, color=color, label=label, **kargs)
         return self
 
@@ -72,6 +75,7 @@ class PlotBuilder:
         Returns:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
+        self._start_()
         self._line_data, = self.ax.plot( *(self.fit.get_data().T), fmt, color=color, label=label, **kargs)
         return self
 
@@ -87,17 +91,6 @@ class PlotBuilder:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         return self.plot_data(fmt=fmt, color=color, label=label, **kargs)
-
-    def title(self, title: str):
-        """Starts a title builder.
-
-        Args:
-            title (str): Title string.
-
-        Returns:
-            (itfit.plot.labels.titleLabelBuilder): A titleLabelBuilder.
-        """
-        return titleLabelBuilder(self, title)
     
     def labels(self):
         """Starts labels builder.
@@ -106,28 +99,39 @@ class PlotBuilder:
             (itfit.plot.labels.LabelBuilder): label builder.
         """
         return LabelBuilder(self)
+    
+    def title(self, title: str):
+        """Shortcut to `.labels().start_title(title).end_title().end_labels()`.
+
+        Args:
+            title (str): Title string.
+
+        Returns:
+            (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
+        """
+        return self.labels().start_title(title).end_title().end_labels()
 
     def xlabel(self, xlabel):
-        """Starts a x label builder.
+        """Shortcut to `.labels().start_x_label(xlabel).end_xlabel().end_labels()`.
 
         Args:
             xlabel (str): x label string.
 
         Returns:
-            (itfit.plot.labels.xLabelBuilder): A xLabelBuilder.
+            (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
-        return LabelBuilder(self).start_x_label(xlabel)
+        return self.labels().start_x_label(xlabel).end_xlabel().end_labels()
 
     def ylabel(self, ylabel):
-        """Starts a y label builder.
+        """Shortcut to `.labels().start_y_label(ylabel).end_ylabel().end_labels()`.
 
         Args:
             ylabel (str): y label string.
 
         Returns:
-            (itfit.plot.labels.yLabelBuilder): A yLabelBuilder.
+            (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
-        return LabelBuilder(self).start_y_label(ylabel)
+        return self.labels().start_y_label(ylabel).end_ylabel().end_labels()
 
     def legend(self, *args, **kargs):
         """Toggles the legend in the plot.
@@ -207,6 +211,56 @@ class PlotBuilder:
             (itfit.plot.spines.SpineBuilder): spine builder.
         """
         return SpineBuilder(self)
+    
+    def style(self, style):
+        """Sets the style. Must be executed befor `start`.
+
+        Args:
+            style (str): Style to use.
+
+        Returns:
+            (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
+        """
+        mpl_style.use(style)
+        # fig, ax = plt.subplots()
+        
+        # fig_dict = {}
+        # axes_dict = {}
+        # spines_dict = {}
+        # for k,v in rcParams.items():
+        #     k:str; v:str
+        #     if k.startswith("figure."):
+        #         k = k.removeprefix("figure.")
+        #         if k in ['dpi','edgecolor','facecolor','frameon']:
+        #             fig_dict.update({k:v})
+    
+        #     elif k.startswith("axes."):
+        #         k = k.removeprefix("axes.")
+        #         if k.startswith("spines."):
+        #             k = k.removeprefix("spines.")
+        #             spines_dict.update({k:v})
+        #         if k in ['facecolor', 'frameon']:
+        #             axes_dict.update({k:v})
+        # self.fig.update(fig_dict)
+        # self.ax.update(axes_dict)
+        
+        # for k, bolean in spines_dict.items():
+        #     self.ax.spines[k].set_visible(bolean)
+        self._start_(warn=True)
+        return self
+    
+    def _start_(self, warn=False):
+        """Creates the figure and the axes.
+
+        Returns:
+            (itfit.plot.builder.PlotBuilder): Returns itself to start building the plot.
+        """
+        if hasattr(self, "fig") and hasattr(self, "ax"):
+            if warn:
+                print("Warning: style changes will not affect an existent figure. Use `style` before ploting anything to the figure.")
+            return self
+        self.fig = plt.figure()
+        self.ax = self.fig.gca()
 
     def save_fig(self, filename, transparent=False, **kargs):
         """Saves the figure with the given filename

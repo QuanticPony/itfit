@@ -34,6 +34,17 @@ class LabelBuilder:
             (itfit.plot.labels.yLabelBuilder): y label builder.
         """
         return yLabelBuilder(self._plot_builder_, self, label)
+    
+    def start_title(self, title):
+        """Starts a title label builder.
+
+        Args:
+            title (str): title label.
+
+        Returns:
+            (itfit.plot.labels.titleLabelBuilder): title label builder.
+        """
+        return titleLabelBuilder(self._plot_builder_, self, title)
         
     def end_labels(self):
         """Exits labels builder.
@@ -126,7 +137,7 @@ class xLabelBuilder(GenericLabelBuilder):
         """Ends x label builder.
 
         Returns:
-            (itfit.plot.PlotBuilder): Returns the PlotBuilder.
+            (itfit.plot.labels.LabelBuilder): Returns the LabelBuilder.
         """
         self._plot_builder_.ax.set_xlabel(self._label_, self._dict_)
         return self._label_builder_
@@ -142,7 +153,7 @@ class yLabelBuilder(GenericLabelBuilder):
         """Ends y label builder.
 
         Returns:
-            (itfit.plot.PlotBuilder): Returns the PlotBuilder.
+            (itfit.plot.labels.LabelBuilder): Returns the LabelBuilder.
         """
         self._plot_builder_.ax.set_ylabel(self._label_, self._dict_)
         return self._label_builder_
@@ -150,14 +161,15 @@ class yLabelBuilder(GenericLabelBuilder):
 class titleLabelBuilder(GenericLabelBuilder):
     """Specific implementation of GenericLabelBuilder for the title label.
     """
-    def __init__(self, plot_builder, label: str):
+    def __init__(self, plot_builder, label_builder: LabelBuilder, label: str):
         super().__init__(plot_builder, label)
+        self._label_builder_ = label_builder
 
     def end_title(self):
         """Ends title label builder.
 
         Returns:
-            (itfit.plot.PlotBuilder): Returns the PlotBuilder.
+            (itfit.plot.labels.LabelBuilder): Returns the LabelBuilder.
         """
         self._plot_builder_.ax.set_title(self._label_, self._dict_)
-        return self._plot_builder_
+        return self._label_builder_

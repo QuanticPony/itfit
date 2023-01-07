@@ -88,27 +88,9 @@ class Fitter:
         return self.fits.get(self._last_fit) if (self._last_fit is not None) else None
     
     
-    def get_plot_builder(self, *, in_figure=None, in_axes=None):
-        """_summary_
-
-        Parameters:
-            in_figure
-            in_axes
-            
+    def get_plot_builder(self):
+        """Returns a itfit.plot.PlotBuilder instance. Used to ease plot creation.
         """
-        if in_figure is None:
-            if in_axes is None:
-                fig = plt.figure()
-                ax = fig.gca()
-            else:
-                ax = in_axes
-                fig = ax.figure
-        else:
-            fig = in_figure
-            ax = fig.ax
-            
-        self._last_fit_fig = fig
-        self._last_fit_ax = ax
         
         fit = self.get_last_fit()
-        return PlotBuilder(self, fig, ax, fit)
+        return PlotBuilder(self, fit)
