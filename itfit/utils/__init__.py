@@ -15,13 +15,15 @@ if not __FITTER_UTILS_IMPORTED__:
     from .quadratic import DragQuadraticManager
     from .exponential import DragExponentialManager
     from .gaussian import DragGaussianManager
-    from .trigonometric import DragTrigonometricManager
+    from .sine import DragSineManager
+    from .cosine import DragCosineManager
     
     LinearFunction = DragLineManager.function
     QuadraticFunction = DragQuadraticManager.function
     ExponentialFunction = DragExponentialManager.function
     GaussianFunction = DragGaussianManager.function
-    TrigonometricFunction = DragTrigonometricManager.function
+    SineFunction = DragSineManager.function
+    CosineFunction = DragCosineManager.function
     
     
 __FITTER_UTILS_IMPORTED__ = True

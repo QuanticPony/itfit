@@ -1,13 +1,13 @@
 from . import GenericFitter, GenericFitterTool
 from ..data import DataSelection
-from ..utils import DragPoint, DragPointManager, DragTrigonometricManager
+from ..utils import DragPoint, DragPointManager, DragCosineManager
 
-class TrigonometricFitter(GenericFitter):
-    """Trigonometric function fitter."""
-    name = 'trigonometric'
+class CosineFitter(GenericFitter):
+    """Cosine function fitter."""
+    name = 'cosine'
 
     def __init__(self, app, data: DataSelection):
-        """Trigonometric fitter following function 'f(x) = a*sin(b*x+b)'.
+        """Cosine fitter following function 'f(x) = a*cos(b*x+b)'.
         
         Parameters:
             app (Fitter):
@@ -22,7 +22,7 @@ class TrigonometricFitter(GenericFitter):
         self.drag_points = [DragPoint(*self.ax.transAxes.transform((0.2,0.3)), None), 
                             DragPoint(*self.ax.transAxes.transform((0.8,0.7)), None)]
         self.drag_points_managers = [DragPointManager(p, self.app.blit_manager) for p in self.drag_points]
-        self.fitter_drag_collection = DragTrigonometricManager(self.drag_points, self.app.blit_manager)
+        self.fitter_drag_collection = DragCosineManager(self.drag_points, self.app.blit_manager)
 
         ## Connect Line to Points change events
         self.drag_points_cids = [] # Connections ids for change events
@@ -38,24 +38,24 @@ class TrigonometricFitter(GenericFitter):
         
         self.fig.canvas.draw_idle()
 
-class TrigonometricTool(GenericFitterTool):
-    """Toggles Trigonometric Tool."""
+class CosineTool(GenericFitterTool):
+    """Toggles CosineTool."""
 
     # default_keymap = ''
-    description = 'Trig me please'
+    description = 'Cosine me please'
     default_toggled = False 
     radio_goup = "fitter"
 
     def enable(self,*args):
-        """Triggered when TrigonometricTool is enabled.
+        """Triggered when CosineTool is enabled.
         Uses BlitManager for faster rendering of DragObjects.
         """
 
         super().enable()
-        self.fitter = TrigonometricFitter(self.app,self.data)
+        self.fitter = CosineFitter(self.app,self.data)
     
     def disable(self, *args):
-        """Triggered when TrigonometricTool is disabled.
+        """Triggered when CosineTool is disabled.
         Removes DragObjects and disables BlitManager.
         """
 

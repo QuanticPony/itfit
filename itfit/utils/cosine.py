@@ -3,12 +3,12 @@ import numpy as np
 from . import DragPoint, DragPointCollection, BlitManager
 
 
-class DragTrigonometricManager(DragPointCollection):
-    """Collection of DragPoints representing a trigonometric function."""
+class DragCosineManager(DragPointCollection):
+    """Collection of DragPoints representing a cosine function."""
     
     @staticmethod
     def function(x, a, b, c, d):
-        """Trigonometric function.
+        """Cosine function.
 
         Parameters:
             x (float):
@@ -18,18 +18,18 @@ class DragTrigonometricManager(DragPointCollection):
             b (float):
                 frequency of the wave.
             c (float):
-                centre of the trigonometric function.
+                centre of the cosine function.
             d (float):
                 constant value around which the wave oscillates.
 
         Returns:
             (float):
-                `f(x) = a*sin(b*x+c)+d`
+                `f(x) = a*cos(b*x+c)+d`
         """
-        return a*np.sin(b*x+c) + d 
+        return a*np.cos(b*x+c) + d 
     
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
-        """Trigonometric function between multiple DragPoints. Updates with them.
+        """Cosine function between multiple DragPoints. Updates with them.
 
         Parameters:
             dragpoints (list[DragPoint]): wave points.
@@ -59,18 +59,18 @@ class DragTrigonometricManager(DragPointCollection):
         self.poly.set_ydata(y_data)
  
     def get_args(self):
-        """Gives trigonometrical function parameters.
+        """Gives cosine function parameters.
 
         Returns:
             (Tuple[float, float]):
-                `a`, `b`, `c` and `d` of `f(x)=a*sin(b*x +c)+d`.
+                `a`, `b`, `c` and `d` of `f(x)=a*cos(b*x +c)+d`.
         """
         x0, x1 = self.get_xdata()
         y0, y1 = self.get_ydata()
 
         a = abs(y0-y1)
-        b = np.pi/2 / (x0-x1)
-        c = -b *x1 
+        b = - np.pi/2 / (x0-x1)
+        c = np.pi/2 -b *x1 
         d = y1
 
         return a, b, c, d
