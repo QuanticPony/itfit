@@ -14,6 +14,7 @@
         * [plot](reference/itfit/plot/index.md)
             * [builder](reference/itfit/plot/builder.md)
             * [labels](reference/itfit/plot/labels.md)
+            * [spines](reference/itfit/plot/spines.md)
         * [utils](reference/itfit/utils/index.md)
             * [blit_manager](reference/itfit/utils/blit_manager.md)
             * [collection](reference/itfit/utils/collection.md)
