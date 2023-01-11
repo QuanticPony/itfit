@@ -93,7 +93,7 @@ class PlotBuilder:
         return self.plot_data(fmt=fmt, color=color, label=label, **kargs)
     
     def labels(self):
-        """Starts labels builder.
+        """Starts labels builder. After calling it xlabel and ylabel can be accessed.
 
         Returns:
             (itfit.plot.labels.LabelBuilder): label builder.
@@ -222,30 +222,7 @@ class PlotBuilder:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         mpl_style.use(style)
-        # fig, ax = plt.subplots()
-        
-        # fig_dict = {}
-        # axes_dict = {}
-        # spines_dict = {}
-        # for k,v in rcParams.items():
-        #     k:str; v:str
-        #     if k.startswith("figure."):
-        #         k = k.removeprefix("figure.")
-        #         if k in ['dpi','edgecolor','facecolor','frameon']:
-        #             fig_dict.update({k:v})
     
-        #     elif k.startswith("axes."):
-        #         k = k.removeprefix("axes.")
-        #         if k.startswith("spines."):
-        #             k = k.removeprefix("spines.")
-        #             spines_dict.update({k:v})
-        #         if k in ['facecolor', 'frameon']:
-        #             axes_dict.update({k:v})
-        # self.fig.update(fig_dict)
-        # self.ax.update(axes_dict)
-        
-        # for k, bolean in spines_dict.items():
-        #     self.ax.spines[k].set_visible(bolean)
         self._start_(warn=True)
         return self
     
