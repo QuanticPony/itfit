@@ -83,7 +83,7 @@ class Fitter:
         """Returns the last fit
 
         Returns:
-            (FitResultContainer)
+            (FitResultContainer): Fit result container.
         """
         return self.fits.get(self._last_fit) if (self._last_fit is not None) else None
     

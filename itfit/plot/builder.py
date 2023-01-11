@@ -43,8 +43,6 @@ class PlotBuilder:
 
         Args:
             app (itfit.Fitter): Main application.
-            figure (Figure): Figure to modify.
-            axe (Axes): Axes to modify.
             fit (itfit.utils.FitResultContainer): FitResultContainer of the fit.
         """
         self.app = app
