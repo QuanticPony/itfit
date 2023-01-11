@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 
 from .data import DataSelection
 from .data_selectors import LassoTool
-from .fit_functions import LineTool, QuadraticTool, ExponentialTool, GaussianTool
+from .fit_functions import LineTool, QuadraticTool, ExponentialTool, GaussianTool, LorentzianTool
 from .utils import BlitManager
 from .utils.fit_container import FitResultContainer
 from .plot.builder import PlotBuilder
@@ -67,7 +67,9 @@ class Fitter:
 
         self.figure.canvas.manager.toolmanager.add_tool('Gaussian', GaussianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Gaussian', 'fitter')
-
+        
+        self.figure.canvas.manager.toolmanager.add_tool('Lorentzian', LorentzianTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolbar.add_tool('Lorentzian', 'fitter')
 
     def _add_fit(self, fit: FitResultContainer):
         """Adds the fit to the application
