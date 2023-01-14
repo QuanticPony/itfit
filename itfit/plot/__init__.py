@@ -14,11 +14,11 @@
 
 """TODO"""
 try:
-    __FITTER_DATA_CLASSES_IMPORTED__
+    __FITTER_PLOT_IMPORTED__
 except NameError:
-    __FITTER_DATA_CLASSES_IMPORTED__= False
+    __FITTER_PLOT_IMPORTED__= False
 
-if not __FITTER_DATA_CLASSES_IMPORTED__:
-    from .data_classes import  DataContainer, DataSelection
+if not __FITTER_PLOT_IMPORTED__:
+    from .builder import PlotBuilder
     
-__FITTER_DATA_CLASSES_IMPORTED__ = True
+__FITTER_PLOT_IMPORTED__ = True
