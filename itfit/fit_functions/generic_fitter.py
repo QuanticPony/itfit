@@ -1,3 +1,22 @@
+# Copyright 2023 Unai Lería Fortea & Pablo Vizcaíno García
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .. import Fitter
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backend_tools import ToolToggleBase
@@ -90,7 +109,7 @@ class GenericFitter:
         self.app.blit_manager.draw()
 
         # Save fit in app
-        self.app.fits.update({f"{self.name}-{np.random.randint(0,100)}" : fit_result})
+        self.app._add_fit(fit_result)
         
     def delete(self):
         """Remove trigger. Used when tool is disabled."""
@@ -114,7 +133,7 @@ class GenericFitter:
 class GenericFitterTool(ToolToggleBase):
     """Toggles Generic Fitter Tool."""
 
-    def __init__(self, *args, app, data: DataSelection, **kwargs):
+    def __init__(self, *args, app: Fitter, data: DataSelection, **kwargs):
         """Creates a GenericFitterTool.
 
         Parameters:
