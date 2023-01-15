@@ -38,6 +38,15 @@ class DragLineManager(DragPointCollection):
         """
         return m*x + n
     
+    @staticmethod
+    def get_args_length():
+        """Gets number of arguments of `function`.
+
+        Returns:
+            (int): Number of arguments of `function`.
+        """
+        return 2
+    
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
         """Line between multiple DragPoints. Updates with them.
 

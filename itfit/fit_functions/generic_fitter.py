@@ -47,6 +47,14 @@ class GenericFitter:
                 `f(x, *args)`
         """
         ...
+        
+    def get_args_length(self):
+        """Gets number of arguments of `function`.
+
+        Returns:
+            (int): Number of arguments of `function`.
+        """
+        return self.fitter_drag_collection.get_args_length()
     
     def __init__(self, app, data: DataSelection):
         """Generic fitter constructor.
@@ -91,13 +99,13 @@ class GenericFitter:
         if np.sum(self.data.indexes_used)==0:
             xdata, ydata = self.data.xdata.copy(), self.data.ydata.copy()
         
-        self.fit = optimize.curve_fit(self.fitter_drag_collection.function, xdata, ydata, p0=self.get_args(), full_output=True)
+        self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args(), full_output=True)
         fit_result = FitResultContainer(DataContainer(xdata, ydata), self, self.fit)
         
         # Plot fit line in background
         with self.app.blit_manager.disabled():
         
-            self.fit_line = Line2D(xdata, self.fitter_drag_collection.function(xdata, *self.fit[0]), linestyle='--')
+            self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
             self.ax.add_artist(self.fit_line)
             
             #TODO: not sure what to do with legends

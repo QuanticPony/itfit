@@ -24,6 +24,7 @@ class LorentzianFitter(GenericFitter):
                             DragPoint(*self.ax.transAxes.transform((0.7,0.3)), None)]
         self.drag_points_managers = [DragPointManager(p,self.app.blit_manager) for p in self.drag_points]
         self.fitter_drag_collection = DragLorentzianManager(self.drag_points, self.app.blit_manager)
+        self.function = self.fitter_drag_collection.function
 
         ##Connect Lorentzian to Points change events
         self.drag_points_cids = [] #Connections ids for change events

@@ -6,7 +6,28 @@ from . import BlitManager, DragPoint, DragPointCollection
 class DragLorentzianManager(DragPointCollection):
     @staticmethod
     def function(x,A,x0,FWHM):
+        """# TODO: make docstrings
+
+        Args:
+            x (_type_): _description_
+            A (_type_): _description_
+            x0 (_type_): _description_
+            FWHM (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        
         return A/np.pi*(FWHM/2)/((x-x0)**2+(FWHM/2)**2)
+    
+    @staticmethod
+    def get_args_length():
+        """Gets number of arguments of `function`.
+
+        Returns:
+            (int): Number of arguments of `function`.
+        """
+        return 3
     
     def __init__(self,dragpoints: list[DragPoint],blit_manager: BlitManager):
         """Lorentzian line between 2 DragPoints. Updates with them.
@@ -21,6 +42,8 @@ class DragLorentzianManager(DragPointCollection):
         self.peak = self.dragpoints[0]
         self.side = self.dragpoints[1]
         self.update()
+        
+        
 
     def update(self,*args,**kargs):
         """Updates line data with DragObjects positions"""

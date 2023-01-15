@@ -40,6 +40,15 @@ class DragGaussianManager(DragPointCollection):
         """
         return A*np.exp(- 0.5 * (x - m)**2 / s**2)
     
+    @staticmethod
+    def get_args_length():
+        """Gets number of arguments of `function`.
+
+        Returns:
+            (int): Number of arguments of `function`.
+        """
+        return 3
+    
     def __init__(self,dragpoints: list[DragPoint],blit_manager: BlitManager):
         """Gaussian line between 2 DragPoints. Updates with them.
 

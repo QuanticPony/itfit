@@ -38,6 +38,15 @@ class DragExponentialManager(DragPointCollection):
         """
         return a*np.exp(b*x)
     
+    @staticmethod
+    def get_args_length():
+        """Gets number of arguments of `function`.
+
+        Returns:
+            (int): Number of arguments of `function`.
+        """
+        return 2
+    
     def __init__(self,dragpoints: list[DragPoint],blit_manager: BlitManager):
         """Exponential line between 2 DragPoints. Updates with them.
 

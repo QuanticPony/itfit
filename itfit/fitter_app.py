@@ -16,6 +16,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from . import data, utils
+    from .function_constructor import FunctionBuilder
     from matplotlib.figure import Figure
     from matplotlib.axes import Axes
     
@@ -48,10 +49,12 @@ class Fitter:
         self.selections = {}
         self.blit_manager = BlitManager(self)
         self._last_fit = None
-        
+        self._data_was_plotted = False
     
     def __call__(self):
-        self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
+        if not self._data_was_plotted:
+            self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
+            self._data_was_plotted = True
         
         self.figure.canvas.manager.toolmanager.add_tool('Lasso', LassoTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Lasso', 'fitter')
@@ -70,6 +73,14 @@ class Fitter:
         
         self.figure.canvas.manager.toolmanager.add_tool('Lorentzian', LorentzianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Lorentzian', 'fitter')
+        
+    def add_custom_fit_function(self, function_builder: FunctionBuilder):
+        if not self._data_was_plotted:
+            self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
+            self._data_was_plotted = True
+        
+        self.figure.canvas.manager.toolmanager.add_tool('Custom tool', function_builder.get_custom_tool(), app=self,data=self.data)
+        self.figure.canvas.manager.toolbar.add_tool('Custom tool', 'fitter')
 
     def _add_fit(self, fit: FitResultContainer):
         """Adds the fit to the application
