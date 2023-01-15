@@ -32,8 +32,10 @@ ydata = dataFunction(xdata, -0.04, 5, np.random.random()
 fitter_app = itfit.Fitter(xdata, ydata)
 function_builder = itfit.FunctionBuilder(fitter_app, fitter_app.data)
 
-function_builder.start(gaussian.GaussianFitter) * linear.LineFitter
+function_builder.define(Gaussian + Line)
 
 fitter_app()
 fitter_app.add_custom_fit_function(function_builder)
 plt.show()
+
+fitter_app.default_plot_last_fit("$you^{up}$", "give", "Never gonna").save_fig("example.svg")

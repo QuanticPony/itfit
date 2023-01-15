@@ -15,7 +15,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from .. import Fitter
+    from ... import Fitter
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -24,8 +24,8 @@ from matplotlib.lines import Line2D
 from matplotlib.widgets import Button
 from scipy import optimize
 
-from ..data import DataSelection, DataContainer
-from ..utils import DragPointCollection, FitResultContainer
+from ...data import DataSelection, DataContainer
+from ...utils import DragPointCollection, FitResultContainer
 
 class GenericFitter:
     """GenericFitter is a base implementation of a fit function.
@@ -108,9 +108,6 @@ class GenericFitter:
             self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
             self.ax.add_artist(self.fit_line)
             
-            #TODO: not sure what to do with legends
-            # self.fit_line.set_label(f"a={self.fit[0][0]}\nb={self.fit[0][1]}\nc={self.fit[0][2]}")
-            # self.ax.legend()
             self.ax.draw_artist(self.fit_line)
        
        # Redraw plot to show line     
@@ -135,6 +132,7 @@ class GenericFitter:
         
         except AttributeError:
             pass
+
         
         
 
