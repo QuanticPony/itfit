@@ -29,6 +29,18 @@ if not __FITTER_UTILS_IMPORTED__:
     from .quadratic import DragQuadraticManager
     from .exponential import DragExponentialManager
     from .gaussian import DragGaussianManager
+    from .sine import DragSineManager
+    from .cosine import DragCosineManager
     from .lorentzian import DragLorentzianManager
+    
+    LinearFunction = DragLineManager.function
+    QuadraticFunction = DragQuadraticManager.function
+    ExponentialFunction = DragExponentialManager.function
+    GaussianFunction = DragGaussianManager.function
+    SineFunction = DragSineManager.function
+    CosineFunction = DragCosineManager.function
+    LorentzianFunction = DragLorentzianManager.function
+    
+    
     
 __FITTER_UTILS_IMPORTED__ = True

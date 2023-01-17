@@ -24,6 +24,8 @@ if not __FITTER_FIT_FUNCTIONS_IMPORTED__:
     from .quadratic import QuadraticTool
     from .exponential import ExponentialTool
     from .gaussian import GaussianTool
+    from .sine import SineTool
+    from .cosine import CosineTool
     from .lorentzian import LorentzianTool
     
 __FITTER_FIT_FUNCTIONS_IMPORTED__ = True
