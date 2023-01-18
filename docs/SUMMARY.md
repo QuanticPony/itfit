@@ -1,30 +1,34 @@
 * reference
-    * [itfit](reference/itfit/index.md)
-        * [data](reference/itfit/data/index.md)
+    * itfit
+        * data
             * [data_classes](reference/itfit/data/data_classes.md)
-        * [data_selectors](reference/itfit/data_selectors/index.md)
+        * data_selectors
             * [lasso](reference/itfit/data_selectors/lasso.md)
-        * [fit_functions](reference/itfit/fit_functions/index.md)
-            * [common](reference/itfit/fit_functions/common/index.md)
+        * fit_functions
+            * common
                 * [function_container](reference/itfit/fit_functions/common/function_container.md)
                 * [generic_fitter](reference/itfit/fit_functions/common/generic_fitter.md)
-            * [exponential](reference/itfit/fit_functions/exponential/index.md)
+            * cosine
+                * [cosine](reference/itfit/fit_functions/cosine/cosine.md)
+            * exponential
                 * [exponential](reference/itfit/fit_functions/exponential/exponential.md)
-            * [gaussian](reference/itfit/fit_functions/gaussian/index.md)
+            * gaussian
                 * [gaussian](reference/itfit/fit_functions/gaussian/gaussian.md)
-            * [linear](reference/itfit/fit_functions/linear/index.md)
+            * linear
                 * [linear](reference/itfit/fit_functions/linear/linear.md)
-            * [lorentzian](reference/itfit/fit_functions/lorentzian/index.md)
+            * lorentzian
                 * [lorentzian](reference/itfit/fit_functions/lorentzian/lorentzian.md)
-            * [quadratic](reference/itfit/fit_functions/quadratic/index.md)
+            * quadratic
                 * [quadratic](reference/itfit/fit_functions/quadratic/quadratic.md)
+            * sine
+                * [sine](reference/itfit/fit_functions/sine/sine.md)
         * [fitter_app](reference/itfit/fitter_app.md)
         * [function_constructor](reference/itfit/function_constructor.md)
-        * [plot](reference/itfit/plot/index.md)
+        * plot
             * [builder](reference/itfit/plot/builder.md)
             * [labels](reference/itfit/plot/labels.md)
             * [spines](reference/itfit/plot/spines.md)
-        * [utils](reference/itfit/utils/index.md)
+        * utils
             * [blit_manager](reference/itfit/utils/blit_manager.md)
             * [collection](reference/itfit/utils/collection.md)
             * [fit_container](reference/itfit/utils/fit_container.md)

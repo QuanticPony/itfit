@@ -26,7 +26,7 @@ import numpy as np
 def gauss(x, A, x0, sigma):
     return A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
 
-def dataFunction(x, m,n, A, x0, sigma):
+def dataFunction(x, m, n, A, x0, sigma):
     return m*x + n + gauss(x, A ,x0, sigma)
 
 noise = np.random.normal(size=200)
@@ -39,8 +39,9 @@ ydata = dataFunction(xdata, -0.04, 5, np.random.random()
 This function is a linear convination of linear and gaussian functions therefore if we only fit a gaussian the result could be bias due to the linear background. Lets then create a function that has that background in its definition:
 
 ```py linenums="1" hl_lines="7"
+import matplotlib.pyplot as plt
 import itfit
-from itfit.fit_functions import Gaussian, Linear
+from itfit.fit_functions import Gaussian, Line
 
 fitter = itfit.Fitter(xdata, ydata)
 function_builder = itfit.FunctionBuilder(fitter)

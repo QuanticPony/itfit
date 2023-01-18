@@ -48,6 +48,7 @@ for path in sorted(Path("itfit").rglob("*.py")):
     parts = tuple(module_path.parts)
 
     if parts[-1] == "__init__":
+        continue
         parts = parts[:-1]
         doc_path = doc_path.with_name("index.md")
         full_doc_path = full_doc_path.with_name("index.md")
