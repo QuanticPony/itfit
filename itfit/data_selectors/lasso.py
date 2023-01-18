@@ -95,8 +95,6 @@ class LassoTool(ToolToggleBase):
     """Toggles Lasso Tool."""
     # default_keymap = ''
     description = 'Lasso me please'
-    default_toggled = False
-    radio_group = "fitter"
 
     def __init__(self, *args, app, data: DataSelection, **kwargs):
         """Creates a lasso tool.

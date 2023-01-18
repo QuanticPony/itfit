@@ -138,6 +138,9 @@ class GenericFitter:
 
 class GenericFitterTool(ToolToggleBase):
     """Toggles Generic Fitter Tool."""
+    
+    default_toggled = False 
+    radio_group = "fitter"
 
     def __init__(self, *args, app: Fitter, data: DataSelection, **kwargs):
         """Creates a GenericFitterTool.

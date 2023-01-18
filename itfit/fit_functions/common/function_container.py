@@ -39,10 +39,15 @@ class FunctionContainer:
         self.right_fitter_args_legth: int = 0
         self.operation : str
         
+    def copy(self):
+        return FunctionContainer(self.left_fitter, self.function_builder)
+        
     def _set_right_fitter_(self, right_fitter: GenericFitter|FunctionContainer):
-        if isinstance(right_fitter, GenericFitter):
+        if self == right_fitter:
+            self.right_fitter = self.copy()
+        elif isinstance(right_fitter, GenericFitter):
             self.right_fitter = FunctionContainer(right_fitter, self.function_builder)
-        if isinstance(right_fitter, FunctionContainer):
+        elif isinstance(right_fitter, FunctionContainer):
             self.right_fitter = right_fitter
             self.right_fitter.set_function_builder(self.function_builder)
         

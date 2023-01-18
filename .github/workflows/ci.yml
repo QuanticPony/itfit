@@ -42,7 +42,6 @@ jobs:
     - name: Update patch version
       run: |
         git checkout
-        python3 docs/generate_reference_docs.py
         bumpver update --patch --dry
         bumpver update --patch
     - name: Build package

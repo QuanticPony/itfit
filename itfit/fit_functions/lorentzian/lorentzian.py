@@ -151,8 +151,6 @@ class LorentzianTool(GenericFitterTool):
 
     # default_keymap = ''
     description = 'Lorentz me please'
-    default_toggled = False 
-    radio_group = "fitter"
 
     def enable(self,*args):
         """Triggered when LorentzianTool is enabled,

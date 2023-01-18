@@ -139,8 +139,6 @@ class QuadraticTool(GenericFitterTool):
     
     # default_keymap = ''
     description = 'Quadratic me please'
-    default_toggled = False
-    radio_group = "fitter"
 
     def enable(self, *args):
         """Triggered when QuadraticTool is enabled.

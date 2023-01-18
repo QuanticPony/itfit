@@ -90,8 +90,6 @@ class FunctionBuilder:
 
         # default_keymap = ''
         description = 'Custom tool'
-        default_toggled = False 
-        radio_group = "fitter"
         
         def __init__(self, function_builder: FunctionBuilder):
             self.function_builder = function_builder

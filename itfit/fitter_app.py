@@ -70,6 +70,12 @@ class Fitter:
 
         self.figure.canvas.manager.toolmanager.add_tool('Gaussian', fit_functions.gaussian.GaussianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Gaussian', 'fitter')
+
+        self.figure.canvas.manager.toolmanager.add_tool('Sine',  fit_functions.sine.SineTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolbar.add_tool('Sine', 'fitter')
+        
+        self.figure.canvas.manager.toolmanager.add_tool('Cosine',  fit_functions.cosine.CosineTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolbar.add_tool('Cosine', 'fitter')
         
         self.figure.canvas.manager.toolmanager.add_tool('Lorentzian', fit_functions.lorentzian.LorentzianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Lorentzian', 'fitter')

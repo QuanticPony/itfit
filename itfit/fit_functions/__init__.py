@@ -36,5 +36,7 @@ if not __FITTER_FIT_FUNCTIONS_IMPORTED__:
     from .exponential import Exponential
     from .quadratic import Quadratic
     from .lorentzian import Lorentzian
+    from .cosine import Cosine
+    from .sine import Sine
     
 __FITTER_FIT_FUNCTIONS_IMPORTED__ = True

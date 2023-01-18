@@ -14,7 +14,7 @@
 
 import numpy as np
 
-from .. import GenericFitter, GenericFitterTool, FunctionContainer
+from .. import GenericFitter, GenericFitterTool
 from ...data import DataSelection
 from ...utils import DragPoint, DragPointManager, BlitManager, DragPointCollection
 
@@ -150,8 +150,6 @@ class GaussianTool(GenericFitterTool):
 
     # default_keymap = ''
     description = 'Gauss me please'
-    default_toggled = False 
-    radio_group = "fitter"
 
     def enable(self,*args):
         """Triggered when GaussianTool is enabled,
