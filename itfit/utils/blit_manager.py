@@ -30,6 +30,7 @@ class BlitManager:
         
         self.artists = []
 
+        self._bind_motion_ : int = -1
         self._enabled_ = False
         self.background = None
         self.draw_event_connection_id = None
@@ -92,6 +93,20 @@ class BlitManager:
         self.disable()
         self.draw(artists_visible=False)
         return self
+    
+    @property
+    def bind_motion(self):
+        return self._bind_motion_
+    
+    @bind_motion.setter
+    def bind_motion(self, new_id: int):
+        # if (new_id is None) or (self._bind_motion_ is not None):
+        if self._bind_motion_ == -1:
+            self._bind_motion_ = new_id
+        elif new_id is None:
+            self._bind_motion_ = -1
+            
+        
     
     def __enter__(self, *_):
         pass

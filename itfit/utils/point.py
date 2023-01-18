@@ -78,7 +78,7 @@ class DragPointManager:
         self.canvas.mpl_connect('button_release_event', self.on_button_release)
         self.canvas.mpl_connect('motion_notify_event', self.on_mouse_move)
         
-        self._ind = None # Used for enabling mouse motion.
+        self._ind_ = None # Used for enabling mouse motion.
 
     def connect(self, function):
         """Connects a callback for change envents. 
@@ -154,17 +154,24 @@ class DragPointManager:
             return
         if event.button != 1:
             return
+        if self.blit_manager.bind_motion != -1:
+            return
 
         x, y = event.xdata, event.ydata
         x, y = self.set_xy(x, y)
         if np.hypot(*(self.poly.center - np.array([x,y]))) < 1.5*self.poly.get_radius():
-            self._ind = 0
+            self._ind_ = hash(self)
+        
+            self.blit_manager.bind_motion = self._ind_
     
     def on_button_release(self, event):
         """Callback for mouse button releases"""
         if event.button != 1:
             return
-        self._ind = None
+
+        if self.blit_manager.bind_motion == self._ind_:
+            self.blit_manager.bind_motion = None
+        self._ind_ = 0
 
     def on_key_press(self, event):
         """Callback for key presses"""
@@ -174,12 +181,15 @@ class DragPointManager:
 
     def on_mouse_move(self, event):
         """Callback for mouse movements"""
-        if self._ind is None:
-            return
         if event.inaxes is None:
             return
         if event.button != 1:
             return
+        if self._ind_ == 0:
+            return
+        if self.blit_manager.bind_motion != self._ind_:
+            return
+        
         x, y = event.xdata, event.ydata
         x, y = self.restricction_callback(x, y)
         x, y = self.set_xy(x, y)
