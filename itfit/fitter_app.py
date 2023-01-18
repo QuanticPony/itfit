@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 
 from .data import DataSelection
 from .data_selectors import LassoTool
-from .fit_functions import LineTool, QuadraticTool, ExponentialTool, GaussianTool, LorentzianTool
+from . import fit_functions
 from .utils import BlitManager
 from .utils.fit_container import FitResultContainer
 from .plot.builder import PlotBuilder
@@ -59,19 +59,19 @@ class Fitter:
         self.figure.canvas.manager.toolmanager.add_tool('Lasso', LassoTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Lasso', 'fitter')
         
-        self.figure.canvas.manager.toolmanager.add_tool('Line', LineTool, app=self, data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Line', fit_functions.linear.LineTool, app=self, data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Line', 'fitter')
         
-        self.figure.canvas.manager.toolmanager.add_tool('Quadratic', QuadraticTool, app=self, data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Quadratic', fit_functions.quadratic.QuadraticTool, app=self, data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Quadratic', 'fitter')
 
-        self.figure.canvas.manager.toolmanager.add_tool('Exponential', ExponentialTool, app=self, data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Exponential', fit_functions.exponential.ExponentialTool, app=self, data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Exponential', 'fitter')
 
-        self.figure.canvas.manager.toolmanager.add_tool('Gaussian', GaussianTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Gaussian', fit_functions.gaussian.GaussianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Gaussian', 'fitter')
         
-        self.figure.canvas.manager.toolmanager.add_tool('Lorentzian', LorentzianTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Lorentzian', fit_functions.lorentzian.LorentzianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Lorentzian', 'fitter')
         
     def add_custom_fit_function(self, function_builder: FunctionBuilder):

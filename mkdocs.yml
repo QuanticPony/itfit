@@ -14,20 +14,19 @@
 
 site_name: "itfit"
 site_description: "Simple and intuitive visual simple function fitter."
-# site_url: "https://mkdocstrings.github.io/"
+site_url: "https://quanticpony.github.io/itfit/"
 repo_url: "https://github.com/QuanticPony/itfit"
 edit_uri: "master/docs/"
 repo_name: "QuanticPony/itfit"
 site_dir: "site"
-watch: [README.md, LICENSE, itfit]
+watch: [README.md, itfit, examples]
 
 nav:
 - Home:
   - Overview: index.md
-#   - Changelog: changelog.md
-#   - Credits: credits.md
-  - License: /../LICENSE
+  - License: LICENSE.md
 - Code Reference: reference/
+- Examples: examples/
 
 theme:
     name: "material"
@@ -49,6 +48,9 @@ theme:
         icon: material/brightness-7 
         name: Switch to dark mode
 
+    features:
+      - content.code.annotate
+
 
 plugins:
 - search
@@ -68,3 +70,17 @@ plugins:
       python:
         options:
           show_source: true
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

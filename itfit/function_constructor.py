@@ -22,25 +22,14 @@ from matplotlib.lines import Line2D
 import numpy as np
 
 from .fit_functions import GenericFitter
-from .fit_functions.generic import (GenericFitter, GenericFitterTool, FunctionContainer)
+from .fit_functions.common import (GenericFitter, GenericFitterTool, FunctionContainer)
 
 
 class FunctionBuilder:
-    def __init__(self, app: Fitter, data: DataSelection):
+    def __init__(self, app: Fitter):
         self.app = app
-        self.data = data
+        self.data = self.app.data
         self.function_container: FunctionContainer
-        
-        self.poly = Line2D(
-            self.data.get_data()[:,0],
-            self.data.get_data()[:,1],
-            linestyle='--',
-            color='black',
-            transform=None
-        )
-        self.patch = self.app.ax.add_patch(self.poly)
-        
-        self.app.blit_manager.artists.append(self)
         
     def define(self, function: FunctionContainer):
         self.function_container = function
@@ -66,7 +55,16 @@ class FunctionBuilder:
             self.fitter_instance.get_args_length = self.get_args_length
             self.fitter_instance.get_args = self.get_args
         
-        # self.manager_instance = 
+            self.poly = Line2D(
+                self.data.get_data()[:,0],
+                self.data.get_data()[:,1],
+                linestyle='--',
+                color='black',
+                transform=None
+            )
+            self.patch = self.app.ax.add_patch(self.poly)
+            
+            self.app.blit_manager.artists.append(self)
         
         return self
         

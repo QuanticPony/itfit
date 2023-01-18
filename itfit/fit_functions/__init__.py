@@ -12,25 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""TODO"""
+"""#Fitting functions
+All fitting functions inherit from GenericFitter and follow the same structure.
+To create a new function you have 2 options:
+
+* Use FunctionBuilder to create function from already created ones.
+* Write a new fitter using GenericFitter.
+
+Here we will
+
+"""
 try:
     __FITTER_FIT_FUNCTIONS_IMPORTED__
 except NameError:
     __FITTER_FIT_FUNCTIONS_IMPORTED__= False
 
 if not __FITTER_FIT_FUNCTIONS_IMPORTED__:
-    from .generic.generic_fitter import GenericFitter, GenericFitterTool
-    from .generic.function_container import FunctionContainer
-    from .linear import LineTool
-    from .quadratic import QuadraticTool
-    from .exponential import ExponentialTool
-    from .gaussian import GaussianTool
-    from .lorentzian import LorentzianTool
+    from .common.generic_fitter import GenericFitter, GenericFitterTool
+    from .common.function_container import FunctionContainer
     
-    Line = FunctionContainer(linear.LineFitter, None)
-    Quadratic = FunctionContainer(quadratic.QuadraticFitter, None)
-    Exponential = FunctionContainer(exponential.ExponentialFitter, None)
-    Gaussian = FunctionContainer(gaussian.GaussianFitter, None)
-    Lorentzian = FunctionContainer(lorentzian.LorentzianFitter, None)
+    from .linear import Line
+    from .gaussian import Gaussian
+    from .exponential import Exponential
+    from .quadratic import Quadratic
+    from .lorentzian import Lorentzian
     
 __FITTER_FIT_FUNCTIONS_IMPORTED__ = True
