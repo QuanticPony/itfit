@@ -33,7 +33,6 @@ fitter_app()
 plt.show()
 
 fit = fitter_app.get_plot_builder()\
-    .style("science")\
     .plot_fit(':', 'red', 'test')\
     .with_data('.', 'black', 'data')\
     .xlabel("time [s]")\

@@ -41,12 +41,12 @@ This function is a linear convination of linear and gaussian functions therefore
 ```py linenums="1" hl_lines="7"
 import matplotlib.pyplot as plt
 import itfit
-from itfit.fit_functions import Gaussian, Linear
+from itfit.fit_functions import Gaussian, Line
 
 fitter = itfit.Fitter(xdata, ydata)
 function_builder = itfit.FunctionBuilder(fitter)
 
-function_builder.define(Gaussian + Linear)
+function_builder.define(Gaussian + Line)
 
 fitter()
 fitter.add_custom_fit_function(function_builder)

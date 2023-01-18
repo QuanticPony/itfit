@@ -15,7 +15,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import itfit
-from itfit.fit_functions import Gaussian, Linear
+from itfit.fit_functions import Gaussian, Line
 
 def gauss(x, A, x0, sigma):
     return A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
@@ -34,7 +34,7 @@ ydata = dataFunction(xdata, -0.04, 5, np.random.random()
 fitter = itfit.Fitter(xdata, ydata)
 function_builder = itfit.FunctionBuilder(fitter)
 
-function_builder.define(Gaussian + Linear)
+function_builder.define(Gaussian + Line)
 
 fitter()
 fitter.add_custom_fit_function(function_builder)
