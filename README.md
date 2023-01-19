@@ -38,7 +38,7 @@ Simple, intuitive and interactive application to help fitting common functions t
 <div align="center">
 
 <a href="https://quanticpony.github.io/itfit/">
-<center><img src=https://img.shields.io/github/deployments/QuanticPony/itfit/github-pages?label=documentation></center>
+<img src=https://img.shields.io/github/deployments/QuanticPony/itfit/github-pages?label=documentation>
 </a>
 <br></br>
 

@@ -16,6 +16,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from . import data, utils
+    from .function_constructor import FunctionBuilder
     from matplotlib.figure import Figure
     from matplotlib.axes import Axes
     
@@ -24,7 +25,7 @@ import matplotlib.pyplot as plt
 
 from .data import DataSelection
 from .data_selectors import LassoTool
-from .fit_functions import LineTool, QuadraticTool, ExponentialTool, GaussianTool, SineTool, CosineTool, LorentzianTool
+from . import fit_functions
 from .utils import BlitManager
 from .utils.fit_container import FitResultContainer
 from .plot.builder import PlotBuilder
@@ -48,34 +49,44 @@ class Fitter:
         self.selections = {}
         self.blit_manager = BlitManager(self)
         self._last_fit = None
-        
+        self._data_was_plotted = False
     
     def __call__(self):
-        self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
+        if not self._data_was_plotted:
+            self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
+            self._data_was_plotted = True
         
         self.figure.canvas.manager.toolmanager.add_tool('Lasso', LassoTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Lasso', 'fitter')
         
-        self.figure.canvas.manager.toolmanager.add_tool('Line', LineTool, app=self, data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Line', fit_functions.linear.LineTool, app=self, data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Line', 'fitter')
         
-        self.figure.canvas.manager.toolmanager.add_tool('Quadratic', QuadraticTool, app=self, data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Quadratic', fit_functions.quadratic.QuadraticTool, app=self, data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Quadratic', 'fitter')
 
-        self.figure.canvas.manager.toolmanager.add_tool('Exponential', ExponentialTool, app=self, data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Exponential', fit_functions.exponential.ExponentialTool, app=self, data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Exponential', 'fitter')
 
-        self.figure.canvas.manager.toolmanager.add_tool('Gaussian', GaussianTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Gaussian', fit_functions.gaussian.GaussianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Gaussian', 'fitter')
 
-        self.figure.canvas.manager.toolmanager.add_tool('Sine', SineTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Sine',  fit_functions.sine.SineTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Sine', 'fitter')
         
-        self.figure.canvas.manager.toolmanager.add_tool('Cosine', CosineTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Cosine',  fit_functions.cosine.CosineTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Cosine', 'fitter')
         
-        self.figure.canvas.manager.toolmanager.add_tool('Lorentzian', LorentzianTool, app=self,data=self.data)
+        self.figure.canvas.manager.toolmanager.add_tool('Lorentzian', fit_functions.lorentzian.LorentzianTool, app=self,data=self.data)
         self.figure.canvas.manager.toolbar.add_tool('Lorentzian', 'fitter')
+        
+    def add_custom_fit_function(self, function_builder: FunctionBuilder):
+        if not self._data_was_plotted:
+            self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
+            self._data_was_plotted = True
+        
+        self.figure.canvas.manager.toolmanager.add_tool('Custom tool', function_builder.get_custom_tool(), app=self,data=self.data)
+        self.figure.canvas.manager.toolbar.add_tool('Custom tool', 'fitter')
 
     def _add_fit(self, fit: FitResultContainer):
         """Adds the fit to the application

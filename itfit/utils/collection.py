@@ -27,11 +27,13 @@ class DragPointCollection:
 
     @staticmethod
     def function(*args, **kargs): ... 
+    @staticmethod
+    def get_args_length():...
     def update(self, *args, **kargs):...
     def get_args(self):...
     
     # Common methods
-    def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
+    def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager, *, linestyle='-', color='red'):
         """Collection of DragPoints. Used to implement more complicated DragObjects.
         
         Args:
@@ -48,8 +50,8 @@ class DragPointCollection:
         self.poly = Line2D(
             self.get_xdata_display(),
             self.get_ydata_display(),
-            linestyle='-',
-            color='red',
+            linestyle=linestyle,
+            color=color,
             transform=None
         )
         

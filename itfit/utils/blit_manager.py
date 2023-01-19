@@ -53,6 +53,8 @@ class BlitManager:
 
     def draw(self, artists_visible=True):
         """Draws the canvas using blitting."""
+        if self.background is None:
+            self.update_background()
         self.canvas.restore_region(self.background)
         
         for a in self.artists:

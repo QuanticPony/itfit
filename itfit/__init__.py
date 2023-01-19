@@ -25,6 +25,7 @@ if not __ITFIT_IMPORTED__:
     from . import fit_functions
     from . import data_selectors
     from .fitter_app import Fitter
+    from .function_constructor import FunctionBuilder
     
     
 __ITFIT_IMPORTED__ = True

@@ -35,6 +35,11 @@ See the License for the specific language governing permissions and
 limitations under the License. -->
 """
 
+# import shutil
+
+# shutil.copy("README.md", "docs/index.md")
+# shutil.copy("LICENSE", "docs/LICENSE.md")
+
 for path in sorted(Path("itfit").rglob("*.py")):
     module_path = path.with_suffix("")
     doc_path = path.with_suffix(".md")
@@ -43,6 +48,7 @@ for path in sorted(Path("itfit").rglob("*.py")):
     parts = tuple(module_path.parts)
 
     if parts[-1] == "__init__":
+        continue
         parts = parts[:-1]
         doc_path = doc_path.with_name("index.md")
         full_doc_path = full_doc_path.with_name("index.md")
@@ -57,6 +63,24 @@ for path in sorted(Path("itfit").rglob("*.py")):
         fd.write(f":::{ident}")
 
     mkdocs_gen_files.set_edit_path(full_doc_path, Path("../") / path)
+    
+    
+for path in sorted(list(Path("examples").rglob("*.md"))):
+    example_name = path.with_suffix("")
+    doc_path = path.with_suffix(".md")
+    full_doc_path = Path(doc_path)
+    
+    parts = tuple(example_name.parts)
+    
+    nav[("examples", *parts)] = full_doc_path.as_posix()
 
+    with mkdocs_gen_files.open(full_doc_path, "w") as fd:
+        ident = ".".join(parts)
+        fd.write(''.join([line for line in open(path, 'r').readlines()]))
+
+    mkdocs_gen_files.set_edit_path(full_doc_path, Path("../") / path)
+    
 with mkdocs_gen_files.open("SUMMARY.md", "w") as nav_file:
     nav_file.writelines(nav.build_literate_nav())
+    
+
