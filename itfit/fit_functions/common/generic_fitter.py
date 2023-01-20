@@ -85,6 +85,16 @@ class GenericFitter:
                 0, 1 or multiple arguments.
         """
         return self.fitter_drag_collection.get_args()
+
+    def prop_errors(xdata,self):
+        """Returns the error of the fit, given a gradient.
+
+        Returns:
+            (float):
+                sigma
+        """
+        return np.sqrt( float( self.gradient(xdata,*self.fit[0]).T @ self.fit[1] @ self.gradient(xdata,*self.fit[0]) ))
+        
     
     def on_fit(self, event):
         """Event for fit button.
@@ -102,10 +112,13 @@ class GenericFitter:
         self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args(), full_output=True)
         fit_result = FitResultContainer(DataContainer(xdata, ydata), self, self.fit)
         
-        # Plot fit line in background
+        # Plot fit line in background, and the confidence interval
         with self.app.blit_manager.disabled():
         
             self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
+            vprop_errors = np.vectorize(self.prop_errors, excluded=[1,2])
+            error_fit = vprop_errors(xdata)
+
             self.ax.add_artist(self.fit_line)
             
             self.ax.draw_artist(self.fit_line)

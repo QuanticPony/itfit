@@ -39,6 +39,26 @@ class DragLineManager(DragPointCollection):
                 `f(x) = m*x+n`
         """
         return m*x + n
+
+    @staticmethod
+    def gradient(x, m, n):
+        """Straigth line gradient.
+        
+        Parameters:
+        x (float):
+            independent variable.
+        m (float):
+            slope.
+        n (float):
+            value at 'x = 0'.
+        
+        Returns:
+            (np.array):
+                ' [ [dfdm], [dfdn] ]'
+        """
+        dfdm = x 
+        dfdn = 1
+        return np.array( [[dfdm], [dfdn]])
     
     @staticmethod
     def get_args_length():
