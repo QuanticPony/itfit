@@ -54,7 +54,7 @@ class DragLineManager(DragPointCollection):
         
         Returns:
             (np.array):
-                ' [ [dfdm], [dfdn] ]'
+                ' ( x, 1 )'
         """
         dfdm = x 
         dfdn = 1

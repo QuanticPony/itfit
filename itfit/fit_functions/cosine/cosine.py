@@ -43,6 +43,32 @@ class DragCosineManager(DragPointCollection):
                 `f(x) = a*cos(b*x+c)+d`
         """
         return a*np.cos(b*x+c) + d 
+
+    @staticmethod
+    def gradient(x, a, b, c, d):
+        """Cosine gradient function.
+
+        Parameters:
+            x (float):
+                independent variable.
+            a (float):
+                Amplitude of the wave.
+            b (float):
+                frequency of the wave.
+            c (float):
+                centre of the cosine function.
+            d (float):
+                constant value around which the wave oscillates.
+
+        Returns:
+            (np,array):
+                ( cos(b*x + c), -a*x*sin(b*x+c), -a*sin(b*x+c), 1)
+        """
+        dfda = np.cos(b*x + c)
+        dfdb = -a * x* np.sin(b*x +c)
+        dfdc = -a * np.sin(b*x + c)
+        dfdd = 1
+        return np.array ([dfda], [dfdb], [dfdc], [dfdd])
     
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
         """Cosine function between multiple DragPoints. Updates with them.

@@ -47,6 +47,21 @@ class GenericFitter:
                 `f(x, *args)`
         """
         ...
+    
+    @staticmethod
+    def gradient(x,*args):
+        """Fit gradient: 'f(x,*args)=...'.
+
+        Paremeters:
+            x (float):
+                Independent variable.
+            *args (list[float,...]):
+                0, 1 or multiple arguments.
+        Returns:
+            (Float):
+                'f(x,*args)'
+        """
+        ...
         
     def get_args_length(self):
         """Gets number of arguments of `function`.

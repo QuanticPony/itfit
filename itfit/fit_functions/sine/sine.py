@@ -43,6 +43,32 @@ class DragSineManager(DragPointCollection):
                 `f(x) = a*sin(b*x+c)+d`
         """
         return a*np.sin(b*x+c) + d 
+
+    @staticmethod
+    def gradient(x, a, b, c, d):
+        """Sine gradient function.
+
+        Parameters:
+            x (float):
+                independent variable.
+            a (float):
+                Amplitude of the wave.
+            b (float):
+                frequency of the wave.
+            c (float):
+                centre of the sine function.
+            d (float):
+                constant value around which the wave oscillates.
+
+        Returns:
+            (np,array):
+                ( sin(b*x + c), a*x*cos(b*x+c), a*cod(b*x+c), 1)
+        """
+        dfda = np.sin(b*x + c)
+        dfdb = a * x* np.cos(b*x +c)
+        dfdc = a * np.cos(b*x + c)
+        dfdd = 1
+        return np.array ([dfda], [dfdb], [dfdc], [dfdd])
     
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
         """Sine function between multiple DragPoints. Updates with them.

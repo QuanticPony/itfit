@@ -38,9 +38,33 @@ class DragGaussianManager(DragPointCollection):
 
         Returns:
             (float):
-                `f(x) = A*exp(0.5*(x-m)^2 / s^2)`
+                `f(x) = A*exp(-0.5*(x-m)^2 / s^2)`
         """
         return A*np.exp(- 0.5 * (x - m)**2 / s**2)
+
+    @staticmethod
+    def gradient(x,A,m,s):
+        """Gaussian gradient.
+
+        Parameters:
+            x (float):
+                independent variable.
+            A (float):
+                value at `x=m`.
+            m (float):
+                central point.
+            s (float):
+                sigma.
+
+        Returns:
+            (np.array):
+                ` ( exp( - 0.5*(x-m)^2 / s^2) , A / s^2 * (x-m) * exp(-0.5*(x-m)^2 / s^2), A / s^3 * (x-m)^2 * exp(-0.5*(x-m)^2 / s^2) ) ` 
+        """
+        dfdA = np.exp(- 0.5 * (x - m)**2 / s**2)
+        dfdm = A / s**2 * (x -m) * np.exp(- 0.5 * (x - m)**2 / s**2)
+        dfds = A / s**3 * (x -m)^2 * np.exp(- 0.5 * (x - m)**2 / s**2)
+
+        return np.array( [dfdA], [dfdm], [dfds] )
     
     @staticmethod
     def get_args_length():

@@ -39,6 +39,27 @@ class DragExponentialManager(DragPointCollection):
                 `f(x) = a*exp(b*x)`
         """
         return a*np.exp(b*x)
+
+    @staticmethod 
+    def gradient(x,a,b):
+        """Exponential gradient.
+
+        Parameters:
+            x (float):
+                independent variable.
+            a (float):
+                scales exponential function.
+            b (float):
+                scales x.
+
+        Returns:
+            (np.array):
+                `( exp(b*x), a*x*exp(b*x) )`
+        """
+        dfda = np.exp(b*x)
+        dfdb = a * x * np.exp(b * x) 
+
+        return np.array( [dfda], [dfdb])
     
     @staticmethod
     def get_args_length():

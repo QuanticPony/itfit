@@ -35,6 +35,25 @@ class DragLorentzianManager(DragPointCollection):
         """
         
         return A/np.pi*(FWHM/2)/((x-x0)**2+(FWHM/2)**2)
+
+    @staticmethod
+    def gradient(x,A,x0,FWHM):
+        """# TODO: make docstrings
+
+        Args:
+            x (float): _description_
+            A (float): _description_
+            x0 (float): _description_
+            FWHM (float): _description_
+
+        Returns:
+            (np.array): _description_
+        """
+        dfdA = 1/np.pi*(FWHM/2)/((x-x0)**2+(FWHM/2)**2)
+        dfdx0 = A/np.pi*(FWHM/2) *2 (x-x0) / ((x-x0)**2+(FWHM/2)**2)**2
+        dfdF = A/np.pi/2 * ((x-x0)**2+(FWHM/2)**2) -  A/np.pi*(FWHM/2) * FWHM / ((x-x0)**2+(FWHM/2)**2)**2
+
+        return A/np.pi*(FWHM/2)/((x-x0)**2+(FWHM/2)**2)
     
     @staticmethod
     def get_args_length():
