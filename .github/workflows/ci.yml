@@ -39,11 +39,11 @@ jobs:
         pip install mkdocs-literate-nav
         pip install Pygments>=2.12
 
-    - name: Update patch version
-      run: |
-        git checkout
-        bumpver update --patch --dry
-        bumpver update --patch
+    # - name: Update patch version
+    #   run: |
+    #     git checkout
+    #     bumpver update --patch --dry
+    #     bumpver update --patch
     - name: Build package
       run: python -m build
     - name: Publish package to TestPyPI
