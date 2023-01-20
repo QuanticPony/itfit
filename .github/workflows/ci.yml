@@ -43,14 +43,14 @@ jobs:
     #   run: |
     #     git checkout
     #     bumpver update --patch --dry
-    #     bumpver update --patch
+        # bumpver update --patch
     - name: Build package
       run: python -m build
-    - name: Publish package to TestPyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        repository_url: https://test.pypi.org/legacy/
+    # - name: Publish package to TestPyPI
+    #   uses: pypa/gh-action-pypi-publish@release/v1
+    #   with:
+    #     password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+    #     repository_url: https://test.pypi.org/legacy/
 
     # - name: Build documentation
     #   run: |
