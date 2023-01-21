@@ -10,21 +10,25 @@
       
       
       
+        <link rel="canonical" href="https://quanticpony.github.io/itfit/examples/3-plot-builder/">
       
       
-      <link rel="icon" href="/itfit/assets/images/favicon.png">
+        <link rel="prev" href="../2-fitting-function-builder/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
     
       
-        <title>itfit</title>
+        <title>3 plot builder - itfit</title>
       
     
     
-      <link rel="stylesheet" href="/itfit/assets/stylesheets/main.558e4712.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.558e4712.min.css">
       
         
-        <link rel="stylesheet" href="/itfit/assets/stylesheets/palette.2505c338.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
       
       
 
@@ -40,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="/itfit/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("/itfit/",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -70,6 +74,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#3-plot-builder-example" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -80,7 +89,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/itfit/." title="itfit" class="md-header__button md-logo" aria-label="itfit" data-md-component="logo">
+    <a href="../.." title="itfit" class="md-header__button md-logo" aria-label="itfit" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -99,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              3 plot builder
             
           </span>
         </div>
@@ -198,7 +207,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/itfit/." title="itfit" class="md-nav__button md-logo" aria-label="itfit" data-md-component="logo">
+    <a href="../.." title="itfit" class="md-nav__button md-logo" aria-label="itfit" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -256,7 +265,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Overview
       </a>
     </li>
@@ -270,7 +279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/LICENSE/" class="md-nav__link">
+      <a href="../../LICENSE/" class="md-nav__link">
         License
       </a>
     </li>
@@ -346,7 +355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fitter_app/" class="md-nav__link">
+      <a href="../../reference/itfit/fitter_app/" class="md-nav__link">
         Fitter app
       </a>
     </li>
@@ -360,7 +369,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/function_constructor/" class="md-nav__link">
+      <a href="../../reference/itfit/function_constructor/" class="md-nav__link">
         Function constructor
       </a>
     </li>
@@ -401,7 +410,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/data/data_classes/" class="md-nav__link">
+      <a href="../../reference/itfit/data/data_classes/" class="md-nav__link">
         Data classes
       </a>
     </li>
@@ -449,7 +458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/data_selectors/lasso/" class="md-nav__link">
+      <a href="../../reference/itfit/data_selectors/lasso/" class="md-nav__link">
         Lasso
       </a>
     </li>
@@ -524,7 +533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/common/function_container/" class="md-nav__link">
+      <a href="../../reference/itfit/fit_functions/common/function_container/" class="md-nav__link">
         Function container
       </a>
     </li>
@@ -538,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/common/generic_fitter/" class="md-nav__link">
+      <a href="../../reference/itfit/fit_functions/common/generic_fitter/" class="md-nav__link">
         Generic fitter
       </a>
     </li>
@@ -586,7 +595,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/cosine/cosine/" class="md-nav__link">
+      <a href="../../reference/itfit/fit_functions/cosine/cosine/" class="md-nav__link">
         Cosine
       </a>
     </li>
@@ -634,7 +643,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/exponential/exponential/" class="md-nav__link">
+      <a href="../../reference/itfit/fit_functions/exponential/exponential/" class="md-nav__link">
         Exponential
       </a>
     </li>
@@ -682,7 +691,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/gaussian/gaussian/" class="md-nav__link">
+      <a href="../../reference/itfit/fit_functions/gaussian/gaussian/" class="md-nav__link">
         Gaussian
       </a>
     </li>
@@ -730,7 +739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/linear/linear/" class="md-nav__link">
+      <a href="../../reference/itfit/fit_functions/linear/linear/" class="md-nav__link">
         Linear
       </a>
     </li>
@@ -778,7 +787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/lorentzian/lorentzian/" class="md-nav__link">
+      <a href="../../reference/itfit/fit_functions/lorentzian/lorentzian/" class="md-nav__link">
         Lorentzian
       </a>
     </li>
@@ -826,7 +835,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/quadratic/quadratic/" class="md-nav__link">
+      <a href="../../reference/itfit/fit_functions/quadratic/quadratic/" class="md-nav__link">
         Quadratic
       </a>
     </li>
@@ -874,7 +883,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/sine/sine/" class="md-nav__link">
+      <a href="../../reference/itfit/fit_functions/sine/sine/" class="md-nav__link">
         Sine
       </a>
     </li>
@@ -929,7 +938,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/plot/builder/" class="md-nav__link">
+      <a href="../../reference/itfit/plot/builder/" class="md-nav__link">
         Builder
       </a>
     </li>
@@ -943,7 +952,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/plot/labels/" class="md-nav__link">
+      <a href="../../reference/itfit/plot/labels/" class="md-nav__link">
         Labels
       </a>
     </li>
@@ -957,7 +966,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/plot/spines/" class="md-nav__link">
+      <a href="../../reference/itfit/plot/spines/" class="md-nav__link">
         Spines
       </a>
     </li>
@@ -1005,7 +1014,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/utils/blit_manager/" class="md-nav__link">
+      <a href="../../reference/itfit/utils/blit_manager/" class="md-nav__link">
         Blit manager
       </a>
     </li>
@@ -1019,7 +1028,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/utils/collection/" class="md-nav__link">
+      <a href="../../reference/itfit/utils/collection/" class="md-nav__link">
         Collection
       </a>
     </li>
@@ -1033,7 +1042,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/utils/fit_container/" class="md-nav__link">
+      <a href="../../reference/itfit/utils/fit_container/" class="md-nav__link">
         Fit container
       </a>
     </li>
@@ -1047,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/utils/point/" class="md-nav__link">
+      <a href="../../reference/itfit/utils/point/" class="md-nav__link">
         Point
       </a>
     </li>
@@ -1081,18 +1090,20 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="true">
           Examples
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -1110,7 +1121,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/examples/1-quickstart/" class="md-nav__link">
+      <a href="../1-quickstart/" class="md-nav__link">
         1 quickstart
       </a>
     </li>
@@ -1124,7 +1135,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/examples/2-fitting-function-builder/" class="md-nav__link">
+      <a href="../2-fitting-function-builder/" class="md-nav__link">
         2 fitting function builder
       </a>
     </li>
@@ -1136,11 +1147,21 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="/itfit/examples/3-plot-builder/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         3 plot builder
       </a>
+      
     </li>
   
 
@@ -1169,6 +1190,8 @@
   
   
   
+    
+  
   
 </nav>
                   </div>
@@ -1180,8 +1203,78 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+  
+  
+
+
+
+<!-- Copyright 2023 Unai Lería Fortea & Pablo Vizcaíno García
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
+<h1 id="3-plot-builder-example">3. Plot Builder example</h1>
+<p>Lets explore the <a class="autorefs autorefs-internal" href="../../reference/itfit/plot/builder/#itfit.plot.builder.PlotBuilder">PlotBuilder</a> capabilities in search of an awful plot. We will use the same function from <a href="../2-fitting-function-builder/">last example</a> to create some data:</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">import</span> <span class="nn">itfit</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">def</span> <span class="nf">gauss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">return</span> <span class="n">A</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="k">def</span> <span class="nf">dataFunction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="k">return</span> <span class="n">m</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">n</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span> <span class="p">,</span><span class="n">x0</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">xdata</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">ydata</span> <span class="o">=</span> <span class="n">dataFunction</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.04</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">105</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span> <span class="o">+</span> <span class="n">noise</span>
+</code></pre></div>
+Now we call the <a class="autorefs autorefs-internal" href="../../reference/itfit/fitter_app/#itfit.fitter_app.Fitter">Fitter</a> and fit the data to a <a class="autorefs autorefs-internal" href="../../reference/itfit/fit_functions/gaussian/gaussian/#itfit.fit_functions.gaussian.gaussian">gaussian</a> predefined function.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">fitter_app</span> <span class="o">=</span> <span class="n">itfit</span><span class="o">.</span><span class="n">Fitter</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">fitter_app</span><span class="p">()</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+Once we fit the data we call the <a class="autorefs autorefs-internal" href="../../reference/itfit/plot/builder/#itfit.plot.builder.PlotBuilder">PlotBuilder</a>. This class is very usefull if you are using a jupyther notebook as changes are made instantly over the same figure. The main think to keep in mind when using the PlotBuilder is that all methods return the PlotBuilder instance, therefore you can chain changes until you get the desired result.</p>
+<p>PlotBuilder is more limited than using Matplotlib's figure and axes, but it is easier to plot the fit with the corresponding data. Although figure and axe are accesible via <code>.fig</code> and <code>.ax</code> attributes.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">fit</span> <span class="o">=</span> <span class="n">fitter_app</span><span class="o">.</span><span class="n">get_plot_builder</span><span class="p">()</span>\
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s2">&quot;science&quot;</span><span class="p">)</span>\
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="o">.</span><span class="n">plot_fit</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>\
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="o">.</span><span class="n">with_data</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>\
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;time [s]&quot;</span><span class="p">)</span>\
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;current [mA]&quot;</span><span class="p">)</span>\
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Experiment&quot;</span><span class="p">)</span>\
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="o">.</span><span class="n">grid</span><span class="p">()</span>\
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="o">.</span><span class="n">legend</span><span class="p">()</span>\
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">220</span><span class="p">)</span>\
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>\
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="o">.</span><span class="n">spines</span><span class="p">()</span><span class="o">.</span><span class="n">start_top_spine</span><span class="p">()</span><span class="o">.</span><span class="n">invisible</span><span class="p">()</span><span class="o">.</span><span class="n">end_top_spine</span><span class="p">()</span>\
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>             <span class="o">.</span><span class="n">start_right_spine</span><span class="p">()</span><span class="o">.</span><span class="n">alpha</span><span class="p">(</span><span class="mf">0.33</span><span class="p">)</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">end_right_spine</span><span class="p">()</span>\
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>             <span class="o">.</span><span class="n">start_bottom_spine</span><span class="p">()</span><span class="o">.</span><span class="n">linestyle</span><span class="p">(</span><span class="s1">&#39;--&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">linewidth</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">end_bottom_spine</span><span class="p">()</span>\
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="o">.</span><span class="n">end_spines</span><span class="p">()</span>\
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="o">.</span><span class="n">set_size</span><span class="p">((</span><span class="mi">12</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>\
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>\
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>    <span class="o">.</span><span class="n">save_fig</span><span class="p">(</span><span class="s2">&quot;this_is_not_ok.svg&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><img alt="image" src="../../images/plot-builder-2.svg" /></p>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1213,12 +1306,12 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "/itfit/", "features": ["content.code.annotate"], "search": "/itfit/assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate"], "search": "../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="/itfit/assets/javascripts/bundle.51d95adb.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51d95adb.min.js"></script>
       
-        <script src="/itfit/javascripts/mathjax.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

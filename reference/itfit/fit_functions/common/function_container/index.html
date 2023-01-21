@@ -10,21 +10,27 @@
       
       
       
+        <link rel="canonical" href="https://quanticpony.github.io/itfit/reference/itfit/fit_functions/common/function_container/">
       
       
-      <link rel="icon" href="/itfit/assets/images/favicon.png">
+        <link rel="prev" href="../../../data_selectors/lasso/">
+      
+      
+        <link rel="next" href="../generic_fitter/">
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
     
       
-        <title>itfit</title>
+        <title>Function container - itfit</title>
       
     
     
-      <link rel="stylesheet" href="/itfit/assets/stylesheets/main.558e4712.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.558e4712.min.css">
       
         
-        <link rel="stylesheet" href="/itfit/assets/stylesheets/palette.2505c338.min.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.2505c338.min.css">
       
       
 
@@ -40,9 +46,9 @@
       
     
     
-      <link rel="stylesheet" href="/itfit/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("/itfit/",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -70,6 +76,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#itfit.fit_functions.common.function_container" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -80,7 +91,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/itfit/." title="itfit" class="md-header__button md-logo" aria-label="itfit" data-md-component="logo">
+    <a href="../../../../.." title="itfit" class="md-header__button md-logo" aria-label="itfit" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -99,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Function container
             
           </span>
         </div>
@@ -198,7 +209,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/itfit/." title="itfit" class="md-nav__button md-logo" aria-label="itfit" data-md-component="logo">
+    <a href="../../../../.." title="itfit" class="md-nav__button md-logo" aria-label="itfit" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -256,7 +267,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/." class="md-nav__link">
+      <a href="../../../../.." class="md-nav__link">
         Overview
       </a>
     </li>
@@ -270,7 +281,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/LICENSE/" class="md-nav__link">
+      <a href="../../../../../LICENSE/" class="md-nav__link">
         License
       </a>
     </li>
@@ -290,18 +301,20 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="false">
+        <label class="md-nav__link" for="__nav_2" tabindex="0" aria-expanded="true">
           Code Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -317,18 +330,20 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" >
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_2_1" tabindex="0" aria-expanded="false">
+        <label class="md-nav__link" for="__nav_2_1" tabindex="0" aria-expanded="true">
           Itfit
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -346,7 +361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fitter_app/" class="md-nav__link">
+      <a href="../../../fitter_app/" class="md-nav__link">
         Fitter app
       </a>
     </li>
@@ -360,7 +375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/function_constructor/" class="md-nav__link">
+      <a href="../../../function_constructor/" class="md-nav__link">
         Function constructor
       </a>
     </li>
@@ -401,7 +416,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/data/data_classes/" class="md-nav__link">
+      <a href="../../../data/data_classes/" class="md-nav__link">
         Data classes
       </a>
     </li>
@@ -449,7 +464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/data_selectors/lasso/" class="md-nav__link">
+      <a href="../../../data_selectors/lasso/" class="md-nav__link">
         Lasso
       </a>
     </li>
@@ -468,18 +483,20 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_1_5" type="checkbox" id="__nav_2_1_5" >
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_1_5" type="checkbox" id="__nav_2_1_5" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_2_1_5" tabindex="0" aria-expanded="false">
+        <label class="md-nav__link" for="__nav_2_1_5" tabindex="0" aria-expanded="true">
           Fit functions
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -495,18 +512,20 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_1_5_1" type="checkbox" id="__nav_2_1_5_1" >
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_2_1_5_1" type="checkbox" id="__nav_2_1_5_1" checked>
       
       
       
-        <label class="md-nav__link" for="__nav_2_1_5_1" tabindex="0" aria-expanded="false">
+        <label class="md-nav__link" for="__nav_2_1_5_1" tabindex="0" aria-expanded="true">
           Common
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -522,11 +541,48 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/common/function_container/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Function container
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Function container
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#itfit.fit_functions.common.function_container" class="md-nav__link">
+    itfit.fit_functions.common.function_container
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -538,7 +594,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/common/generic_fitter/" class="md-nav__link">
+      <a href="../generic_fitter/" class="md-nav__link">
         Generic fitter
       </a>
     </li>
@@ -586,7 +642,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/cosine/cosine/" class="md-nav__link">
+      <a href="../../cosine/cosine/" class="md-nav__link">
         Cosine
       </a>
     </li>
@@ -634,7 +690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/exponential/exponential/" class="md-nav__link">
+      <a href="../../exponential/exponential/" class="md-nav__link">
         Exponential
       </a>
     </li>
@@ -682,7 +738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/gaussian/gaussian/" class="md-nav__link">
+      <a href="../../gaussian/gaussian/" class="md-nav__link">
         Gaussian
       </a>
     </li>
@@ -730,7 +786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/linear/linear/" class="md-nav__link">
+      <a href="../../linear/linear/" class="md-nav__link">
         Linear
       </a>
     </li>
@@ -778,7 +834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/lorentzian/lorentzian/" class="md-nav__link">
+      <a href="../../lorentzian/lorentzian/" class="md-nav__link">
         Lorentzian
       </a>
     </li>
@@ -826,7 +882,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/quadratic/quadratic/" class="md-nav__link">
+      <a href="../../quadratic/quadratic/" class="md-nav__link">
         Quadratic
       </a>
     </li>
@@ -874,7 +930,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/fit_functions/sine/sine/" class="md-nav__link">
+      <a href="../../sine/sine/" class="md-nav__link">
         Sine
       </a>
     </li>
@@ -929,7 +985,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/plot/builder/" class="md-nav__link">
+      <a href="../../../plot/builder/" class="md-nav__link">
         Builder
       </a>
     </li>
@@ -943,7 +999,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/plot/labels/" class="md-nav__link">
+      <a href="../../../plot/labels/" class="md-nav__link">
         Labels
       </a>
     </li>
@@ -957,7 +1013,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/plot/spines/" class="md-nav__link">
+      <a href="../../../plot/spines/" class="md-nav__link">
         Spines
       </a>
     </li>
@@ -1005,7 +1061,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/utils/blit_manager/" class="md-nav__link">
+      <a href="../../../utils/blit_manager/" class="md-nav__link">
         Blit manager
       </a>
     </li>
@@ -1019,7 +1075,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/utils/collection/" class="md-nav__link">
+      <a href="../../../utils/collection/" class="md-nav__link">
         Collection
       </a>
     </li>
@@ -1033,7 +1089,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/utils/fit_container/" class="md-nav__link">
+      <a href="../../../utils/fit_container/" class="md-nav__link">
         Fit container
       </a>
     </li>
@@ -1047,7 +1103,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/reference/itfit/utils/point/" class="md-nav__link">
+      <a href="../../../utils/point/" class="md-nav__link">
         Point
       </a>
     </li>
@@ -1110,7 +1166,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/examples/1-quickstart/" class="md-nav__link">
+      <a href="../../../../../examples/1-quickstart/" class="md-nav__link">
         1 quickstart
       </a>
     </li>
@@ -1124,7 +1180,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/examples/2-fitting-function-builder/" class="md-nav__link">
+      <a href="../../../../../examples/2-fitting-function-builder/" class="md-nav__link">
         2 fitting function builder
       </a>
     </li>
@@ -1138,7 +1194,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/itfit/examples/3-plot-builder/" class="md-nav__link">
+      <a href="../../../../../examples/3-plot-builder/" class="md-nav__link">
         3 plot builder
       </a>
     </li>
@@ -1170,6 +1226,21 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#itfit.fit_functions.common.function_container" class="md-nav__link">
+    itfit.fit_functions.common.function_container
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1180,8 +1251,61 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+  
+  
+
+
+
+  <h1>Function container</h1>
+
+<!-- Copyright 2023 Unai Lería Fortea & Pablo Vizcaíno García
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. -->
+
+
+<div class="doc doc-object doc-module">
+
+
+<a id="itfit.fit_functions.common.function_container"></a>
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1213,12 +1337,12 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "/itfit/", "features": ["content.code.annotate"], "search": "/itfit/assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../../..", "features": ["content.code.annotate"], "search": "../../../../../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="/itfit/assets/javascripts/bundle.51d95adb.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.51d95adb.min.js"></script>
       
-        <script src="/itfit/javascripts/mathjax.js"></script>
+        <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
