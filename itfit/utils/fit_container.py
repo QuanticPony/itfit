@@ -96,6 +96,19 @@ class FitResultContainer:
         """
         return self.data.get_data()
 
+    def prop_errors(self):
+        """ Return the error of the fit, given a gradient of a function.
+
+        Returns:
+            (float):
+                sigma
+
+        """
+        print(self.gradient(1,2,3))
+        #print(self.gradient( self.get_fit_xdata(), *self.get_parameters()))
+        return np.sqrt( float( self.gradient( self.get_fit_xdata(), *self.get_parameters()).T @ self.get_parameters_covariance @ self.gradient( self.get_fit_xdata(), *self.get_parameters) ))
+
+
     def get_fit_xdata(self):
         """Gets the x component of the fit curve. Equal to get_xdata output.
 

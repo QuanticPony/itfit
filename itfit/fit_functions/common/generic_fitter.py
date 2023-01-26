@@ -131,8 +131,7 @@ class GenericFitter:
         with self.app.blit_manager.disabled():
         
             self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
-            vprop_errors = np.vectorize(self.prop_errors, excluded=[1,2])
-            error_fit = vprop_errors(xdata)
+            error_fit = fit_result.prop_errors()
 
             self.ax.add_artist(self.fit_line)
             
