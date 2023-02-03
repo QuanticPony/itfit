@@ -12,22 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import annotations
+
 import numpy as np
 
 class DataContainer:
     """Container for data.
     """
-    def __init__(self, xdata: list, ydata: list):
+    def __init__(self, xdata: list, ydata: list, yerr: list|None=None, xerr: list|None=None):
         """Creates a DataContainer.
 
         Parameters:
-            xdata (List[float]):
+            xdata (list[float]):
                 x data.
-            ydata (List[float]):
+            ydata (list[float]):
                 y data.
+            yerr (list | None, optional): 
+                Error en y data. Defaults to None.
+            xerr (list | None, optional): 
+                Error in x data. Defaults to None.
         """
         self.xdata = np.array(xdata).copy()
         self.ydata = np.array(ydata).copy()
+        self.xerr  = np.array(xerr).copy() if xerr else None
+        self.yerr  = np.array(yerr).copy() if yerr else None
         
     def length(self):
         """Returns lenght of data.
@@ -42,20 +50,25 @@ class DataContainer:
         """Returns data. As list of tuples: `lenght x 2`.
 
         Returns:
-            (Tuple[Tuple[float, float]]):
+            (tuple[tuple[float, float]]):
                 Data stored.
         """
         return np.array((self.xdata, self.ydata)).T
+    
+    def get_errors(self):
+        """Returns data errors. A list of tuples: `lenght x2`.
+
+        Returns:
+            (tuple[tuple[float,float]]): 
+                Errors in data stored.
+        """
+        return np.array((self.xerr, self.yerr)).T
 
         
 class DataSelection(DataContainer):
     def __init__(self, xdata, ydata):
         super().__init__(xdata, ydata)
-        self.indexes_used = np.ones(len(self.xdata), dtype=bool)
-        
-    # def __init__(self, data: DataContainer):
-    #     self = DataContainer
-    #     self.indexes_used = np.ones(len(self.xdata), dtype=bool)
+        self.indexes_used = np.ones(len(self.xdata), dtype=bool)  
         
     def select_all(self):
         """Selects all data.
@@ -71,8 +84,8 @@ class DataSelection(DataContainer):
         """Adds `indexes` to `indexes_used`.
 
         Parameters:
-            indexes (List): 
-                List of index.
+            indexes (list): 
+                list of index.
         """
         self.indexes_used[np.array(indexes)] = True
         
@@ -80,8 +93,8 @@ class DataSelection(DataContainer):
         """Erase previous selected indexes. Adds `indexes` to `indexes_used`.
 
         Parameters:
-            indexes (List):
-                List of index.
+            indexes (list):
+                list of index.
         """
         self.indexes_used[:] = False
         self.add_selection(indexes)
@@ -90,8 +103,8 @@ class DataSelection(DataContainer):
         """Erase previous selected indexes. Sets new `indexes_used`.
 
         Parameters:
-            indexes_used (List):
-                List of booleans. True if index used, False otherwise.
+            indexes_used (list):
+                list of booleans. True if index used, False otherwise.
         """
         self.indexes_used[:] = indexes_used[:]
         
@@ -99,31 +112,49 @@ class DataSelection(DataContainer):
         """Returns the selected data.
 
         Returns:
-            (Tuple[Tuple[float], Tuple[float]]):
-                Tuple containing x and y selected data in arrays.
+            (tuple[tuple[float], tuple[float]]):
+                tuple containing x and y selected data in arrays.
         """
         return self.xdata[self.indexes_used], self.ydata[self.indexes_used]
+    
+    def get_selected_errors(self):
+        """Returns the selected data errors.
+
+        Returns:
+            (tuple[tuple[float], tuple[float]]):
+                tuple containing x and y selected data errors in arrays.
+        """
+        return self.xerr[self.indexes_used] if self.xerr else None, self.yerr[self.indexes_used] if self.yerr else None
     
     def get_not_selected(self):
         """Returns the not selected data.
 
         Returns:
-            (Tuple[Tuple[float], Tuple[float]]):
-                Tuple containing x and y not selected data in arrays.
+            (tuple[tuple[float], tuple[float]]):
+                tuple containing x and y not selected data in arrays.
         """
         return self.xdata[~self.indexes_used], self.ydata[~self.indexes_used]
+    
+    def get_not_selected_errors(self):
+        """Returns the not selected data errors.
+
+        Returns:
+            (tuple[tuple[float], tuple[float]]):
+                tuple containing x and y not selected data errors in arrays.
+        """
+        return self.xdata[~self.indexes_used] if self.xerr else None, self.ydata[~self.indexes_used] if self.yerr else None
 
     def get_colors(self, color_in, color_out):
         """Returns a list of colours depending if same index data is selected or not.
 
         Parameters:
-            color_in (Tuple[float,float,float,float]):
+            color_in (tuple[float,float,float,float]):
                 Colour for selected data.
-            color_out (Tuple[float,float,float,float]):
+            color_out (tuple[float,float,float,float]):
                 Colour for unselected data.
 
         Returns:
-            (Tuple[Tuple[float,float,float,float]]):
+            (tuple[tuple[float,float,float,float]]):
                 A list of colours.
         """
         colors = np.zeros((self.length(),4))
