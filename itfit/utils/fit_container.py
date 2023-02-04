@@ -83,6 +83,15 @@ class FitResultContainer:
                 X component of all the data.
         """
         return self.data.xdata
+    
+    def get_xdata_errors(self):
+        """Gets the x component error in all the data.
+
+        Returns:
+            (tuple[float]):
+                X component error of all the data.
+        """
+        return self.data.get_errors()[0]
         
     def get_ydata(self):
         """Gets the y component of all the data.
@@ -93,6 +102,15 @@ class FitResultContainer:
         """
         return self.data.ydata
     
+    def get_ydata_errors(self):
+        """Gets the y component error in all the data.
+
+        Returns:
+            (tuple[float]):
+                Y component error of all the data.
+        """
+        return self.data.get_errors()[1]
+    
     def get_xdata_selected(self):
         """Gets the x component of the data used.
 
@@ -101,6 +119,15 @@ class FitResultContainer:
                 X component of data used.
         """
         return self.data.get_selected()[0]
+    
+    def get_xdata_errors_selected(self):
+        """Gets the x component error in data used.
+
+        Returns:
+            (tuple[float]):
+                X component error of data used.
+        """
+        return self.data.get_selected_errors()[0]
     
     def get_ydata_selected(self):
         """Gets the y component of the data used.
@@ -111,6 +138,14 @@ class FitResultContainer:
         """
         return self.data.get_selected()[1]
     
+    def get_ydata_errors_selected(self):
+        """Gets the y component error in data used.
+
+        Returns:
+            (tuple[float]):
+                Y component error of data used.
+        """
+        return self.data.get_selected_errors()[1]
     
     def get_data(self):
         """Gets the all data.
@@ -128,7 +163,7 @@ class FitResultContainer:
             (tuple[tuple[float], tuple[float]]):
                 Data used.
         """
-        return self.data.get_selected()
+        return np.array(self.data.get_selected()).T
 
     def get_fit_xdata(self):
         """Gets the x component of the fit curve. Equal to get_xdata output.
@@ -146,7 +181,7 @@ class FitResultContainer:
             (tuple[float]):
                 Y component of fit curve.
         """
-        return self.get_ydata() + self.scipy_output["fvec"]
+        return self.function(self.get_xdata(), *self.get_parameters())
     
     def get_fit_xdata_selected(self):
         """Gets the x component of the fit curve for selected data interval. Equal to get_xdata_selected output.

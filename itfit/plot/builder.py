@@ -20,6 +20,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ..fitter_app import Fitter
+    from ..utils import FitResultContainer
     
     
 from matplotlib.axes import Axes
@@ -38,7 +39,7 @@ class PlotBuilder:
     """
     fig: Figure
     ax: Axes
-    def __init__(self, app: Fitter, fit, **kargs):
+    def __init__(self, app: Fitter, fit: FitResultContainer, **kargs):
         """_summary_
 
         Args:
@@ -48,61 +49,88 @@ class PlotBuilder:
         self.app = app
         self.fit = fit
 
-    def plot_fit(self, fmt='--', color='black', label='', **kargs):
+    def plot_fit(self, fmt='--', color='black', label='', only_selected:bool = False, **kargs):
         """Plots the fit line into the figure.
 
         Args:
             fmt (str, optional): Fit line format. Defaults to '--'.
             color (str, optional): Color for the line. Defaults to 'black'.
             label (str, optional): Label assigned to the artists. Defaults to ''.
+            only_selected (bool, optional): Shows fit only on selected data range. Defaults to `False`.
 
         Returns:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         self._start_()
-        self._line, = self.ax.plot(*(self.fit.get_fit_data().T), fmt, color=color, label=label, **kargs)
+        if only_selected:
+            DATA = self.fit.get_fit_data_selected().T
+        else:
+            DATA = self.fit.get_fit_data().T
+            
+        self._line, = self.ax.plot(*DATA, fmt, color=color, label=label, **kargs)
         return self
 
-    def with_fit(self, fmt='--', color='black', label='', **kargs):
+    def with_fit(self, fmt='--', color='black', label='', only_selected:bool = False, **kargs):
         """Same as itfit.plot.builder.PlotBuilder.plot_fit. Plots the fit line into the figure.
 
         Args:
             fmt (str, optional): Fit line format. Defaults to '--'.
             color (str, optional): Color for the line. Defaults to 'black'.
             label (str, optional): Label assigned to the artists. Defaults to ''.
+            only_selected (bool, optional): Shows fit only on selected data range. Defaults to `False`.
 
         Returns:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         return self.plot_fit(fmt=fmt, color=color, label=label, **kargs)
 
-    def plot_data(self, fmt='.', color=None, label='', **kargs):
+    def plot_data(self, fmt='.', color=None, label='', only_selected:bool = False, yerr:bool = True, xerr:bool = True, **kargs):
         """Plots the data fitted into the figure.
 
         Args:
             fmt (str, optional): Data line format. Defaults to '.'.
             color (str, optional): Color for the line. Defaults to None.
             label (str, optional): Label assigned to the artists. Defaults to ''.
+            only_selected (bool, optional): Shows only selected data. Defaults to `False`.
+            yerr (bool, optional): Shows data errors in y coordinate if given. Defaults to `True`.
+            xerr (bool, optional): Shows data errors in y coordinate if given. Defaults to `True`.
 
         Returns:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         self._start_()
-        self._line_data, = self.ax.plot( *(self.fit.get_data().T), fmt, color=color, label=label, **kargs)
+        if only_selected:
+            DATA = self.fit.get_data_selected().T
+            YDATA_ERROR = self.fit.get_ydata_errors_selected()
+            XDATA_ERROR = self.fit.get_xdata_errors_selected()
+        else:
+            DATA = self.fit.get_data().T
+            YDATA_ERROR = self.fit.get_ydata_errors()
+            XDATA_ERROR = self.fit.get_xdata_errors()
+        
+        if yerr and YDATA_ERROR is not None:
+            self._yerr_line_data = self.ax.errorbar(*DATA, YDATA_ERROR, fmt='None')
+        if xerr and XDATA_ERROR is not None:
+            self._xerr_line_data = self.ax.errorbar(*DATA, XDATA_ERROR, fmt='None')
+            
+        self._line_data, = self.ax.plot(*DATA, fmt, color=color, label=label, **kargs)
         return self
 
-    def with_data(self, fmt='.', color=None, label='', **kargs):
+    def with_data(self, fmt='.', color=None, label='', only_selected:bool = False, yerr:bool = True, xerr:bool = True, **kargs):
         """Same as itfit.plot.builder.PlotBuilder.plot_data. Plots the data fitted into the figure.
 
         Args:
             fmt (str, optional): Data line format. Defaults to '.'.
             color (str, optional): Color for the line. Defaults to None.
             label (str, optional): Label assigned to the artists. Defaults to ''.
+            only_selected (bool, optional): Shows only selected data. Defaults to `False`.
+            yerr (bool, optional): Shows data errors in y coordinate if given. Defaults to `True`.
+            xerr (bool, optional): Shows data errors in y coordinate if given. Defaults to `True`.
 
         Returns:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
-        return self.plot_data(fmt=fmt, color=color, label=label, **kargs)
+        return self.plot_data(fmt=fmt, color=color, label=label, only_selected=only_selected, yerr=yerr, xerr=xerr,**kargs)
     
     def labels(self):
         """Starts labels builder. After calling it xlabel and ylabel can be accessed.

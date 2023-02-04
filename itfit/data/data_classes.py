@@ -34,8 +34,8 @@ class DataContainer:
         """
         self.xdata = np.array(xdata).copy()
         self.ydata = np.array(ydata).copy()
-        self.xerr  = np.array(xerr).copy() if xerr else None
-        self.yerr  = np.array(yerr).copy() if yerr else None
+        self.xerr  = np.array(xerr).copy() if xerr is not None else None
+        self.yerr  = np.array(yerr).copy() if yerr is not None else None
         
     def length(self):
         """Returns lenght of data.
@@ -62,12 +62,12 @@ class DataContainer:
             (tuple[tuple[float,float]]): 
                 Errors in data stored.
         """
-        return np.array((self.xerr, self.yerr)).T
+        return np.array((self.xerr, self.yerr), dtype=object).T
 
         
 class DataSelection(DataContainer):
-    def __init__(self, xdata, ydata):
-        super().__init__(xdata, ydata)
+    def __init__(self, xdata, ydata, yerr: list|None=None, xerr: list|None=None):
+        super().__init__(xdata, ydata, yerr=yerr, xerr=xerr)
         self.indexes_used = np.ones(len(self.xdata), dtype=bool)  
         
     def select_all(self):
@@ -124,7 +124,7 @@ class DataSelection(DataContainer):
             (tuple[tuple[float], tuple[float]]):
                 tuple containing x and y selected data errors in arrays.
         """
-        return self.xerr[self.indexes_used] if self.xerr else None, self.yerr[self.indexes_used] if self.yerr else None
+        return self.xerr[self.indexes_used] if self.xerr is not None else None, self.yerr[self.indexes_used] if self.yerr is not None else None
     
     def get_not_selected(self):
         """Returns the not selected data.
@@ -142,7 +142,7 @@ class DataSelection(DataContainer):
             (tuple[tuple[float], tuple[float]]):
                 tuple containing x and y not selected data errors in arrays.
         """
-        return self.xdata[~self.indexes_used] if self.xerr else None, self.ydata[~self.indexes_used] if self.yerr else None
+        return self.xdata[~self.indexes_used] if self.xerr is not None else None, self.ydata[~self.indexes_used] if self.yerr is not None else None
 
     def get_colors(self, color_in, color_out):
         """Returns a list of colours depending if same index data is selected or not.
@@ -161,6 +161,19 @@ class DataSelection(DataContainer):
         colors[self.indexes_used,:] = color_in[:]
         colors[~self.indexes_used,:] = color_out[:]
         return colors
+    
+    def copy(self):
+        """Creates a copy of the data selection object.
+
+        Returns:
+            (DataSelection): A copy of the data selection object.
+        """
+        instance = DataSelection(self.xdata.copy(), 
+                                 self.ydata.copy(), 
+                                 self.yerr.copy() if self.yerr is not None else None, 
+                                 self.xerr.copy() if self.xerr is not None else None)
+        instance.indexes_used = self.indexes_used.copy()
+        return instance
         
 if __name__=='__main__':
     d = DataSelection(xdata=[0,1,2], ydata=[3,4,5])

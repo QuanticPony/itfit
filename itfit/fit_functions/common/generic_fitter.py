@@ -101,7 +101,7 @@ class GenericFitter:
             xdata, ydata = self.data.xdata.copy(), self.data.ydata.copy()
         
         self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args(), full_output=True, sigma=yerr)
-        fit_result = FitResultContainer(DataContainer(xdata, ydata, yerr, xerr), self, self.fit)
+        fit_result = FitResultContainer(self.data.copy(), self, self.fit)
         
         # Plot fit line in background
         with self.app.blit_manager.disabled():

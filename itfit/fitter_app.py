@@ -41,8 +41,8 @@ class Fitter:
     blit_manager : utils.BlitManager
     
     _last_fit : int
-    def __init__(self, xdata, ydata, *args, **kargs):
-        self.data = DataSelection(xdata, ydata)
+    def __init__(self, xdata, ydata, yerr=None, xerr=None, *args, **kargs):
+        self.data = DataSelection(xdata, ydata, yerr=yerr, xerr=xerr)
         self.figure = plt.figure()
         self.ax = self.figure.gca()
         self.fits: dict[int, FitResultContainer] = {}
