@@ -132,10 +132,16 @@ class GenericFitter:
         
             self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
             error_fit = fit_result.prop_errors()
+            self.fit_positive = Line2D(xdata, self.function(xdata, *self.fit[0]) + error_fit,color= 'red', linestyle='--')
+            self.fit_negative= Line2D(xdata, self.function(xdata, *self.fit[0]) - error_fit, color = 'red', linestyle='--')
 
             self.ax.add_artist(self.fit_line)
+            self.ax.add_artist(self.fit_positive)
+            self.ax.add_artist(self.fit_negative)
             
             self.ax.draw_artist(self.fit_line)
+            self.ax.draw_artist(self.fit_positive)
+            self.ax.draw_artist(self.fit_negative)
        
        # Redraw plot to show line     
         self.app.blit_manager.draw()

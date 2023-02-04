@@ -29,6 +29,7 @@ class FitResultContainer:
         """
         self.data = data
         self.function = fit_manager.function
+        self.gradient = fit_manager.gradient
         self.fit_manager = fit_manager
         self.scipy_output = {
             "popt" : scipy_result[0],
@@ -100,13 +101,13 @@ class FitResultContainer:
         """ Return the error of the fit, given a gradient of a function.
 
         Returns:
-            (float):
-                sigma
-
+            (Tuple[float]):
+                errors of the fit
         """
-        print(self.gradient(1,2,3))
-        #print(self.gradient( self.get_fit_xdata(), *self.get_parameters()))
-        return np.sqrt( float( self.gradient( self.get_fit_xdata(), *self.get_parameters()).T @ self.get_parameters_covariance @ self.gradient( self.get_fit_xdata(), *self.get_parameters) ))
+        
+        errors = [ np.sqrt( float(self.gradient (xi,*self.get_parameters()).T @ self.get_parameters_covariance() @ self.gradient (xi,*self.get_parameters()))) for xi in self.get_fit_xdata()     ]
+
+        return errors
 
 
     def get_fit_xdata(self):

@@ -154,6 +154,7 @@ class GaussianFitter(GenericFitter):
         self.drag_points_managers = [DragPointManager(p,self.app.blit_manager) for p in self.drag_points]
         self.fitter_drag_collection = DragGaussianManager(self.drag_points, self.app.blit_manager)
         self.function = self.fitter_drag_collection.function
+        self.gradient = self.fitter_drag_collection.gradient
 
         ##Connect Gaussian to Points change events
         self.drag_points_cids = [] #Connections ids for change events
