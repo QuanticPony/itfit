@@ -118,6 +118,7 @@ class Fitter:
         """Plots last fit with default configuration:
         ```py
         .plot_data(label="Data")\
+        .with_errors()\
         .with_fit(label=fit.fit_manager.name.capitalize())\
         .xlabel(xlabel).ylabel(ylabel).title(title)\
             
@@ -140,6 +141,7 @@ class Fitter:
         fit = self.get_last_fit()
         return PlotBuilder(self, fit)\
             .plot_data(label="Data")\
+            .with_errors()\
             .with_fit(label=fit.fit_manager.name.capitalize())\
             .xlabel(xlabel).ylabel(ylabel).title(title)\
             .spines()\
