@@ -112,3 +112,8 @@ class FunctionBuilder:
             """
 
             super().disable()
+
+        @classmethod 
+        # This seems to be needed when using python 3.10
+        def __subclasses__(cls):
+            return []
