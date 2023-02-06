@@ -18,10 +18,10 @@
 """
 from __future__ import annotations
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from ..fitter_app import Fitter
-    from ..utils import FitResultContainer
-    
+    from ..utils import FitResultContainer 
     
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -29,7 +29,7 @@ from matplotlib import rcParams
 from matplotlib import style as mpl_style
 from matplotlib import pyplot as plt
 
-from .labels import LabelBuilder, titleLabelBuilder, xLabelBuilder, yLabelBuilder
+from .labels import LabelBuilder
 from .spines import SpineBuilder
 
 class PlotBuilder:
@@ -99,21 +99,43 @@ class PlotBuilder:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         self._start_()
+        self._only_selected_cache_ = only_selected
         if only_selected:
             DATA = self.fit.get_data_selected().T
-            YDATA_ERROR = self.fit.get_ydata_errors_selected()
-            XDATA_ERROR = self.fit.get_xdata_errors_selected()
         else:
             DATA = self.fit.get_data().T
-            YDATA_ERROR = self.fit.get_ydata_errors()
-            XDATA_ERROR = self.fit.get_xdata_errors()
-        
-        if yerr and YDATA_ERROR is not None:
-            self._yerr_line_data = self.ax.errorbar(*DATA, YDATA_ERROR, fmt='None')
-        if xerr and XDATA_ERROR is not None:
-            self._xerr_line_data = self.ax.errorbar(*DATA, XDATA_ERROR, fmt='None')
             
         self._line_data, = self.ax.plot(*DATA, fmt, color=color, label=label, **kargs)
+        return self
+
+    def with_errors(self, axis:str|bool = 'y', ecolor: str|tuple[float]|None = None, elinewidth: float|None = None, capsize: float|None = 1, errorsevery: int|tuple[int, int] = 1, **kargs):
+        """Plots error bars on data. Must be called after data has been plotted.
+
+        Args:
+            axis (str | bool, optional): Axis in which to plot error bars. Defaults to y.
+            ecolor (str | tuple[float] | None, optional): Sets the color of the error bar. Defaults to None.
+            elinewidth (float | None, optional): Sets the line width of the error bar. Defaults to None.
+            capsize (float | None, optional): Controls the length of the error bar cap in points. Defaults to 1.
+            errorsevery (int | tuple[int, int], optional): Draws error bars on a subset of the data. e.g. every=(3,4) then error bars would be on
+        x[3], x[7], x[11].... Defaults to 1.
+        """
+        try:
+            if self._only_selected_cache_:
+                DATA = self.fit.get_data_selected().T
+                YDATA_ERROR = self.fit.get_ydata_errors_selected()
+                XDATA_ERROR = self.fit.get_xdata_errors_selected()
+            else:
+                DATA = self.fit.get_data().T
+                YDATA_ERROR = self.fit.get_ydata_errors()
+                XDATA_ERROR = self.fit.get_xdata_errors()
+        except AttributeError:
+            raise Exception("Data must be plotted prior to data's error bars.")
+
+        if (axis=='x' or axis==True) and XDATA_ERROR is not None:
+            self._xerr_line_data = self.ax.errorbar(*DATA, XDATA_ERROR, fmt='None', capsize=capsize, ecolor=ecolor, elinewidth=elinewidth, errorevery=errorsevery, **kargs)
+        if (axis=='y' or axis==True) and YDATA_ERROR is not None:
+            self._yerr_line_data = self.ax.errorbar(*DATA, YDATA_ERROR, fmt='None', capsize=capsize, ecolor=ecolor, elinewidth=elinewidth, errorevery=errorsevery, **kargs)
+
         return self
 
     def with_data(self, fmt='.', color=None, label='', only_selected:bool = False, yerr:bool = True, xerr:bool = True, **kargs):
@@ -172,6 +194,7 @@ class PlotBuilder:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         return self.labels().start_y_label(ylabel).end_ylabel().end_labels()
+
 
     def legend(self, *args, **kargs):
         """Toggles the legend in the plot.
