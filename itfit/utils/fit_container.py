@@ -104,9 +104,10 @@ class FitResultContainer:
             (Tuple[float]):
                 errors of the fit
         """
-        
-        errors = [ np.sqrt( float(self.gradient (xi,*self.get_parameters()).T @ self.get_parameters_covariance() @ self.gradient (xi,*self.get_parameters()))) for xi in self.get_fit_xdata()     ]
-
+        try:
+            errors = [ np.sqrt( float(self.gradient (xi,*self.get_parameters()).T @ self.get_parameters_covariance() @ self.gradient (xi,*self.get_parameters()))) for xi in self.get_fit_xdata()     ]
+        except AttributeError:
+            return None
         return errors
 
 

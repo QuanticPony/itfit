@@ -131,9 +131,11 @@ class GenericFitter:
         with self.app.blit_manager.disabled():
         
             self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
+            
             error_fit = fit_result.prop_errors()
-            self.fit_positive = Line2D(xdata, self.function(xdata, *self.fit[0]) + error_fit,color= 'red', linestyle='--')
-            self.fit_negative= Line2D(xdata, self.function(xdata, *self.fit[0]) - error_fit, color = 'red', linestyle='--')
+            if error_fit is not None: # when a custom function is used
+                self.fit_positive = Line2D(xdata, self.function(xdata, *self.fit[0]) + error_fit,color= 'red', linestyle='--')
+                self.fit_negative = Line2D(xdata, self.function(xdata, *self.fit[0]) - error_fit, color = 'red', linestyle='--')
 
             self.ax.add_artist(self.fit_line)
             self.ax.add_artist(self.fit_positive)
