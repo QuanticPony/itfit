@@ -59,7 +59,7 @@ class DragExponentialManager(DragPointCollection):
         dfda = np.exp(b*x)
         dfdb = a * x * np.exp(b * x) 
 
-        return np.array( [dfda], [dfdb])
+        return np.array([[dfda], [dfdb]])
     
     @staticmethod
     def get_args_length():

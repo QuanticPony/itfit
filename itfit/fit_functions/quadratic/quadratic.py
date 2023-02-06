@@ -63,7 +63,7 @@ class DragQuadraticManager(DragPointCollection):
         dfda = x**2
         dfdb = x
         dfdc = 1
-        return np.array([dfda], [dfdb], [dfdc])
+        return np.array([[dfda], [dfdb], [dfdc]])
     
     @staticmethod
     def get_args_length():

@@ -62,9 +62,9 @@ class DragGaussianManager(DragPointCollection):
         """
         dfdA = np.exp(- 0.5 * (x - m)**2 / s**2)
         dfdm = A / s**2 * (x -m) * np.exp(- 0.5 * (x - m)**2 / s**2)
-        dfds = A / s**3 * (x -m)^2 * np.exp(- 0.5 * (x - m)**2 / s**2)
+        dfds = A / s**3 * (x -m)**2 * np.exp(- 0.5 * (x - m)**2 / s**2)
 
-        return np.array( [dfdA], [dfdm], [dfds] )
+        return np.array([[dfdA], [dfdm], [dfds]])
     
     @staticmethod
     def get_args_length():

@@ -58,7 +58,7 @@ class DragLineManager(DragPointCollection):
         """
         dfdm = x 
         dfdn = 1
-        return np.array( [[dfdm], [dfdn]])
+        return np.array([[dfdm], [dfdn]])
     
     @staticmethod
     def get_args_length():

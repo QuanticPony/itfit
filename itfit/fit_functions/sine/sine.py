@@ -68,7 +68,7 @@ class DragSineManager(DragPointCollection):
         dfdb = a * x* np.cos(b*x +c)
         dfdc = a * np.cos(b*x + c)
         dfdd = 1
-        return np.array ([dfda], [dfdb], [dfdc], [dfdd])
+        return np.array([[dfda], [dfdb], [dfdc], [dfdd]])
     
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
         """Sine function between multiple DragPoints. Updates with them.
