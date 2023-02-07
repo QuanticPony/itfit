@@ -33,9 +33,9 @@ class FitSelector:
         self.ax.set_title('Click on legend line to toggle line on/off')
         x_data, y_data = self.app.data.get_selected()
         line_data, = self.ax.plot(x_data, y_data, '.', c='black', label="data")
-        if self.app.data.yerr:
-            line_data_errs = self.ax.errorbar(x_data, y_data, yerr=self.app.data.get_selected_errors()[1], fmt=None, ecolor='black')
         
+        self._key : int|list[int]
+        self._mode_: str
         self.fit_lines: list[Line2D] = [line_data]
         self.legend_to_lines_map: dict[Line2D, Line2D] = {}
         self.lines_to_hash: dict[Line2D, int] = {}
@@ -47,15 +47,19 @@ class FitSelector:
             
 
     def set_multiple_selection_mode(self):
+        self._mode_ = 'm'
         legend = self.ax.legend()
         
         for legend_line, original_line in zip(legend.get_lines(), self.fit_lines):
             legend_line.set_picker(True)
             self.legend_to_lines_map[legend_line] = original_line
             
-        self.fig.canvas.mpl_connect('pick_event', self.on_pick)
+        self.fig.canvas.mpl_connect('pick_event', self.on_pick_multiple)
+        self.fig.canvas.start_event_loop()
+        self.fig.show()
     
     def set_single_selection_mode(self):
+        self._mode_ = 's'
         for line in self.fit_lines:
             line.set_picker(True)
             
@@ -63,7 +67,7 @@ class FitSelector:
         self.fig.show()
         
         
-    def on_pick(self, event):
+    def on_pick_multiple(self, event):
         legline = event.artist
         origline = self.legend_to_lines_map[legline]
         visible = not origline.get_visible()
@@ -73,21 +77,31 @@ class FitSelector:
         self.fig.canvas.draw()
 
     def on_pick_single(self, event):
-        self._key = self.lines_to_hash.get(event.artist)
+        k = self.lines_to_hash.get(event.artist)
+        if isinstance(k, int):
+            self._key = k
         self.fig.canvas.stop_event_loop()
         return 
         
-    def get_selected_single(self):
-        plt.close(self.fig)
-        return self._key
-            
-    def get_selected(self):
+    def get_selected_from_figure(self):
         result: list[int] = []
         for line in self.fit_lines:
             if line.get_visible():
                 if val := self.lines_to_hash.get(line):
                     result.append(val) 
-        return result
+        self.fig.canvas.stop_event_loop()
+        self._key = result
+
+    def get_selected(self):
+        """Returns the selected fit/s.
+
+        Returns:
+            (int, list[int]): Keys of fits selected.
+        """
+        if self._mode_ == 'm':
+            self.get_selected_from_figure()
+        plt.close(self.fig)
+        return self._key
     
     def connect_select_one(self, plotBuilder: PlotBuilder):
         self._key = False

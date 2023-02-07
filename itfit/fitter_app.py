@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 from .data import DataSelection
 from .data_selectors import LassoTool
 from . import fit_functions
-from .utils import BlitManager
+from .utils import BlitManager, FitSelector
 from .utils.fit_container import FitResultContainer
 from .plot.builder import PlotBuilder
 
@@ -40,7 +40,6 @@ class Fitter:
     selections : dict
     blit_manager : utils.BlitManager
     
-    _last_fit : int
     def __init__(self, xdata, ydata, *args, **kargs):
         self.data = DataSelection(xdata, ydata)
         self.figure = plt.figure()
@@ -48,7 +47,7 @@ class Fitter:
         self.fits: dict[int, FitResultContainer] = {}
         self.selections = {}
         self.blit_manager = BlitManager(self)
-        self._last_fit = None
+        self._last_fit: int|None = None
         self._data_was_plotted = False
     
     def __call__(self):
@@ -97,6 +96,16 @@ class Fitter:
         """
         self._last_fit = hash(fit)
         self.fits.update({self._last_fit: fit})
+
+    def get_fit_selector(self):
+        """
+        """
+        selector = FitSelector(self)
+        selector.set_multiple_selection_mode()
+        selection = selector.get_selected()
+        if isinstance(selection, list):
+            return [self.fits.get(k) for k in selection]
+        return self.fits.get(selection)
         
     def get_last_fit(self):
         """Returns the last fit
@@ -138,6 +147,8 @@ class Fitter:
             (itfit.plot.PlotBuilder): PlotBuilder to continue plot customization.
         """
         fit = self.get_last_fit()
+        if fit is None:
+            raise Exception("At least one fit must me made before trying to plot a fit.")
         return PlotBuilder(self, fit)\
             .plot_data(label="Data")\
             .with_fit(label=fit.fit_manager.name.capitalize())\

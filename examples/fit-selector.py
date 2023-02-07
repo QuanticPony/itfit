@@ -15,26 +15,28 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import itfit
-from itfit.fit_functions import Gaussian, Line
+from itfit.fit_functions import Quadratic, Sine
 
-def gauss(x, A, x0, sigma):
-    return A * np.exp(-(x - x0) ** 2 / (2 * sigma ** 2))
+def sine(x, A, phi):
+    return A * np.sin(x/5+phi)
 
-def dataFunction(x, m, n, A, x0, sigma):
-    return m*x + n + gauss(x, A ,x0, sigma)
+def quadratic(x, C, x0):
+    return C*(x-x0)*(x-x0) + 1
+
+def dataFunction(x, C, x0, A, phi):
+    return sine(x, A, phi)/quadratic(x, C, x0)
 
 noise = np.random.normal(size=200)
 
 xdata = np.arange(200)
-ydata = dataFunction(xdata, -0.04, 5, np.random.random()
-                     * 30, np.random.random()*200, 15) + noise
+ydata = dataFunction(xdata, 0.005, 75, 50, 0.2) + noise
 
 
 
 fitter = itfit.Fitter(xdata, ydata)
 function_builder = itfit.FunctionBuilder(fitter)
 
-function_builder.define(Gaussian + Line)
+function_builder.define(Sine / Quadratic)
 
 fitter()
 fitter.add_custom_fit_function(function_builder)
