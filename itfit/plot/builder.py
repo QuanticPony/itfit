@@ -62,7 +62,7 @@ class PlotBuilder:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         self._start_()
-        key: int = FitSelector(self.app).connect_select_one(self).get_selected_single()
+        key: int = FitSelector(self.app).connect_select_one(self).get_selected()
         fit = self.app.fits.get(key)
         
         if not only_selected_data:
@@ -269,4 +269,9 @@ class PlotBuilder:
         return self
 
     def show_inline(self):
+        """Returns the figure. When used in Jupyter shows the figure in the cell output.
+
+        Returns:
+            (matplotlib.Figure): PlotBuilder's figure.
+        """
         return self.fig

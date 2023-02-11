@@ -16,22 +16,23 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from matplotlib.lines import Line2D
-    
-    from .. import Fitter
-    from ..plot import PlotBuilder
-    
-import asyncio
-import matplotlib.pyplot as plt
 
+    from .. import Fitter
+
+import matplotlib.pyplot as plt
 
 
 class FitSelector:
     def __init__(self, app: Fitter):
+        """Allows to select fits inside a figure, via click.
+
+        Args:
+            app (Fitter): Fitter aplication source of fits and data.
+        """
         self.app = app
         
         self.fig, self.ax = plt.subplots()
-        self.ax.set_title('Click on legend line to toggle line on/off')
-        x_data, y_data = self.app.data.get_selected()
+        x_data, y_data = self.app.data.get_data()
         line_data, = self.ax.plot(x_data, y_data, '.', c='black', label="data")
         
         self._key : int|list[int]
@@ -47,6 +48,9 @@ class FitSelector:
             
 
     def set_multiple_selection_mode(self):
+        """Starts multiple selection mode picker and sets title.
+        """
+        self.ax.set_title('Click on legend line to toggle line on/off')
         self._mode_ = 'm'
         legend = self.ax.legend()
         
@@ -59,6 +63,9 @@ class FitSelector:
         self.fig.show()
     
     def set_single_selection_mode(self):
+        """Starts single selection mode picker and sets title.
+        """
+        self.ax.set_title('Click line to select it')
         self._mode_ = 's'
         for line in self.fit_lines:
             line.set_picker(True)
@@ -68,6 +75,8 @@ class FitSelector:
         
         
     def on_pick_multiple(self, event):
+        """Pick event for multiple selection mode.
+        """
         legline = event.artist
         origline = self.legend_to_lines_map[legline]
         visible = not origline.get_visible()
@@ -77,6 +86,8 @@ class FitSelector:
         self.fig.canvas.draw()
 
     def on_pick_single(self, event):
+        """Pick event for single selection mode.
+        """
         k = self.lines_to_hash.get(event.artist)
         if isinstance(k, int):
             self._key = k
@@ -84,6 +95,8 @@ class FitSelector:
         return 
         
     def get_selected_from_figure(self):
+        """Gets the lines selected on multiple selection mode based on visibility.
+        """
         result: list[int] = []
         for line in self.fit_lines:
             if line.get_visible():
@@ -103,9 +116,13 @@ class FitSelector:
         plt.close(self.fig)
         return self._key
     
-    def connect_select_one(self, plotBuilder: PlotBuilder):
+    def connect_select_one(self):
+        """Starts fit selection figure and waits for it to finish.
+
+        Returns:
+            (itFit.FitSelector): returns itself.
+        """
         self._key = False
-        self.plotBuilder = plotBuilder
         self.set_single_selection_mode()
         self.fig.show()
         self.fig.canvas.start_event_loop()
