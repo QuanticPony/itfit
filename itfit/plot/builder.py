@@ -62,7 +62,7 @@ class PlotBuilder:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         self._start_()
-        key: int = FitSelector(self.app).connect_select_one(self).get_selected()
+        key: int = FitSelector(self.app).connect_select_one().get_selected()
         fit = self.app.fits.get(key)
         
         if not only_selected_data:

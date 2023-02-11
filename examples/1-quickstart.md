@@ -69,6 +69,33 @@ And finally we can save the plot with:
 plot.save_fig("example.png")
 ```
 
+If you want your fit parameters and statistics you need to do the following:
+
+```py
+fit = fitter.get_single_fit_selector()
+```
+The return value will be a [FitResultContainer][itfit.utils.fit_container] (or a list of them, in case multiple fits were selected). With this object you could print basic information about the fit with:
+
+```py
+>> print(fit)
+
+ItFit FitResultContainer
+Using fit function: linear
+Scipy result message: The relative error between two consecutive iterates is at most 0.000000
+
+Optimal parameters: 
+        values: [-0.01436165  5.40745201]
+        errors: [0.00121393 0.13964695]
+        covariance:
+                [[ 1.47362904e-06 -1.46626090e-04]
+                 [-0.00014663  0.01950127]]
+```
+
+You could also evaluate a new data point `x` with the new fit function with:
+```py
+y = fit.evaluate(x)
+```
+
 Where to go next:
 
 * If you are interested in more complex functions see [FunctionBuilder example](2-fitting-function-builder.md).

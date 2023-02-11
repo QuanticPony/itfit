@@ -19,3 +19,7 @@ plot = fitter.default_plot_last_fit("Time $[s^{-1}]$", "Value", "Title")
 plt.show()
 
 plot.save_fig("example.png")
+
+fit = fitter.get_single_fit_selector()
+
+print(fit)

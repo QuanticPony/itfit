@@ -97,12 +97,24 @@ class Fitter:
         self._last_fit = hash(fit)
         self.fits.update({self._last_fit: fit})
 
-    def get_fit_selector(self):
-        """
+    def get_single_fit_selector(self):
+        """Stars a fit selector figure where you can select one fit.
+
+        Returns:
+            (itfit.utils.FitResultContainer): Fit result container of selected fit.
         """
         selector = FitSelector(self)
-        selector.set_multiple_selection_mode()
-        selection = selector.get_selected()
+        selection = selector.connect_select_one().get_selected()
+        return self.fits.get(selection)
+
+    def get_fit_selector(self):
+        """Stars a fit selector figure where you can select one or more fits.
+
+        Returns:
+            (itfit.utils.FitResultContainer, list[itfit.utils.FitResultContainer]): Fit result container of selected fits, list if multiple.
+        """
+        selector = FitSelector(self)
+        selection = selector.connect_select_multiple().get_selected()
         if isinstance(selection, list):
             return [self.fits.get(k) for k in selection]
         return self.fits.get(selection)

@@ -32,7 +32,7 @@ class FitSelector:
         self.app = app
         
         self.fig, self.ax = plt.subplots()
-        x_data, y_data = self.app.data.get_data()
+        x_data, y_data = self.app.data.get_data().T
         line_data, = self.ax.plot(x_data, y_data, '.', c='black', label="data")
         
         self._key : int|list[int]
@@ -59,7 +59,6 @@ class FitSelector:
             self.legend_to_lines_map[legend_line] = original_line
             
         self.fig.canvas.mpl_connect('pick_event', self.on_pick_multiple)
-        self.fig.canvas.start_event_loop()
         self.fig.show()
     
     def set_single_selection_mode(self):
@@ -124,6 +123,19 @@ class FitSelector:
         """
         self._key = False
         self.set_single_selection_mode()
+        self.fig.show()
+        self.fig.canvas.start_event_loop()
+        return self
+
+            
+    def connect_select_multiple(self):
+        """Starts fit selection figure and waits for it to finish.
+
+        Returns:
+            (itFit.FitSelector): returns itself.
+        """
+        self._key = False
+        self.set_multiple_selection_mode()
         self.fig.show()
         self.fig.canvas.start_event_loop()
         return self
