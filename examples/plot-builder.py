@@ -23,18 +23,20 @@ def dataFunction(x, m, n, A, x0, sigma):
     return m*x + n + gauss(x, A ,x0, sigma)
 
 noise = np.random.normal(size=200)
+sigma = np.abs(np.random.normal(size=200)*1.5)+1
 
 xdata = np.arange(200)
 ydata = dataFunction(xdata, -0.04, 5, 20, 105, 15) + noise
 
-fitter_app = itfit.Fitter(xdata, ydata)
+fitter_app = itfit.Fitter(xdata, ydata, yerr=sigma)
 
 fitter_app()
-plt.show()
+plt.show(block=True)
 
 fit = fitter_app.get_plot_builder()\
-    .plot_fit(':', 'red', 'test')\
-    .with_data('.', 'black', 'data')\
+    .plot_fit(':', 'red', 'test', only_selected=True)\
+    .with_data('.', 'black', 'data', only_selected=False)\
+    .with_errors(capsize=3, ecolor='green', errorsevery=5)\
     .xlabel("time [s]")\
     .ylabel("current [mA]")\
     .title("Experiment")\

@@ -39,9 +39,10 @@ class Fitter:
     fits : dict[int, utils.FitResultContainer]
     selections : dict
     blit_manager : utils.BlitManager
+    _last_fit : int
     
-    def __init__(self, xdata, ydata, *args, **kargs):
-        self.data = DataSelection(xdata, ydata)
+    def __init__(self, xdata, ydata, yerr=None, xerr=None, *args, **kargs):
+        self.data = DataSelection(xdata, ydata, yerr=yerr, xerr=xerr)
         self.figure = plt.figure()
         self.ax = self.figure.gca()
         self.fits: dict[int, FitResultContainer] = {}
@@ -52,7 +53,7 @@ class Fitter:
     
     def __call__(self):
         if not self._data_was_plotted:
-            self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
+            self.data_line = self.ax.plot(self.data.xdata, self.data.ydata, '.-')
             self._data_was_plotted = True
         
         self.figure.canvas.manager.toolmanager.add_tool('Lasso', LassoTool, app=self,data=self.data)
@@ -139,6 +140,7 @@ class Fitter:
         """Plots last fit with default configuration:
         ```py
         .plot_data(label="Data")\
+        .with_errors()\
         .with_fit(label=fit.fit_manager.name.capitalize())\
         .xlabel(xlabel).ylabel(ylabel).title(title)\
             
@@ -163,6 +165,7 @@ class Fitter:
             raise Exception("At least one fit must me made before trying to plot a fit.")
         return PlotBuilder(self, fit)\
             .plot_data(label="Data")\
+            .with_errors()\
             .with_fit(label=fit.fit_manager.name.capitalize())\
             .xlabel(xlabel).ylabel(ylabel).title(title)\
             .spines()\
