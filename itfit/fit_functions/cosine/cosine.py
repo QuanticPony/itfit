@@ -43,6 +43,15 @@ class DragCosineManager(DragPointCollection):
                 `f(x) = a*cos(b*x+c)+d`
         """
         return a*np.cos(b*x+c) + d 
+
+    @staticmethod
+    def get_args_length():
+        """Gets number of arguments of `function`.
+
+        Returns:
+            (int): Number of arguments of `function`.
+        """
+        return 4
     
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
         """Cosine function between multiple DragPoints. Updates with them.
