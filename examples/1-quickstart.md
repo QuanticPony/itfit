@@ -14,7 +14,7 @@ limitations under the License. -->
 
 # 1. Quickstart
 
-Lets start really easy. Fit a line with some noise $\xi$ and save a figure with the plot. 
+Lets start with something really easy. Fit a line with some noise $\xi$ and save a figure with the plot. 
 
 $$
 f(x) = m\cdot x + n + \xi

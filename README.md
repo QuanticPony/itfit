@@ -60,7 +60,7 @@ plt.show()
 
 ```py
 
-plot = fitter_app.default_plot_last_fit("x value", r"$\phi$ [s$^{-1}$]", "Itfit default plot")
+plot = fitter.default_plot_last_fit("x value", r"$\phi$ [s$^{-1}$]", "Itfit default plot")
 plot.save_fig("figure.png")
 
 ```
@@ -85,6 +85,7 @@ Just open an issue with the `question` tag ([or clic here](https://github.com/Qu
 
 # Contributing
 You can contribute with:
+
 * Examples
 * Documentation
 * [Bug report/fix](https://github.com/QuanticPony/itfit/issues/new?assignees=QuanticPony&labels=bug&template=bug_report.md&title=)

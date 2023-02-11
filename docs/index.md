@@ -23,7 +23,7 @@ limitations under the License. -->
 [![Wheel](https://img.shields.io/pypi/wheel/itfit)](https://pypi.org/project/itfit/)
 
 <br></br>
-<h1 align="center">
+<h1 align="center" style="font-size:100px; line-height: 50px; margin:0">
 Itfit
 </h1>
 <h2 align="center">
@@ -31,14 +31,14 @@ Interactive Fitter
 </h2><br></br>
 <h3 align="center">
 Simple, intuitive and interactive application to help fitting common functions to your data.
-</h3><br></br>
+</h3>
 
 
 
 <div align="center">
 
 <a href="https://quanticpony.github.io/itfit/">
-<center><img src=https://img.shields.io/github/deployments/QuanticPony/itfit/github-pages?label=documentation></center>
+<center><img src=https://img.shields.io/github/deployments/QuanticPony/itfit/github-pages?label=Documentation width="300" height="50"></center>
 </a>
 <br></br>
 
@@ -60,7 +60,7 @@ plt.show()
 
 ```py
 
-plot = fitter_app.default_plot_last_fit("x value", r"$\phi$ [s$^{-1}$]", "Itfit default plot")
+plot = fitter.default_plot_last_fit("x value", r"$\phi$ [s$^{-1}$]", "Itfit default plot")
 plot.save_fig("figure.png")
 
 ```
@@ -85,6 +85,7 @@ Just open an issue with the `question` tag ([or clic here](https://github.com/Qu
 
 # Contributing
 You can contribute with:
+
 * Examples
 * Documentation
 * [Bug report/fix](https://github.com/QuanticPony/itfit/issues/new?assignees=QuanticPony&labels=bug&template=bug_report.md&title=)
