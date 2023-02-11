@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "itfit"
-version = "0.0.18"
+version = "0.0.19"
 requires-python = ">=3.8"
 
 description = "Simple, intuitive and interactive application to help fitting common functions to your data"
@@ -34,14 +34,14 @@ classifiers = [
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Visualization"]
 
-dependencies = ['numpy', 'matplotlib', 'scipy', 'mkdocstrings[python]>=0.18', 'mkdocs-material', 'bumpver', 'mkdocs', 'mkdocstrings[python]>=0.18', 'mkdocs-gen-files', 'mkdocs-material', 'mkdocs-literate-nav', 'Pygments>=2.12']
+dependencies = ['numpy', 'matplotlib', 'scipy', 'mkdocstrings[python]>=0.18', 'mkdocs-material', 'bumpver', 'mkdocs', 'mkdocs-gen-files', 'mkdocs-literate-nav', 'Pygments>=2.12']
 
 [project.urls]
 "GitHub" = "https://github.com/QuanticPony/itfit"
 "Documentation" = "https://quanticpony.github.io/itfit/"
 
 [tool.bumpver]
-current_version = "0.0.18"
+current_version = "0.0.19"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Update version: {old_version} -> {new_version}"
 commit = true

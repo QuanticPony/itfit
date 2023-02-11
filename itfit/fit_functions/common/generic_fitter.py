@@ -96,11 +96,12 @@ class GenericFitter:
 
         # If there is not data selected use all data
         xdata, ydata = self.data.get_selected()
+        xerr, yerr = self.data.get_selected_errors()
         if np.sum(self.data.indexes_used)==0:
             xdata, ydata = self.data.xdata.copy(), self.data.ydata.copy()
         
-        self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args(), full_output=True)
-        fit_result = FitResultContainer(DataContainer(xdata, ydata), self, self.fit)
+        self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args(), full_output=True, sigma=yerr)
+        fit_result = FitResultContainer(self.data.copy(), self, self.fit)
         
         # Plot fit line in background
         with self.app.blit_manager.disabled():

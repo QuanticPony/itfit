@@ -12,17 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ..data import DataContainer
+    from ..fit_functions.common import FunctionContainer, GenericFitter
+
+
 import numpy as np
 
 
 class FitResultContainer:
-    def __init__(self, data, fit_manager, scipy_result):
+    def __init__(self, data: DataContainer, fit_manager: FunctionContainer|GenericFitter, scipy_result: dict):
         """_summary_
 
         Parameters:
-            data (itfit.data.DataContainer):
+            data (itfit.data.DataSelection):
                 Data fitted.
-            fit_manager (itfit.fit_functions.GenericFitter):
+            fit_manager (FunctionContainer|GenericFitter):
                 Fit function used
             scipy_result (dict):
                 Dictionary of `scipy.optimize.curve_fit` output.
@@ -46,8 +53,8 @@ class FitResultContainer:
         """Gets the optimal fitting parameters found.
 
         Returns:
-            (Tuple[float]):
-                Tuple of parameters.
+            (tuple[float]):
+                tuple of parameters.
         """
         return self.scipy_output["popt"]
         
@@ -64,43 +71,106 @@ class FitResultContainer:
         """Gets the square root of diagonal elements of the covariance matrix.
 
         Returns:
-            (Tuple[float]):
+            (tuple[float]):
                 Optimal fitting parameters standard error.
         """
         return np.sqrt(np.diag(self.get_parameters_covariance()))
 
     def get_xdata(self):
-        """Gets the x component of the data used.
+        """Gets the x component of all the data.
 
         Returns:
-            (Tuple[float]):
-                X component of data used.
+            (tuple[float]):
+                X component of all the data.
         """
         return self.data.xdata
-        
-    def get_ydata(self):
-        """Gets the y component of the data used.
+    
+    def get_xdata_errors(self):
+        """Gets the x component error in all the data.
 
         Returns:
-            (Tuple[float]):
-                Y component of data used.
+            (tuple[float]):
+                X component error of all the data.
+        """
+        return self.data.get_errors()[0]
+        
+    def get_ydata(self):
+        """Gets the y component of all the data.
+
+        Returns:
+            (tuple[float]):
+                Y component of all data.
         """
         return self.data.ydata
     
+    def get_ydata_errors(self):
+        """Gets the y component error in all the data.
+
+        Returns:
+            (tuple[float]):
+                Y component error of all the data.
+        """
+        return self.data.get_errors()[1]
+    
+    def get_xdata_selected(self):
+        """Gets the x component of the data used.
+
+        Returns:
+            (tuple[float]):
+                X component of data used.
+        """
+        return self.data.get_selected()[0]
+    
+    def get_xdata_errors_selected(self):
+        """Gets the x component error in data used.
+
+        Returns:
+            (tuple[float]):
+                X component error of data used.
+        """
+        return self.data.get_selected_errors()[0]
+    
+    def get_ydata_selected(self):
+        """Gets the y component of the data used.
+
+        Returns:
+            (tuple[float]):
+                Y component of data used.
+        """
+        return self.data.get_selected()[1]
+    
+    def get_ydata_errors_selected(self):
+        """Gets the y component error in data used.
+
+        Returns:
+            (tuple[float]):
+                Y component error of data used.
+        """
+        return self.data.get_selected_errors()[1]
+    
     def get_data(self):
+        """Gets the all data.
+
+        Returns:
+            (tuple[tuple[float], tuple[float]]):
+                All data.
+        """
+        return self.data.get_data()
+    
+    def get_data_selected(self):
         """Gets the data used.
 
         Returns:
-            (Tuple[Tuple[float], Tuple[float]]):
+            (tuple[tuple[float], tuple[float]]):
                 Data used.
         """
-        return self.data.get_data()
+        return np.array(self.data.get_selected()).T
 
     def get_fit_xdata(self):
         """Gets the x component of the fit curve. Equal to get_xdata output.
 
         Returns:
-            (Tuple[float]):
+            (tuple[float]):
                 X component of fit curve. Equal to get_xdata output.
         """
         return self.get_xdata()
@@ -109,19 +179,46 @@ class FitResultContainer:
         """Gets the y coomponent of the fit curve.
 
         Returns:
-            (Tuple[float]):
+            (tuple[float]):
                 Y component of fit curve.
         """
-        return self.get_ydata() + self.scipy_output["fvec"]
+        return self.function(self.get_xdata(), *self.get_parameters())
     
-    def get_fit_data(self):
-        """Gets the fit curve data.
+    def get_fit_xdata_selected(self):
+        """Gets the x component of the fit curve for selected data interval. Equal to get_xdata_selected output.
 
         Returns:
-            (Tuple[Tuple[float], Tuple[float]]):
+            (tuple[float]):
+                X component of fit curve. Equal to get_xdata output.
+        """
+        return self.get_xdata_selected()
+    
+    def get_fit_ydata_selected(self):
+        """Gets the y coomponent of the fit curve for selected data interval.
+
+        Returns:
+            (tuple[float]):
+                Y component of fit curve.
+        """
+        return self.function(self.get_xdata_selected(), *self.get_parameters())
+    
+    def get_fit_data(self):
+        """Gets the fit curve data for all data.
+
+        Returns:
+            (tuple[tuple[float], tuple[float]]):
                 Fit curve data.
         """
         return np.array((self.get_fit_xdata(), self.get_fit_ydata())).T
+    
+    def get_fit_data_selected(self):
+        """Gets the fit curve data for selected data.
+
+        Returns:
+            (tuple[tuple[float], tuple[float]]):
+                Fit curve data.
+        """
+        return np.array((self.get_fit_xdata_selected(), self.get_fit_ydata_selected())).T
     
     def get_message(self):
         """Gets scipy output `mesg` output.
@@ -144,7 +241,22 @@ class FitResultContainer:
                 Dependent variable.
         """
         return self.function(x, *self.get_parameters())
-    
+
+    def __str__(self):
+        TAB = "\t"
+        NEX = "\n"
+
+        return f"""ItFit FitResultContainer
+Using fit function: {self.fit_manager.name}
+Scipy result message: {self.get_message()}
+
+Optimal parameters: 
+{TAB}values: {self.get_parameters()}
+{TAB}errors: {self.get_parameters_errors()}
+{TAB}covariance:
+{TAB}{TAB}[{(NEX + TAB*2 +" ").join([str(l) for l in self.get_parameters_covariance()])}]
+"""
+        
     def save(self, filename): # TODO:
         ...
     

@@ -31,10 +31,11 @@ noise = np.random.normal(size=200)
 
 xdata = np.arange(200)
 ydata = dataFunction(xdata, -0.04, 5, 20, 105, 15) + noise
+sigma = np.random.normal(size=200)*1.5
 ```
 Now we call the [Fitter][itfit.Fitter] and fit the data to a [gaussian][itfit.fit_functions.gaussian.gaussian] predefined function.
 ```py
-fitter_app = itfit.Fitter(xdata, ydata)
+fitter_app = itfit.Fitter(xdata, ydata, yerr=sigma)
 
 fitter_app()
 plt.show()
@@ -46,7 +47,7 @@ PlotBuilder is more limited than using Matplotlib's figure and axes, but it is e
 ```py
 fit = fitter_app.get_plot_builder()\
     .style("science")\
-    .plot_fit(':', 'red', 'test')\
+    .plot_fit(':', 'red', 'test', only_selected=True)\
     .with_data('.', 'black', 'data')\
     .xlabel("time [s]")\
     .ylabel("current [mA]")\
