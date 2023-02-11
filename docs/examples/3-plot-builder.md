@@ -14,7 +14,7 @@ limitations under the License. -->
 
 # 3. Plot Builder example
 
-Lets explore the [PlotBuilder][itfit.PlotBuilder] capabilities in search of an awful plot. We will use the same function from [last example](2-fitting-function-builder.md) to create some data:
+Lets explore the [PlotBuilder][itfit.plot.builder.PlotBuilder] capabilities in search of an awful plot. We will use the same function from [last example](2-fitting-function-builder.md) to create some data:
 
 ```py
 import numpy as np

@@ -32,6 +32,7 @@
             * [blit_manager](reference/itfit/utils/blit_manager.md)
             * [collection](reference/itfit/utils/collection.md)
             * [fit_container](reference/itfit/utils/fit_container.md)
+            * [fit_selector](reference/itfit/utils/fit_selector.md)
             * [point](reference/itfit/utils/point.md)
 * examples
     * examples
