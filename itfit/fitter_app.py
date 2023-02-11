@@ -53,7 +53,7 @@ class Fitter:
     
     def __call__(self):
         if not self._data_was_plotted:
-            self.data_line = self.ax.plot(self.data.xdata, self.data.ydata)
+            self.data_line = self.ax.plot(self.data.xdata, self.data.ydata, '.-')
             self._data_was_plotted = True
         
         self.figure.canvas.manager.toolmanager.add_tool('Lasso', LassoTool, app=self,data=self.data)
