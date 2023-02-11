@@ -43,6 +43,15 @@ class DragSineManager(DragPointCollection):
                 `f(x) = a*sin(b*x+c)+d`
         """
         return a*np.sin(b*x+c) + d 
+
+    @staticmethod
+    def get_args_length():
+        """Gets number of arguments of `function`.
+
+        Returns:
+            (int): Number of arguments of `function`.
+        """
+        return 4
     
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
         """Sine function between multiple DragPoints. Updates with them.
@@ -112,6 +121,7 @@ class SineFitter(GenericFitter):
                             DragPoint(*self.ax.transAxes.transform((0.8,0.7)), None)]
         self.drag_points_managers = [DragPointManager(p, self.app.blit_manager) for p in self.drag_points]
         self.fitter_drag_collection = DragSineManager(self.drag_points, self.app.blit_manager)
+        self.function = self.fitter_drag_collection.function
 
         ## Connect Line to Points change events
         self.drag_points_cids = [] # Connections ids for change events

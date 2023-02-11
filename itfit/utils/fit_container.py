@@ -13,22 +13,23 @@
 # limitations under the License.
 
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from ..data import DataSelection
-    from ..fit_functions import GenericFitter
+    from ..data import DataContainer
+    from ..fit_functions.common import FunctionContainer, GenericFitter
+
 
 import numpy as np
 
 
 class FitResultContainer:
-    def __init__(self, data: DataSelection, fit_manager: GenericFitter, scipy_result: list[str|Any]):
+    def __init__(self, data: DataContainer, fit_manager: FunctionContainer|GenericFitter, scipy_result: dict):
         """_summary_
 
         Parameters:
             data (itfit.data.DataSelection):
                 Data fitted.
-            fit_manager (itfit.fit_functions.GenericFitter):
+            fit_manager (FunctionContainer|GenericFitter):
                 Fit function used
             scipy_result (dict):
                 Dictionary of `scipy.optimize.curve_fit` output.
@@ -240,7 +241,22 @@ class FitResultContainer:
                 Dependent variable.
         """
         return self.function(x, *self.get_parameters())
-    
+
+    def __str__(self):
+        TAB = "\t"
+        NEX = "\n"
+
+        return f"""ItFit FitResultContainer
+Using fit function: {self.fit_manager.name}
+Scipy result message: {self.get_message()}
+
+Optimal parameters: 
+{TAB}values: {self.get_parameters()}
+{TAB}errors: {self.get_parameters_errors()}
+{TAB}covariance:
+{TAB}{TAB}[{(NEX + TAB*2 +" ").join([str(l) for l in self.get_parameters_covariance()])}]
+"""
+        
     def save(self, filename): # TODO:
         ...
     

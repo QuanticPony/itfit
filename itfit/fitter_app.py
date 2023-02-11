@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 from .data import DataSelection
 from .data_selectors import LassoTool
 from . import fit_functions
-from .utils import BlitManager
+from .utils import BlitManager, FitSelector
 from .utils.fit_container import FitResultContainer
 from .plot.builder import PlotBuilder
 
@@ -39,8 +39,8 @@ class Fitter:
     fits : dict[int, utils.FitResultContainer]
     selections : dict
     blit_manager : utils.BlitManager
-    
     _last_fit : int
+    
     def __init__(self, xdata, ydata, yerr=None, xerr=None, *args, **kargs):
         self.data = DataSelection(xdata, ydata, yerr=yerr, xerr=xerr)
         self.figure = plt.figure()
@@ -48,7 +48,7 @@ class Fitter:
         self.fits: dict[int, FitResultContainer] = {}
         self.selections = {}
         self.blit_manager = BlitManager(self)
-        self._last_fit = None
+        self._last_fit: int|None = None
         self._data_was_plotted = False
     
     def __call__(self):
@@ -97,6 +97,28 @@ class Fitter:
         """
         self._last_fit = hash(fit)
         self.fits.update({self._last_fit: fit})
+
+    def get_single_fit_selector(self):
+        """Stars a fit selector figure where you can select one fit.
+
+        Returns:
+            (itfit.utils.FitResultContainer): Fit result container of selected fit.
+        """
+        selector = FitSelector(self)
+        selection = selector.connect_select_one().get_selected()
+        return self.fits.get(selection)
+
+    def get_fit_selector(self):
+        """Stars a fit selector figure where you can select one or more fits.
+
+        Returns:
+            (itfit.utils.FitResultContainer, list[itfit.utils.FitResultContainer]): Fit result container of selected fits, list if multiple.
+        """
+        selector = FitSelector(self)
+        selection = selector.connect_select_multiple().get_selected()
+        if isinstance(selection, list):
+            return [self.fits.get(k) for k in selection]
+        return self.fits.get(selection)
         
     def get_last_fit(self):
         """Returns the last fit
@@ -139,6 +161,8 @@ class Fitter:
             (itfit.plot.PlotBuilder): PlotBuilder to continue plot customization.
         """
         fit = self.get_last_fit()
+        if fit is None:
+            raise Exception("At least one fit must me made before trying to plot a fit.")
         return PlotBuilder(self, fit)\
             .plot_data(label="Data")\
             .with_errors()\

@@ -31,6 +31,7 @@ from matplotlib import pyplot as plt
 
 from .labels import LabelBuilder
 from .spines import SpineBuilder
+from ..utils.fit_selector import FitSelector
 
 class PlotBuilder:
     """PlotBuilder is a class whose intent is to uase the user in plot customization. 
@@ -49,20 +50,24 @@ class PlotBuilder:
         self.app = app
         self.fit = fit
 
-    def plot_fit(self, fmt='--', color='black', label='', only_selected:bool = False, **kargs):
+    def plot_fit(self, fmt='--', color='black', label='', only_selected_data:bool=False, **kargs):
         """Plots the fit line into the figure.
 
         Args:
             fmt (str, optional): Fit line format. Defaults to '--'.
             color (str, optional): Color for the line. Defaults to 'black'.
             label (str, optional): Label assigned to the artists. Defaults to ''.
-            only_selected (bool, optional): Shows fit only on selected data range. Defaults to `False`.
+            only_selected_data (bool, optional): If `True` the fit is only shown for data used in optimization. Defaults to `False`.
 
         Returns:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         self._start_()
-        if only_selected:
+
+        key: int = FitSelector(self.app).connect_select_one().get_selected()
+        fit = self.app.fits.get(key)
+        
+        if only_selected_data:
             DATA = self.fit.get_fit_data_selected().T
         else:
             DATA = self.fit.get_fit_data().T
@@ -312,4 +317,9 @@ class PlotBuilder:
         return self
 
     def show_inline(self):
+        """Returns the figure. When used in Jupyter shows the figure in the cell output.
+
+        Returns:
+            (matplotlib.Figure): PlotBuilder's figure.
+        """
         return self.fig
