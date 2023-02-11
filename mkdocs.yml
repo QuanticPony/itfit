@@ -50,6 +50,7 @@ theme:
 
     features:
       - content.code.annotate
+      - content.code.copy
 
 
 plugins:
