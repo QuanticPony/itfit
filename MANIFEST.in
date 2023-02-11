@@ -3,9 +3,9 @@ include LICENSE
 include setup.cfg
 include setup.py
 
-recursive-include itfit
-recursive-include examples
-recursive-include images
+recursive-include itfit/*
+recursive-include examples/*
+recursive-include images/*
 
 prune itfit.egg-info
 prune */__pycache__
