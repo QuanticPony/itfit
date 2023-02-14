@@ -23,6 +23,8 @@ from matplotlib.backend_tools import ToolToggleBase
 from matplotlib.lines import Line2D
 from matplotlib.widgets import Button
 from scipy import optimize
+from matplotlib.patches import Polygon
+from operator import add
 
 from ...data import DataSelection, DataContainer
 from ...utils import DragPointCollection, FitResultContainer
@@ -134,8 +136,12 @@ class GenericFitter:
             
             error_fit = fit_result.prop_errors()
             if error_fit is not None: # when a custom function is used
-                self.fit_positive = Line2D(xdata, self.function(xdata, *self.fit[0]) + error_fit,color= 'red', linestyle='--')
-                self.fit_negative = Line2D(xdata, self.function(xdata, *self.fit[0]) - error_fit, color = 'red', linestyle='--')
+                iy_pos = self.function(xdata, *self.fit[0])+error_fit
+                verts_positive = [(xdata[0],self.function(xdata[0], *self.fit[0])), *zip(xdata,iy_pos), (xdata[len(xdata)-1],self.function(xdata[len(xdata)-1], *self.fit[0]))]
+                self.fit_positive = Polygon(verts_positive,facecolor='red',edgecolor='None',alpha=0.3)
+                iy_neg = self.function(xdata, *self.fit[0])-error_fit
+                verts_positive = [(xdata[0],self.function(xdata[0], *self.fit[0])), *zip(xdata,iy_neg), (xdata[len(xdata)-1],self.function(xdata[len(xdata)-1], *self.fit[0]))]
+                self.fit_negative = Polygon(verts_positive,facecolor='red',edgecolor='None',alpha=0.3)
 
             self.ax.add_artist(self.fit_line)
             self.ax.add_artist(self.fit_positive)
