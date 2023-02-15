@@ -36,9 +36,9 @@ ydata = dataFunction(xdata, -0.04, 5, np.random.random()
                      * 30, np.random.random()*200, 15) + noise
 ```
 
-This function is a linear convination of linear and gaussian functions therefore if we only fit a gaussian the result could be bias due to the linear background. Lets then create a function that has that background in its definition:
+This function is a linear combination of linear and gaussian functions therefore if we only fit a gaussian the result could be bias due to the linear background. Lets then create a function that has that background in its definition:
 
-```py linenums="1" hl_lines="7"
+```py linenums="1" hl_lines="8"
 import matplotlib.pyplot as plt
 import itfit
 from itfit.fit_functions import Gaussian, Line

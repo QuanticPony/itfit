@@ -1,9 +1,6 @@
 name: Upload Python Package to testPyPi
 
 on:
-  push:
-    branches: 
-    - develop
   workflow_dispatch:
 
 permissions:
@@ -39,26 +36,15 @@ jobs:
         pip install mkdocs-literate-nav
         pip install Pygments>=2.12
 
-    - name: Update patch version
-      run: |
-        git checkout
-        bumpver update --patch --dry
-        bumpver update --patch
+    # - name: Update patch version
+    #   run: |
+    #     git checkout
+    #     bumpver update --patch --dry
+        # bumpver update --patch
     - name: Build package
       run: python -m build
     - name: Publish package to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
-        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        repository_url: https://test.pypi.org/legacy/
-
-    # - name: Build documentation
-    #   run: |
-    #     python3 docs/generate_reference_docs.py
-    #     mkdocs build
-
-    # - name: Update github-pages
-    #   uses: JamesIves/github-pages-deploy-action@v4
-    #   with:
-    #     folder: site
-    #     token: ${{ secrets.ITFIT_QP_TOKEN }}
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/

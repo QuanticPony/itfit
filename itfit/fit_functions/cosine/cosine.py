@@ -69,6 +69,14 @@ class DragCosineManager(DragPointCollection):
         dfdc = -a * np.sin(b*x + c)
         dfdd = 1
         return np.array ([[dfda], [dfdb], [dfdc], [dfdd]])
+
+    def get_args_length():
+        """Gets number of arguments of `function`.
+
+        Returns:
+            (int): Number of arguments of `function`.
+        """
+        return 4
     
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager):
         """Cosine function between multiple DragPoints. Updates with them.
