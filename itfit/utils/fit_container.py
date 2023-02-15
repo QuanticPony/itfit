@@ -175,7 +175,13 @@ class FitResultContainer:
                 errors of the fit
         """
         try:
-            errors = [ np.sqrt( float(self.gradient (xi,*self.get_parameters()).T @ self.get_parameters_covariance() @ self.gradient (xi,*self.get_parameters()))) for xi in self.get_fit_xdata()     ]
+            x_array = self.get_fit_xdata()
+            errors = np.zeros((len(x_array)))
+            cov = self.get_parameters_covariance()
+
+            for i,x in enumerate(x_array):
+                grad = self.gradient(x, *self.get_parameters())
+                errors[i] = np.sqrt( float(grad.T @ cov @ grad))
         except AttributeError:
             return None
         return errors
