@@ -76,13 +76,13 @@ class BlitManager:
         if not self._enabled_:
             self.update_background()
             self._enabled_ = True
-            self.draw_event_connection_id = self.canvas.mpl_connect('draw_event', self.on_draw)
+            # self.draw_event_connection_id = self.canvas.mpl_connect('draw_event', self.on_draw)
             
     def disable(self):
         """Disables BlitManager."""
         if self._enabled_:
             self._enabled_ = False
-            self.canvas.mpl_disconnect(self.draw_event_connection_id)
+            # self.canvas.mpl_disconnect(self.draw_event_connection_id)
             self.draw_event_connection_id = None
       
     def enabled(self):

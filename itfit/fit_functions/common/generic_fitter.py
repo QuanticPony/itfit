@@ -36,7 +36,7 @@ class GenericFitter:
     name = "generic"
 
     @staticmethod
-    def function(x,*args):
+    def function(x,*args) -> float:
         """Fit function: `f(x,*args)=...`.
 
         Parameters:
@@ -45,13 +45,13 @@ class GenericFitter:
             *args (list[float,...]):
                 0, 1 or multiple arguments.
         Returns:
-            (Float):
+            (float):
                 `f(x, *args)`
         """
         ...
     
     @staticmethod
-    def gradient(x,*args):
+    def gradient(x,*args) -> float:
         """Fit gradient: 'f(x,*args)=...'.
 
         Paremeters:
@@ -60,7 +60,7 @@ class GenericFitter:
             *args (list[float,...]):
                 0, 1 or multiple arguments.
         Returns:
-            (Float):
+            (float):
                 'f(x,*args)'
         """
         ...
@@ -73,7 +73,7 @@ class GenericFitter:
         """
         return self.fitter_drag_collection.get_args_length()
     
-    def __init__(self, app, data: DataSelection):
+    def __init__(self, app: Fitter, data: DataSelection):
         """Generic fitter constructor.
 
         Parameters:
@@ -133,24 +133,22 @@ class GenericFitter:
         # Plot fit line in background, and the confidence interval
         with self.app.blit_manager.disabled():
         
-            self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
+            self.fit_line = Line2D(xdata, fit_result.evaluate(xdata), linestyle='--')
             
             error_fit = fit_result.prop_errors()
-            if error_fit is not None: # when a custom function is used
-                iy_pos = self.function(xdata, *self.fit[0])+error_fit
-                verts_positive = [(xdata[0],self.function(xdata[0], *self.fit[0])), *zip(xdata,iy_pos), (xdata[len(xdata)-1],self.function(xdata[len(xdata)-1], *self.fit[0]))]
-                self.fit_positive = Polygon(verts_positive,facecolor='red',edgecolor='None',alpha=0.3)
-                iy_neg = self.function(xdata, *self.fit[0])-error_fit
-                verts_positive = [(xdata[0],self.function(xdata[0], *self.fit[0])), *zip(xdata,iy_neg), (xdata[len(xdata)-1],self.function(xdata[len(xdata)-1], *self.fit[0]))]
-                self.fit_negative = Polygon(verts_positive,facecolor='red',edgecolor='None',alpha=0.3)
+            if error_fit is not None:
+                iy_pos = fit_result.evaluate(xdata)+error_fit
+                verts_positive = [(xdata[0],fit_result.evaluate(xdata[0])), *zip(xdata,iy_pos), (xdata[len(xdata)-1],fit_result.evaluate(xdata[len(xdata)-1]))]
+                
+                iy_neg = fit_result.evaluate(xdata)-error_fit
+                verts_negative = [(xdata[0],fit_result.evaluate(xdata[0])), *zip(xdata,iy_neg), (xdata[len(xdata)-1],fit_result.evaluate(xdata[len(xdata)-1]))]
+                self.fit_fill = Polygon(verts_positive + list(reversed(verts_negative)),facecolor='red',edgecolor='None',alpha=0.3)
 
             self.ax.add_artist(self.fit_line)
-            self.ax.add_artist(self.fit_positive)
-            self.ax.add_artist(self.fit_negative)
-            
+            self.ax.add_artist(self.fit_fill)
+
             self.ax.draw_artist(self.fit_line)
-            self.ax.draw_artist(self.fit_positive)
-            self.ax.draw_artist(self.fit_negative)
+            self.ax.draw_artist(self.fit_fill)
        
        # Redraw plot to show line     
         self.app.blit_manager.draw()
