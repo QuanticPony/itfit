@@ -3,3 +3,4 @@ prueba*
 *.egg-info
 dist
 site
+.vscode

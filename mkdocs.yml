@@ -51,6 +51,9 @@ theme:
     features:
       - content.code.annotate
       - content.code.copy
+      - navigation.tabs
+      - navigation.tracking
+      - navigation.instant
 
 
 plugins:

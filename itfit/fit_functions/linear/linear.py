@@ -45,12 +45,12 @@ class DragLineManager(DragPointCollection):
         """Straigth line gradient.
         
         Parameters:
-        x (float):
-            independent variable.
-        m (float):
-            slope.
-        n (float):
-            value at 'x = 0'.
+            x (float):
+                independent variable.
+            m (float):
+                slope.
+            n (float):
+                value at 'x = 0'.
         
         Returns:
             (np.array):

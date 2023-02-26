@@ -15,7 +15,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from ..data import DataContainer
+    from ..data import DataSelection
     from ..fit_functions.common import FunctionContainer, GenericFitter
 
 
@@ -23,7 +23,7 @@ import numpy as np
 
 
 class FitResultContainer:
-    def __init__(self, data: DataContainer, fit_manager: FunctionContainer|GenericFitter, scipy_result: dict):
+    def __init__(self, data: DataSelection, fit_manager: FunctionContainer|GenericFitter, scipy_result: dict):
         """_summary_
 
         Parameters:
