@@ -22,16 +22,16 @@ from ...utils import DragPoint, DragPointManager, BlitManager, DragPointCollecti
 class DragLorentzianManager(DragPointCollection):
     @staticmethod
     def function(x,A,x0,FWHM):
-        """# TODO: make docstrings
+        """Lorentzian function.
 
         Args:
-            x (float): _description_
-            A (float): _description_
-            x0 (float): _description_
-            FWHM (float): _description_
+            x (float): independent variable.
+            A (float): scalar.
+            x0 (float): maximum center.
+            FWHM (float): full width at half maximum.
 
         Returns:
-            (float): _description_
+            (float): `f(x) = A·FWHM / (π ·(x-x0)² + (FWHM/2)²)`
         """
         
         return A/np.pi*(FWHM/2)/((x-x0)**2+(FWHM/2)**2)
@@ -141,7 +141,9 @@ class LorentzianFitter(GenericFitter):
         self.fig.canvas.draw_idle()
 
     def res_fwhm(self, x, y):
-        return x, self.drag_points_managers[0].get_xy(*self.drag_points[0].patch.get_center())[1]/2
+        return x, self.drag_points_managers[0].set_xy(0,
+            self.drag_points_managers[0].get_xy(  *self.drag_points[0].patch.get_center() )[1]/2
+            )[1]
 
 
         
