@@ -262,6 +262,29 @@ class FitResultContainer:
                 Dependent variable.
         """
         return self.function(x, *self.get_parameters())
+    
+    def error_verts(self, only_selected: bool=True):
+        """Returns a tuple of two lists of points representing the error of the optimization. 
+        Each lists size is Nx2 or None if errors in the function are not supported.
+
+        Parameters:
+            only_selected (bool):
+                Only get errors points for selected data. Defaults to True.
+
+        Returns:
+            (tuple[list]|tuple[None]): Positive and negative error points.
+        """
+        xdata, _  = self.data.get_selected() if only_selected else self.data.get_data().T
+        error_fit = self.prop_errors()
+        if error_fit is not None:
+            iy_pos = self.evaluate(xdata)+error_fit
+            verts_positive = [(xdata[0],self.evaluate(xdata[0])), *zip(xdata,iy_pos), (xdata[len(xdata)-1],self.evaluate(xdata[len(xdata)-1]))]
+            
+            iy_neg = self.evaluate(xdata)-error_fit
+            verts_negative = [(xdata[0],self.evaluate(xdata[0])), *zip(xdata,iy_neg), (xdata[len(xdata)-1],self.evaluate(xdata[len(xdata)-1]))]
+            return verts_positive, verts_negative
+        return (None, None)
+                
 
     def __str__(self):
         TAB = "\t"

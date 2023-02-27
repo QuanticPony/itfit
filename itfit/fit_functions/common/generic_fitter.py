@@ -135,20 +135,15 @@ class GenericFitter:
         
             self.fit_line = Line2D(xdata, fit_result.evaluate(xdata), linestyle='--')
             
-            error_fit = fit_result.prop_errors()
-            if error_fit is not None:
-                iy_pos = fit_result.evaluate(xdata)+error_fit
-                verts_positive = [(xdata[0],fit_result.evaluate(xdata[0])), *zip(xdata,iy_pos), (xdata[len(xdata)-1],fit_result.evaluate(xdata[len(xdata)-1]))]
-                
-                iy_neg = fit_result.evaluate(xdata)-error_fit
-                verts_negative = [(xdata[0],fit_result.evaluate(xdata[0])), *zip(xdata,iy_neg), (xdata[len(xdata)-1],fit_result.evaluate(xdata[len(xdata)-1]))]
+            verts_positive, verts_negative = fit_result.error_verts()
+            if verts_positive and verts_negative:
                 self.fit_fill = Polygon(verts_positive + list(reversed(verts_negative)),facecolor='red',edgecolor='None',alpha=0.3)
+                self.ax.add_artist(self.fit_fill)
+                self.ax.draw_artist(self.fit_fill)
 
             self.ax.add_artist(self.fit_line)
-            self.ax.add_artist(self.fit_fill)
-
             self.ax.draw_artist(self.fit_line)
-            self.ax.draw_artist(self.fit_fill)
+            
        
        # Redraw plot to show line     
         self.app.blit_manager.draw()
