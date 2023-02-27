@@ -133,8 +133,7 @@ class Fitter:
         """Returns a itfit.plot.PlotBuilder instance. Used to ease plot creation.
         """
         
-        fit = self.get_last_fit()
-        return PlotBuilder(self, fit)
+        return PlotBuilder(self)
     
     def default_plot_last_fit(self, xlabel: str="", ylabel: str="", title: str=""):
         """Plots last fit with default configuration:
