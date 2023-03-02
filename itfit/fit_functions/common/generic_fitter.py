@@ -106,7 +106,7 @@ class GenericFitter:
         # Plot fit line in background
         with self.app.blit_manager.disabled():
         
-            self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
+            self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--', color='purple')
             self.ax.add_artist(self.fit_line)
             
             self.ax.draw_artist(self.fit_line)

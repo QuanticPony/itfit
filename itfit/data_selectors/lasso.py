@@ -49,26 +49,13 @@ class LassoManager:
 
         self.cid = self.canvas.mpl_connect('button_press_event', self.on_press)
 
-        self.collection_facecolors = self.data.get_colors(
-            (0, 1, 0, 1), (1, 0, 0, 1))
-        self.collection = RegularPolyCollection(
-            6, sizes=(40,),
-            facecolors=self.collection_facecolors,
-            offsets=self.data.get_data(),
-            offset_transform=self.axes.transData)
-
-        self.axes.add_collection(self.collection)
+        self.data.create_selected_poly(self.axes)
 
     def callback(self, verts):
-        facecolors = self.collection.get_facecolors()
-        # self.data_ploted.get_
         p = path.Path(verts)
         ind = p.contains_points(self.data.get_data())
 
         self.data.bool_selection(ind)
-        facecolors = self.data.get_colors((0, 1, 0, 1), (1, 0, 0, 1))
-
-        self.collection.set_facecolors(facecolors)
         self.delete()
 
     def delete(self):

@@ -39,3 +39,4 @@
         * [1-quickstart](examples/1-quickstart.md)
         * [2-fitting-function-builder](examples/2-fitting-function-builder.md)
         * [3-plot-builder](examples/3-plot-builder.md)
+        * [4-filters](examples/4-filters.md)
