@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        ref: develop
+        ref: master
         token: ${{ github.token }}
         fetch-depth: 0
 
@@ -49,7 +49,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        ref: develop
+        ref: master
         token: ${{ github.token }}
         fetch-depth: 0
 
