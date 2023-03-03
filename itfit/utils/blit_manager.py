@@ -59,6 +59,7 @@ class BlitManager:
         
         for a in self.artists:
             try: # if custom object
+                a.update()
                 a.poly.set_visible(artists_visible)
                 self.ax.draw_artist(a.poly)
             except AttributeError: # if matplotlib artists

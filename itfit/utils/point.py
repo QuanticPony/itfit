@@ -20,7 +20,7 @@ import numpy as np
 class DragPoint:
     """Data containter for draggable points. In the future it may support form, size and colour change.
     """
-    def __init__(self, x, y, style, *args):
+    def __init__(self, x, y, style, *args, **kwargs):
         """Creates a patch in given display coordinates.
 
         Parameters:
@@ -33,7 +33,9 @@ class DragPoint:
         """
         self._style = style
         self.restriction_callback = lambda x,y: (x,y)
-        self.patch = Circle(np.array([x,y]), 10)
+        color = kwargs.pop("color", "black")
+        zorder = kwargs.pop("zorder", 10)
+        self.patch = Circle(np.array([x,y]), 10, color=color, zorder=zorder, **kwargs)
         
     def get_center(self):
         """Returns the center position in display coordinates.
@@ -200,3 +202,7 @@ class DragPointManager:
             v(x,y)
         
         self.blit_manager.draw()
+
+    def update(self):
+        x, y = self.dragpoint.get_center()
+        Artist.update(self.poly, {'center': np.array([x,y])})

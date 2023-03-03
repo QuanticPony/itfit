@@ -132,8 +132,7 @@ class GenericFitter:
         
         # Plot fit line in background, and the confidence interval
         with self.app.blit_manager.disabled():
-        
-            self.fit_line = Line2D(xdata, fit_result.evaluate(xdata), linestyle='--')
+            self.fit_line = Line2D(xdata, fit_result.evaluate(xdata), linestyle='--', color='purple')
             
             verts_positive, verts_negative = fit_result.error_verts()
             if verts_positive and verts_negative:

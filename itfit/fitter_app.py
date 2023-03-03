@@ -128,6 +128,23 @@ class Fitter:
         """
         return self.fits.get(self._last_fit) if (self._last_fit is not None) else None
     
+    def add_filter(self, filter: function):
+        """Adds a filter for data selection. The signature must be as:
+```py
+lambda x,y : bool
+```
+or
+```py
+def foo(x,y) -> bool:
+    return bool
+```
+        Parameters:
+            filter (function): Filter function.
+        """
+        selection = filter(*(self.data.get_data().T))
+        self.data.selection(selection)
+        self.data.create_selected_poly(self.ax)
+    
     
     def get_plot_builder(self):
         """Returns a itfit.plot.PlotBuilder instance. Used to ease plot creation.
@@ -149,11 +166,11 @@ class Fitter:
 .grid().legend().tight_layout()
 ```
 
-Args:
+Parameters:
     xlabel (str): x label. Defaults to "".
     ylabel (str): y label. Defaults to "".
     title (str): title. Defaults to "".
-
+      
 Returns:
     (itfit.plot.PlotBuilder): PlotBuilder to continue plot customization.
         """
