@@ -2,137 +2,142 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://quanticpony.github.io/itfit/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/LICENSE/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/SUMMARY/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/examples/1-quickstart/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/examples/2-fitting-function-builder/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/examples/3-plot-builder/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://quanticpony.github.io/itfit/examples/4-filters/</loc>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fitter_app/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/function_constructor/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/data/data_classes/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/data_selectors/lasso/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fit_functions/common/function_container/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fit_functions/common/generic_fitter/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fit_functions/cosine/cosine/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fit_functions/exponential/exponential/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fit_functions/gaussian/gaussian/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fit_functions/linear/linear/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fit_functions/lorentzian/lorentzian/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fit_functions/quadratic/quadratic/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/fit_functions/sine/sine/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/plot/builder/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/plot/labels/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/plot/spines/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/utils/blit_manager/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/utils/collection/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/utils/fit_container/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/utils/fit_selector/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://quanticpony.github.io/itfit/reference/itfit/utils/point/</loc>
-         <lastmod>2023-02-11</lastmod>
+         <lastmod>2023-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
