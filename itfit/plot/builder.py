@@ -28,6 +28,7 @@ from matplotlib.figure import Figure
 from matplotlib import rcParams
 from matplotlib import style as mpl_style
 from matplotlib import pyplot as plt
+from matplotlib.patches import Polygon
 
 from .labels import LabelBuilder
 from .spines import SpineBuilder
@@ -38,22 +39,24 @@ class PlotBuilder:
     Using PlotBuilder with jupyther/notebook is strongly recomended as changes are interactive and figures are preserved.
     ![image](example1.PNG)
     """
-    fig: Figure
-    ax: Axes
-    def __init__(self, app: Fitter, fit: FitResultContainer, **kargs):
+
+
+    def __init__(self, app: Fitter, **kargs):
         """_summary_
 
-        Args:
+        Parameters:
             app (itfit.Fitter): Main application.
-            fit (itfit.utils.FitResultContainer): FitResultContainer of the fit.
         """
-        self.app = app
-        self.fit = fit
+        self.fig: Figure
+        self.ax: Axes
+        self.fit: FitResultContainer
+        self.app: Fitter = app
+        self._only_selected_cache_: bool
 
     def plot_fit(self, fmt='--', color='black', label='', only_selected_data:bool=False, **kargs):
         """Plots the fit line into the figure.
 
-        Args:
+        Parameters:
             fmt (str, optional): Fit line format. Defaults to '--'.
             color (str, optional): Color for the line. Defaults to 'black'.
             label (str, optional): Label assigned to the artists. Defaults to ''.
@@ -64,21 +67,24 @@ class PlotBuilder:
         """
         self._start_()
 
-        key: int = FitSelector(self.app).connect_select_one().get_selected()
-        fit = self.app.fits.get(key)
+        if len(self.app.fits.keys()) > 1:
+            key: int = FitSelector(self.app).connect_select_one().get_selected()
+            self.fit = self.app.fits.get(key)
+        else:
+            self.fit = self.app.get_last_fit()
         
         if only_selected_data:
             DATA = self.fit.get_fit_data_selected().T
         else:
             DATA = self.fit.get_fit_data().T
             
-        self._line, = self.ax.plot(*DATA, fmt, color=color, label=label, **kargs)
+        self.ax.plot(*DATA, fmt, color=color, label=label, **kargs)
         return self
 
     def with_fit(self, fmt='--', color='black', label='', only_selected:bool = False, **kargs):
         """Same as itfit.plot.builder.PlotBuilder.plot_fit. Plots the fit line into the figure.
 
-        Args:
+        Parameters:
             fmt (str, optional): Fit line format. Defaults to '--'.
             color (str, optional): Color for the line. Defaults to 'black'.
             label (str, optional): Label assigned to the artists. Defaults to ''.
@@ -88,11 +94,38 @@ class PlotBuilder:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         return self.plot_fit(fmt=fmt, color=color, label=label, **kargs)
+    
+    def plot_fit_errors(self, color: str|tuple[float]|None = None, edgecolor = 'None', alpha: float = 0.3, only_selected:str|bool = 'auto', **kargs):
+        """Plots error shadow on fit. Must be called after fit has been plotted.
+
+        Parameters:
+            color (str | tuple[float] | None, optional): Fill color. Defaults to None.
+            edgecolor (str, optional): Color of the error shadow edges. Defaults to 'None'.
+            alpha (float, optional): Alpha value. Defaults to 0.3.
+            only_selected (str | bool, optional): If False error will be shown for all data range. Defaults to 'auto'.
+
+        Raises:
+            Exception: If used prior to fit plotting.
+
+        Returns:
+            (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
+        """
+        try:
+         _only_selected_ = only_selected if only_selected == 'auto' else self._only_selected_cache_
+        except AttributeError:
+            raise Exception("Fit must be plotted prior to fit's error shadow.")
+        
+        verts_positive, verts_negative = self.fit.error_verts(only_selected=_only_selected_)
+        
+        self.fit_fill = Polygon(verts_positive + list(reversed(verts_negative)),facecolor=color, edgecolor=edgecolor, alpha=alpha, **kargs)
+        self.ax.add_artist(self.fit_fill)
+        self.ax.draw_artist(self.fit_fill)
+        return self
 
     def plot_data(self, fmt='.', color=None, label='', only_selected:bool = False, yerr:bool = True, xerr:bool = True, **kargs):
         """Plots the data fitted into the figure.
 
-        Args:
+        Parameters:
             fmt (str, optional): Data line format. Defaults to '.'.
             color (str, optional): Color for the line. Defaults to None.
             label (str, optional): Label assigned to the artists. Defaults to ''.
@@ -105,24 +138,49 @@ class PlotBuilder:
         """
         self._start_()
         self._only_selected_cache_ = only_selected
-        if only_selected:
-            DATA = self.fit.get_data_selected().T
-        else:
-            DATA = self.fit.get_data().T
+        try:
+            if only_selected:
+                DATA = self.fit.get_data_selected().T
+            else:
+                DATA = self.fit.get_data().T
+        except AttributeError:
+            DATA = self.app.data.get_data().T
             
-        self._line_data, = self.ax.plot(*DATA, fmt, color=color, label=label, **kargs)
+        self.ax.plot(*DATA, fmt, color=color, label=label, **kargs)
         return self
 
-    def with_errors(self, axis:str|bool = 'y', ecolor: str|tuple[float]|None = None, elinewidth: float|None = None, capsize: float|None = 1, errorsevery: int|tuple[int, int] = 1, **kargs):
+    def with_data(self, fmt='.', color=None, label='', only_selected:bool = False, yerr:bool = True, xerr:bool = True, **kargs):
+        """Same as itfit.plot.builder.PlotBuilder.plot_data. Plots the data fitted into the figure.
+
+        Parameters:
+            fmt (str, optional): Data line format. Defaults to '.'.
+            color (str, optional): Color for the line. Defaults to None.
+            label (str, optional): Label assigned to the artists. Defaults to ''.
+            only_selected (bool, optional): Shows only selected data. Defaults to `False`.
+            yerr (bool, optional): Shows data errors in y coordinate if given. Defaults to `True`.
+            xerr (bool, optional): Shows data errors in y coordinate if given. Defaults to `True`.
+
+        Returns:
+            (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
+        """
+        return self.plot_data(fmt=fmt, color=color, label=label, only_selected=only_selected, yerr=yerr, xerr=xerr,**kargs)
+    
+    def plot_data_errors(self, axis:str|bool = 'y', ecolor: str|tuple[float]|None = None, elinewidth: float|None = None, capsize: float|None = 1, errorsevery: int|tuple[int, int] = 1, **kargs):
         """Plots error bars on data. Must be called after data has been plotted.
 
-        Args:
+        Parameters:
             axis (str | bool, optional): Axis in which to plot error bars. Defaults to y.
             ecolor (str | tuple[float] | None, optional): Sets the color of the error bar. Defaults to None.
             elinewidth (float | None, optional): Sets the line width of the error bar. Defaults to None.
             capsize (float | None, optional): Controls the length of the error bar cap in points. Defaults to 1.
             errorsevery (int | tuple[int, int], optional): Draws error bars on a subset of the data. e.g. every=(3,4) then error bars would be on
         x[3], x[7], x[11].... Defaults to 1.
+
+        Raises:
+            Exception: If used prior to data plotting.
+
+        Returns:
+            (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
         try:
             if self._only_selected_cache_:
@@ -137,27 +195,27 @@ class PlotBuilder:
             raise Exception("Data must be plotted prior to data's error bars.")
 
         if (axis=='x' or axis==True) and XDATA_ERROR is not None:
-            self._xerr_line_data = self.ax.errorbar(*DATA, XDATA_ERROR, fmt='None', capsize=capsize, ecolor=ecolor, elinewidth=elinewidth, errorevery=errorsevery, **kargs)
+            self.ax.errorbar(*DATA, XDATA_ERROR, fmt='None', capsize=capsize, ecolor=ecolor, elinewidth=elinewidth, errorevery=errorsevery, **kargs)
         if (axis=='y' or axis==True) and YDATA_ERROR is not None:
-            self._yerr_line_data = self.ax.errorbar(*DATA, YDATA_ERROR, fmt='None', capsize=capsize, ecolor=ecolor, elinewidth=elinewidth, errorevery=errorsevery, **kargs)
+            self.ax.errorbar(*DATA, YDATA_ERROR, fmt='None', capsize=capsize, ecolor=ecolor, elinewidth=elinewidth, errorevery=errorsevery, **kargs)
 
         return self
+    
+    def with_errors(self, axis:str|bool = 'y', ecolor: str|tuple[float]|None = None, elinewidth: float|None = None, capsize: float|None = 1, errorsevery: int|tuple[int, int] = 1, **kargs):
+        """Same as itfit.plot.builder.PlotBuilder.plot_data_errors. Plots error bars on data. Must be called after data has been plotted.
 
-    def with_data(self, fmt='.', color=None, label='', only_selected:bool = False, yerr:bool = True, xerr:bool = True, **kargs):
-        """Same as itfit.plot.builder.PlotBuilder.plot_data. Plots the data fitted into the figure.
-
-        Args:
-            fmt (str, optional): Data line format. Defaults to '.'.
-            color (str, optional): Color for the line. Defaults to None.
-            label (str, optional): Label assigned to the artists. Defaults to ''.
-            only_selected (bool, optional): Shows only selected data. Defaults to `False`.
-            yerr (bool, optional): Shows data errors in y coordinate if given. Defaults to `True`.
-            xerr (bool, optional): Shows data errors in y coordinate if given. Defaults to `True`.
+        Parameters:
+            axis (str | bool, optional): Axis in which to plot error bars. Defaults to y.
+            ecolor (str | tuple[float] | None, optional): Sets the color of the error bar. Defaults to None.
+            elinewidth (float | None, optional): Sets the line width of the error bar. Defaults to None.
+            capsize (float | None, optional): Controls the length of the error bar cap in points. Defaults to 1.
+            errorsevery (int | tuple[int, int], optional): Draws error bars on a subset of the data. e.g. every=(3,4) then error bars would be on
+        x[3], x[7], x[11].... Defaults to 1.
 
         Returns:
             (itfit.plot.builder.PlotBuilder): Returns itself to continue building the plot.
         """
-        return self.plot_data(fmt=fmt, color=color, label=label, only_selected=only_selected, yerr=yerr, xerr=xerr,**kargs)
+        return self.plot_data_errors(axis, ecolor, elinewidth, capsize, errorsevery, **kargs)
     
     def labels(self):
         """Starts labels builder. After calling it xlabel and ylabel can be accessed.
@@ -170,7 +228,7 @@ class PlotBuilder:
     def title(self, title: str):
         """Shortcut to `.labels().start_title(title).end_title().end_labels()`.
 
-        Args:
+        Parameters:
             title (str): Title string.
 
         Returns:
@@ -181,7 +239,7 @@ class PlotBuilder:
     def xlabel(self, xlabel):
         """Shortcut to `.labels().start_x_label(xlabel).end_xlabel().end_labels()`.
 
-        Args:
+        Parameters:
             xlabel (str): x label string.
 
         Returns:
@@ -192,7 +250,7 @@ class PlotBuilder:
     def ylabel(self, ylabel):
         """Shortcut to `.labels().start_y_label(ylabel).end_ylabel().end_labels()`.
 
-        Args:
+        Parameters:
             ylabel (str): y label string.
 
         Returns:
@@ -222,7 +280,7 @@ class PlotBuilder:
     def set_xlim(self, left: float, right: float, **kargs):
         """Sets the left and right plot limits on x axis.
         
-        Args:
+        Parameters:
             left (float): left limit.
             right (float): right limit.
 
@@ -235,7 +293,7 @@ class PlotBuilder:
     def set_ylim(self, bottom: float, top: float, **kargs):
         """Sets the bottom and top plot limits on y axis.
         
-        Args:
+        Parameters:
             bottom (float): bottom limit.
             top (float): top limit.
 
@@ -257,7 +315,7 @@ class PlotBuilder:
     def set_size(self, size, unit='cm'):
         """Sets the figure size, be default in centimeters.
         
-        Args:
+        Parameters:
             size (float): left limit.
             unit (float): right limit. Default='cm'.
 
@@ -283,7 +341,7 @@ class PlotBuilder:
     def style(self, style):
         """Sets the style. Must be executed befor `start`.
 
-        Args:
+        Parameters:
             style (str): Style to use.
 
         Returns:

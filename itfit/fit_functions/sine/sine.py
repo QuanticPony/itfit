@@ -45,6 +45,31 @@ class DragSineManager(DragPointCollection):
         return a*np.sin(b*x+c) + d 
 
     @staticmethod
+    def gradient(x, a, b, c, d):
+        """Sine gradient function.
+
+        Parameters:
+            x (float):
+                independent variable.
+            a (float):
+                Amplitude of the wave.
+            b (float):
+                frequency of the wave.
+            c (float):
+                centre of the sine function.
+            d (float):
+                constant value around which the wave oscillates.
+
+        Returns:
+            (np,array):
+                ( sin(b*x + c), a*x*cos(b*x+c), a*cod(b*x+c), 1)
+        """
+        dfda = np.sin(b*x + c)
+        dfdb = a * x* np.cos(b*x +c)
+        dfdc = a * np.cos(b*x + c)
+        dfdd = 1
+        return np.array([[dfda], [dfdb], [dfdc], [dfdd]])
+        
     def get_args_length():
         """Gets number of arguments of `function`.
 
@@ -122,6 +147,7 @@ class SineFitter(GenericFitter):
         self.drag_points_managers = [DragPointManager(p, self.app.blit_manager) for p in self.drag_points]
         self.fitter_drag_collection = DragSineManager(self.drag_points, self.app.blit_manager)
         self.function = self.fitter_drag_collection.function
+        self.gradient = self.fitter_drag_collection.gradient
 
         ## Connect Line to Points change events
         self.drag_points_cids = [] # Connections ids for change events

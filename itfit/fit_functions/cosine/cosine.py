@@ -45,6 +45,31 @@ class DragCosineManager(DragPointCollection):
         return a*np.cos(b*x+c) + d 
 
     @staticmethod
+    def gradient(x, a, b, c, d):
+        """Cosine gradient function.
+
+        Parameters:
+            x (float):
+                independent variable.
+            a (float):
+                Amplitude of the wave.
+            b (float):
+                frequency of the wave.
+            c (float):
+                centre of the cosine function.
+            d (float):
+                constant value around which the wave oscillates.
+
+        Returns:
+            (np,array):
+                ( cos(b*x + c), -a*x*sin(b*x+c), -a*sin(b*x+c), 1)
+        """
+        dfda = np.cos(b*x + c)
+        dfdb = -a * x* np.sin(b*x +c)
+        dfdc = -a * np.sin(b*x + c)
+        dfdd = 1
+        return np.array ([[dfda], [dfdb], [dfdc], [dfdd]])
+
     def get_args_length():
         """Gets number of arguments of `function`.
 
@@ -121,6 +146,8 @@ class CosineFitter(GenericFitter):
                             DragPoint(*self.ax.transAxes.transform((0.8,0.7)), None)]
         self.drag_points_managers = [DragPointManager(p, self.app.blit_manager) for p in self.drag_points]
         self.fitter_drag_collection = DragCosineManager(self.drag_points, self.app.blit_manager)
+        self.function = self.fitter_drag_collection.function
+        self.gradient = self.fitter_drag_collection.gradient
 
         ## Connect Line to Points change events
         self.drag_points_cids = [] # Connections ids for change events

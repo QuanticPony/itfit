@@ -41,6 +41,29 @@ class DragQuadraticManager(DragPointCollection):
                 `f(x)=a*x^2 + b*x + c`
         """
         return a*x*x + b*x + c
+
+    @staticmethod
+    def gradient(x, a, b, c):
+        """Quadratic function gradient.
+
+        Parameters:
+            x (float):
+                independent variable.
+            a (float):
+                x^2 coefficient.
+            b (float):
+                x^1 coefficient.
+            c (float):
+                constant coefficient.
+
+        Returns:
+            (np.array):
+                `( x^2, x, 1)`
+        """
+        dfda = x**2
+        dfdb = x
+        dfdc = 1
+        return np.array([[dfda], [dfdb], [dfdc]])
     
     @staticmethod
     def get_args_length():
@@ -118,6 +141,7 @@ class QuadraticFitter(GenericFitter):
         self.drag_points_managers = [DragPointManager(p, self.app.blit_manager) for p in self.drag_points]
         self.fitter_drag_collection = DragQuadraticManager(self.drag_points, self.app.blit_manager)
         self.function = self.fitter_drag_collection.function
+        self.gradient = self.fitter_drag_collection.gradient
         
         ## Connect Quadratic to Points change events
         self.drag_points_cids = [] # Connections ids for change events
