@@ -23,6 +23,8 @@ from matplotlib.backend_tools import ToolToggleBase
 from matplotlib.lines import Line2D
 from matplotlib.widgets import Button
 from scipy import optimize
+from matplotlib.patches import Polygon
+from operator import add
 
 from ...data import DataSelection, DataContainer
 from ...utils import DragPointCollection, FitResultContainer
@@ -34,7 +36,7 @@ class GenericFitter:
     name = "generic"
 
     @staticmethod
-    def function(x,*args):
+    def function(x,*args) -> float:
         """Fit function: `f(x,*args)=...`.
 
         Parameters:
@@ -43,8 +45,23 @@ class GenericFitter:
             *args (list[float,...]):
                 0, 1 or multiple arguments.
         Returns:
-            (Float):
+            (float):
                 `f(x, *args)`
+        """
+        ...
+    
+    @staticmethod
+    def gradient(x,*args) -> float:
+        """Fit gradient: 'f(x,*args)=...'.
+
+        Paremeters:
+            x (float):
+                Independent variable.
+            *args (list[float,...]):
+                0, 1 or multiple arguments.
+        Returns:
+            (float):
+                'f(x,*args)'
         """
         ...
         
@@ -56,7 +73,7 @@ class GenericFitter:
         """
         return self.fitter_drag_collection.get_args_length()
     
-    def __init__(self, app, data: DataSelection):
+    def __init__(self, app: Fitter, data: DataSelection):
         """Generic fitter constructor.
 
         Parameters:
@@ -85,6 +102,16 @@ class GenericFitter:
                 0, 1 or multiple arguments.
         """
         return self.fitter_drag_collection.get_args()
+
+    def prop_errors(xdata,self):
+        """Returns the error of the fit, given a gradient.
+
+        Returns:
+            (float):
+                sigma
+        """
+        return np.sqrt( float( self.gradient(xdata,*self.fit[0]).T @ self.fit[1] @ self.gradient(xdata,*self.fit[0]) ))
+        
     
     def on_fit(self, event):
         """Event for fit button.
@@ -103,13 +130,19 @@ class GenericFitter:
         self.fit = optimize.curve_fit(self.function, xdata, ydata, p0=self.get_args(), full_output=True, sigma=yerr)
         fit_result = FitResultContainer(self.data.copy(), self, self.fit)
         
-        # Plot fit line in background
+        # Plot fit line in background, and the confidence interval
         with self.app.blit_manager.disabled():
-        
-            self.fit_line = Line2D(xdata, self.function(xdata, *self.fit[0]), linestyle='--')
-            self.ax.add_artist(self.fit_line)
+            self.fit_line = Line2D(xdata, fit_result.evaluate(xdata), linestyle='--', color='purple')
             
+            verts_positive, verts_negative = fit_result.error_verts()
+            if verts_positive and verts_negative:
+                self.fit_fill = Polygon(verts_positive + list(reversed(verts_negative)),facecolor='red',edgecolor='None',alpha=0.3)
+                self.ax.add_artist(self.fit_fill)
+                self.ax.draw_artist(self.fit_fill)
+
+            self.ax.add_artist(self.fit_line)
             self.ax.draw_artist(self.fit_line)
+            
        
        # Redraw plot to show line     
         self.app.blit_manager.draw()

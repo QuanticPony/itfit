@@ -16,6 +16,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ...function_constructor import FunctionBuilder
+
+import numpy as np
     
 from .generic_fitter import GenericFitter
 
@@ -29,6 +31,16 @@ class FunctionContainer:
         "//" : lambda f,g: f // g,
         "%" : lambda f,g: f % g,
         "**" : lambda f,g: f ** g
+    }
+
+    chain_rule = {
+        "+" : lambda f,g,df,dg: df + dg,
+        "-" : lambda f,g,df,dg: df - dg,
+        "*" : lambda f,g,df,dg: f*dg + g*df,
+        "/" : lambda f,g,df,dg: (g*df - dg*f) / (g*g),
+        "//" : lambda f,g,df,dg: None,
+        "%" : lambda f,g,df,dg: None,
+        "**" : lambda f,g,df,dg: f**(g-1)*(g*df + f*np.log(f)*dg)
     }
     
     def __init__(self, left_fitter: GenericFitter, function_builder: FunctionBuilder):
@@ -80,7 +92,7 @@ class FunctionContainer:
         self.operation = '**'
         return self
         
-    def function(self, x,*args):
+    def function(self, x, *args):
         if self.right_fitter is not None:
             return self.operations[self.operation](
                 self.left_fitter.function(x, *args[:self.left_fitter_args_legth]),
@@ -88,6 +100,21 @@ class FunctionContainer:
             )
         else:
             return self.left_fitter.function(x, *args[:self.left_fitter_args_legth])
+
+    def gradient(self, x, *args):
+        if self.right_fitter is not None:
+            f = self.left_fitter.function(x, *args[:self.left_fitter_args_legth])
+            g = self.right_fitter.function(x, *args[self.left_fitter_args_legth:])
+            df = np.array(self.left_fitter.gradient(x, *args[:self.left_fitter_args_legth]))
+            dg = np.array(self.right_fitter.gradient(x, *args[self.left_fitter_args_legth:]))
+            return self.chain_rule[self.operation](
+                f,
+                g,
+                np.append(df, np.zeros(dg.shape[0])),
+                np.append(np.zeros(df.shape[0]), dg)
+            )
+        else:
+            return self.left_fitter.gradient(x, *args[:self.left_fitter_args_legth])
 
     def get_args(self):
         if self.right_fitter is not None:

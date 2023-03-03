@@ -18,7 +18,7 @@ try:
 except NameError:
     __ITFIT_IMPORTED__= False
     
-__version__ = "0.0.19"
+__version__ = "0.1.0"
 
 if not __ITFIT_IMPORTED__:
     from . import data

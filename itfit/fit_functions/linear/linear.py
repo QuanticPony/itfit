@@ -39,6 +39,26 @@ class DragLineManager(DragPointCollection):
                 `f(x) = m*x+n`
         """
         return m*x + n
+
+    @staticmethod
+    def gradient(x, m, n):
+        """Straigth line gradient.
+        
+        Parameters:
+            x (float):
+                independent variable.
+            m (float):
+                slope.
+            n (float):
+                value at 'x = 0'.
+        
+        Returns:
+            (np.array):
+                ' ( x, 1 )'
+        """
+        dfdm = x 
+        dfdn = 1
+        return np.array([[dfdm], [dfdn]])
     
     @staticmethod
     def get_args_length():
@@ -119,6 +139,7 @@ class LineFitter(GenericFitter):
         self.drag_points_managers = [DragPointManager(p, self.app.blit_manager) for p in self.drag_points]
         self.fitter_drag_collection = DragLineManager(self.drag_points, self.app.blit_manager)
         self.function = self.fitter_drag_collection.function
+        self.gradient = self.fitter_drag_collection.gradient
         
         ## Connect Line to Points change events
         self.drag_points_cids = [] # Connections ids for change events

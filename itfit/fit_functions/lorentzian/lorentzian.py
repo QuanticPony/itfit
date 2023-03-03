@@ -22,6 +22,22 @@ from ...utils import DragPoint, DragPointManager, BlitManager, DragPointCollecti
 class DragLorentzianManager(DragPointCollection):
     @staticmethod
     def function(x,A,x0,FWHM):
+        """Lorentzian function.
+
+        Args:
+            x (float): independent variable.
+            A (float): scalar.
+            x0 (float): maximum center.
+            FWHM (float): full width at half maximum.
+
+        Returns:
+            (float): `f(x) = A·FWHM / (π ·(x-x0)² + (FWHM/2)²)`
+        """
+        
+        return A/np.pi*(FWHM/2)/((x-x0)**2+(FWHM/2)**2)
+
+    @staticmethod
+    def gradient(x,A,x0,FWHM):
         """# TODO: make docstrings
 
         Args:
@@ -31,9 +47,12 @@ class DragLorentzianManager(DragPointCollection):
             FWHM (float): _description_
 
         Returns:
-            (float): _description_
+            (np.array): _description_
         """
-        
+        dfdA = 1/np.pi*(FWHM/2)/((x-x0)**2+(FWHM/2)**2)
+        dfdx0 = A/np.pi*(FWHM/2) *2 *(x-x0) / ((x-x0)**2+(FWHM/2)**2)**2
+        dfdF = A/np.pi/2 * ((x-x0)**2+(FWHM/2)**2) -  A/np.pi*(FWHM/2) * FWHM / ((x-x0)**2+(FWHM/2)**2)**2
+
         return A/np.pi*(FWHM/2)/((x-x0)**2+(FWHM/2)**2)
     
     @staticmethod
@@ -124,6 +143,7 @@ class LorentzianFitter(GenericFitter):
         self.drag_points_managers = [DragPointManager(p,self.app.blit_manager) for p in self.drag_points]
         self.fitter_drag_collection = DragLorentzianManager(self.drag_points, self.app.blit_manager)
         self.function = self.fitter_drag_collection.function
+        self.gradient = self.fitter_drag_collection.gradient
 
         ##Connect Lorentzian to Points change events
         self.drag_points_cids = [] #Connections ids for change events
@@ -141,7 +161,9 @@ class LorentzianFitter(GenericFitter):
         self.fig.canvas.draw_idle()
 
     def res_fwhm(self, x, y):
-        return x, self.drag_points_managers[0].get_xy(*self.drag_points[0].patch.get_center())[1]/2
+        return x, self.drag_points_managers[0].set_xy(0,
+            self.drag_points_managers[0].get_xy(  *self.drag_points[0].patch.get_center() )[1]/2
+            )[1]
 
 
         

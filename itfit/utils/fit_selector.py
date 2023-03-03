@@ -123,6 +123,11 @@ class FitSelector:
         """
         self._key = False
         self.set_single_selection_mode()
+
+        if len(self.app.fits.keys()) == 1:
+            self._key = self.app._last_fit
+            return self
+        
         self.fig.show()
         self.fig.canvas.start_event_loop()
         return self

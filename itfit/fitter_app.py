@@ -128,37 +128,51 @@ class Fitter:
         """
         return self.fits.get(self._last_fit) if (self._last_fit is not None) else None
     
+    def add_filter(self, filter: function):
+        """Adds a filter for data selection. The signature must be as:
+```py
+lambda x,y : bool
+```
+or
+```py
+def foo(x,y) -> bool:
+    return bool
+```
+        Parameters:
+            filter (function): Filter function.
+        """
+        selection = filter(*(self.data.get_data().T))
+        self.data.selection(selection)
+        self.data.create_selected_poly(self.ax)
+    
     
     def get_plot_builder(self):
         """Returns a itfit.plot.PlotBuilder instance. Used to ease plot creation.
         """
         
-        fit = self.get_last_fit()
-        return PlotBuilder(self, fit)
+        return PlotBuilder(self)
     
-    def default_plot_last_fit(self, xlabel: str, ylabel: str, title: str):
+    def default_plot_last_fit(self, xlabel: str="", ylabel: str="", title: str=""):
         """Plots last fit with default configuration:
-        ```py
-        .plot_data(label="Data")\
-        .with_errors()\
-        .with_fit(label=fit.fit_manager.name.capitalize())\
-        .xlabel(xlabel).ylabel(ylabel).title(title)\
-            
-        .spines()\
-            .start_top_spine().invisible().end_top_spine()\
-            .start_right_spine().invisible().end_right_spine()\
-        .end_spines()\
-            
-        .grid().legend().tight_layout()
-        ```
+```py
+.plot_data(label="Data")\\
+.with_errors()\\
+.with_fit(label=fit.fit_manager.name.capitalize())\\
+.xlabel(xlabel).ylabel(ylabel).title(title)\\       
+.spines()\\
+    .start_top_spine().invisible().end_top_spine()\\
+    .start_right_spine().invisible().end_right_spine()\\
+.end_spines()\\     
+.grid().legend().tight_layout()
+```
 
-        Args:
-            xlabel (str): x label.
-            ylabel (str): y label.
-            title (str): title.
-
-        Returns:
-            (itfit.plot.PlotBuilder): PlotBuilder to continue plot customization.
+Parameters:
+    xlabel (str): x label. Defaults to "".
+    ylabel (str): y label. Defaults to "".
+    title (str): title. Defaults to "".
+      
+Returns:
+    (itfit.plot.PlotBuilder): PlotBuilder to continue plot customization.
         """
         fit = self.get_last_fit()
         if fit is None:

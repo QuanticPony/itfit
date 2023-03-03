@@ -15,7 +15,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from ..data import DataContainer
+    from ..data import DataSelection
     from ..fit_functions.common import FunctionContainer, GenericFitter
 
 
@@ -23,7 +23,7 @@ import numpy as np
 
 
 class FitResultContainer:
-    def __init__(self, data: DataContainer, fit_manager: FunctionContainer|GenericFitter, scipy_result: dict):
+    def __init__(self, data: DataSelection, fit_manager: FunctionContainer|GenericFitter, scipy_result: dict):
         """_summary_
 
         Parameters:
@@ -36,6 +36,7 @@ class FitResultContainer:
         """
         self.data = data
         self.function = fit_manager.function
+        self.gradient = fit_manager.gradient
         self.fit_manager = fit_manager
         self.scipy_output = {
             "popt" : scipy_result[0],
@@ -166,6 +167,26 @@ class FitResultContainer:
         """
         return np.array(self.data.get_selected()).T
 
+    def prop_errors(self):
+        """ Return the error of the fit, given a gradient of a function.
+
+        Returns:
+            (Tuple[float]):
+                errors of the fit
+        """
+        try:
+            x_array = self.get_fit_xdata()
+            errors = np.zeros((len(x_array)))
+            cov = self.get_parameters_covariance()
+
+            for i,x in enumerate(x_array):
+                grad = self.gradient(x, *self.get_parameters())
+                errors[i] = np.sqrt( float(grad.T @ cov @ grad))
+        except AttributeError:
+            return None
+        return errors
+
+
     def get_fit_xdata(self):
         """Gets the x component of the fit curve. Equal to get_xdata output.
 
@@ -241,6 +262,29 @@ class FitResultContainer:
                 Dependent variable.
         """
         return self.function(x, *self.get_parameters())
+    
+    def error_verts(self, only_selected: bool=True):
+        """Returns a tuple of two lists of points representing the error of the optimization. 
+        Each lists size is Nx2 or None if errors in the function are not supported.
+
+        Parameters:
+            only_selected (bool):
+                Only get errors points for selected data. Defaults to True.
+
+        Returns:
+            (tuple[list]|tuple[None]): Positive and negative error points.
+        """
+        xdata, _  = self.data.get_selected() if only_selected else self.data.get_data().T
+        error_fit = self.prop_errors()
+        if error_fit is not None:
+            iy_pos = self.evaluate(xdata)+error_fit
+            verts_positive = [(xdata[0],self.evaluate(xdata[0])), *zip(xdata,iy_pos), (xdata[len(xdata)-1],self.evaluate(xdata[len(xdata)-1]))]
+            
+            iy_neg = self.evaluate(xdata)-error_fit
+            verts_negative = [(xdata[0],self.evaluate(xdata[0])), *zip(xdata,iy_neg), (xdata[len(xdata)-1],self.evaluate(xdata[len(xdata)-1]))]
+            return verts_positive, verts_negative
+        return (None, None)
+                
 
     def __str__(self):
         TAB = "\t"

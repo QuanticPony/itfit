@@ -15,6 +15,8 @@
 from __future__ import annotations
 
 import numpy as np
+from matplotlib.collections import RegularPolyCollection
+from matplotlib.axes import Axes
 
 class DataContainer:
     """Container for data.
@@ -69,16 +71,46 @@ class DataSelection(DataContainer):
     def __init__(self, xdata, ydata, yerr: list|None=None, xerr: list|None=None):
         super().__init__(xdata, ydata, yerr=yerr, xerr=xerr)
         self.indexes_used = np.ones(len(self.xdata), dtype=bool)  
+
+        self._was_plotted: bool = False
+        self.collection: RegularPolyCollection = None
+        self._axes: Axes = None
+
+    def create_selected_poly(self, ax: Axes):
+        """Creates a poly collection of selected data. Adds it to the given ax.
+        """
+        if self._was_plotted:
+            return
+        self._was_plotted = True
+        self._axes = ax
+
+        self.collection_facecolors = self.get_colors(
+            (0, 1, 0, 1), (1, 0, 0, 1))
+        self.collection = RegularPolyCollection(
+            6, sizes=(40,),
+            facecolors=self.collection_facecolors,
+            offsets=self.get_data(),
+            offset_transform=self._axes.transData)
         
+        self.collection_ = self._axes.add_collection(self.collection)
+
+    def _update_poly(self):
+        """Updates poly collection colors.
+        """
+        if self._was_plotted:
+            self.collection.set_facecolors(self.get_colors((0, 1, 0, 1), (1, 0, 0, 1)))
+
     def select_all(self):
         """Selects all data.
         """
         self.indexes_used[:] = True
+        self._update_poly()
         
     def select_none(self):
         """Unselect all data.
         """
         self.indexes_used[:] = False
+        self._update_poly()
 
     def add_selection(self, indexes: list):
         """Adds `indexes` to `indexes_used`.
@@ -88,6 +120,7 @@ class DataSelection(DataContainer):
                 list of index.
         """
         self.indexes_used[np.array(indexes)] = True
+        self._update_poly()
         
     def selection(self, indexes):
         """Erase previous selected indexes. Adds `indexes` to `indexes_used`.
@@ -98,6 +131,7 @@ class DataSelection(DataContainer):
         """
         self.indexes_used[:] = False
         self.add_selection(indexes)
+        self._update_poly()
         
     def bool_selection(self, indexes_used):
         """Erase previous selected indexes. Sets new `indexes_used`.
@@ -107,6 +141,7 @@ class DataSelection(DataContainer):
                 list of booleans. True if index used, False otherwise.
         """
         self.indexes_used[:] = indexes_used[:]
+        self._update_poly()
         
     def get_selected(self):
         """Returns the selected data.

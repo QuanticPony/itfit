@@ -46,12 +46,14 @@ class FunctionBuilder:
         self.function_container._build_(self.update)
         
         self.function = self.function_container.function
+        self.gradient = self.function_container.gradient
         self.args_length = self.function_container.get_args_length()
         
         if not hasattr(self, "fitter_instance"):
             self.fitter_instance = GenericFitter(app=self.app, data=self.data)
             self.fitter_instance.function_container = self
             self.fitter_instance.function = self.function_container.function
+            self.fitter_instance.gradient = self.function_container.gradient
             self.fitter_instance.get_args_length = self.get_args_length
             self.fitter_instance.get_args = self.get_args
         
@@ -112,9 +114,9 @@ class FunctionBuilder:
             """
 
             super().disable()
+
         
         @classmethod 
         # This seems to be needed when using python 3.10
         def __subclasses__(cls):
             return []
-
