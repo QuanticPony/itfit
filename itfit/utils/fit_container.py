@@ -301,8 +301,28 @@ Optimal parameters:
 {TAB}{TAB}[{(NEX + TAB*2 +" ").join([str(l) for l in self.get_parameters_covariance()])}]
 """
         
-    def save(self, filename): # TODO:
-        ...
+    def save(self, filename):
+        """Creates a .txt with the fit results.
+        Format of the text file:
+        #Function: function
+        #best fit parameter: parameters
+
+        #xdata #xerror #ydata #yerror #function 
+
+        """
+
+        __, func_selected = self.get_fit_data_selected()
+        x_selected, y_selected = self.get_xdata_selected(), self.get_ydata_selected()
+        xerror, yerror=    self.get_xdata_errors_selected(), self.get_ydata_errors_selected()
+
+        parameters, errors = self.get_parameters(), self.get_parameters_errors()
+
+        with open(filename,'w') as f:
+            f.write('#Best fit parameters:', parameters, errors, '\n')
+            f.write('#xdata #xerror #ydata #yerror #function\n')
+            for i in range(len(x_selected)):
+                f.write(x_selected[i], xerror[i], y_selected[i], yerror[i], func_selected[i], '\n') 
+
     
     @classmethod    
     def load(cls, filename): # TODO:
