@@ -120,6 +120,11 @@ class DragLineManager(DragPointCollection):
 class LineFitter(GenericFitter):
     """Linear function fitter."""
     name = 'linear'
+    manager = DragLineManager
+    
+    @staticmethod
+    def get_function_string():
+        return r"mx+n"
     
     def __init__(self, app, data: DataSelection):
         """Linear fitter following function `f(x)=m*x + n`.
@@ -161,13 +166,13 @@ class LineTool(GenericFitterTool):
     
     # default_keymap = ''
     description = 'Line me please'
+    fitter = LineFitter
 
     def enable(self, *args):
         """Triggered when LineTool is enabled.
         Uses BlitManager for faster rendering of DragObjects.
         """
         super().enable()
-        self.fitter = LineFitter(self.app, self.data)
 
     def disable(self, *args):
         """Triggered when LineTool is disabled.

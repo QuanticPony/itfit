@@ -119,6 +119,11 @@ class DragExponentialManager(DragPointCollection):
 class ExponentialFitter(GenericFitter):
     """Exponential function fitter."""
     name = 'exponential'
+    manager= DragExponentialManager
+    
+    @staticmethod
+    def get_function_string():
+        return r"a\cdot e^{bx}"
 
     def __init__(self,app,data: DataSelection):
         """ Exponential fitter following function `f(x) = a*exp(b*x)`
@@ -160,13 +165,13 @@ class ExponentialTool(GenericFitterTool):
 
     # default_keymap = '' 
     description = 'Exponentiate me please'
+    fitter = ExponentialFitter
 
     def enable(self,*args):
         """Triggered when ExponentialTool is enabled.
         Uses BLitManager for faster rendering of DragObjects.
         """ 
         super().enable()
-        self.fitter = ExponentialFitter(self.app, self.data)
 
     def disable(self,*args):
         """ Triggered when ExponentialTool is disabled

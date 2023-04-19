@@ -70,6 +70,7 @@ class DragSineManager(DragPointCollection):
         dfdd = 1
         return np.array([[dfda], [dfdb], [dfdc], [dfdd]])
         
+    @staticmethod
     def get_args_length():
         """Gets number of arguments of `function`.
 
@@ -128,6 +129,11 @@ class DragSineManager(DragPointCollection):
 class SineFitter(GenericFitter):
     """Sine function fitter."""
     name = 'sine'
+    manager = DragSineManager
+    
+    @staticmethod
+    def get_function_string():
+        return r"a \cdot \sin(bx+c)+d"
 
     def __init__(self, app, data: DataSelection):
         """Sine fitter following function 'f(x) = a*sin(b*x+b)'.
@@ -168,14 +174,13 @@ class SineTool(GenericFitterTool):
 
     # default_keymap = ''
     description = 'Sine me please'
+    fitter = SineFitter
 
     def enable(self,*args):
         """Triggered when SineTool is enabled.
         Uses BlitManager for faster rendering of DragObjects.
         """
-
         super().enable()
-        self.fitter = SineFitter(self.app,self.data)
     
     def disable(self, *args):
         """Triggered when SineTool is disabled.

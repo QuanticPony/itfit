@@ -11,8 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __future__ import annotations
 
 from matplotlib.lines import Line2D
+from matplotlib.axes import Axes
 
 from . import DragPoint, BlitManager
 
@@ -27,10 +29,11 @@ class DragPointCollection:
 
     @staticmethod
     def function(*args, **kargs): ... 
-    @staticmethod
-    def get_args_length():...
-    def update(self, *args, **kargs):...
-    def get_args(self):...
+
+    def get_args_length(self): ...
+    
+    def update(self, *args, **kargs): ...
+    def get_args(self): ...
     
     # Common methods
     def __init__(self, dragpoints: list[DragPoint], blit_manager: BlitManager, *, linestyle='-', color='red'):
@@ -55,7 +58,7 @@ class DragPointCollection:
             transform=None
         )
         
-        self.patch = self.blit_manager.ax.add_patch(self.poly)  
+        self.patch = self.blit_manager.ax.add_line(self.poly)  
         
     def get_xy(self, *args):
         """Applies and returns correct transformation from display to data coordinates.

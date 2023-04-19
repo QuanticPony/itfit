@@ -52,7 +52,7 @@ class FunctionContainer:
         self.operation : str
         
     def copy(self):
-        return FunctionContainer(self.left_fitter, self.function_builder)
+        return FunctionContainer(self.left_fitter.copy(), self.function_builder.copy())
         
     def _set_right_fitter_(self, right_fitter: GenericFitter|FunctionContainer):
         if self == right_fitter:

@@ -31,6 +31,11 @@ class FunctionBuilder:
         self.data = self.app.data
         self.function_container: FunctionContainer
         
+    def copy(self):
+        new_instance = FunctionBuilder(self.app)
+        new_instance.function_container = self.function_container.copy()
+        return new_instance
+        
     def define(self, function: FunctionContainer):
         self.function_container = function
         self.function_container.set_function_builder(self)
@@ -49,13 +54,13 @@ class FunctionBuilder:
         self.gradient = self.function_container.gradient
         self.args_length = self.function_container.get_args_length()
         
-        if not hasattr(self, "fitter_instance"):
-            self.fitter_instance = GenericFitter(app=self.app, data=self.data)
-            self.fitter_instance.function_container = self
-            self.fitter_instance.function = self.function_container.function
-            self.fitter_instance.gradient = self.function_container.gradient
-            self.fitter_instance.get_args_length = self.get_args_length
-            self.fitter_instance.get_args = self.get_args
+        if not hasattr(self, "instance"):
+            self.instance = GenericFitter(app=self.app, data=self.data)
+            self.instance.function_container = self
+            self.instance.function = self.function_container.function
+            self.instance.gradient = self.function_container.gradient
+            self.instance.get_args_length = self.get_args_length
+            self.instance.get_args = self.get_args
         
             self.poly = Line2D(
                 self.data.get_data()[:,0],
@@ -64,7 +69,7 @@ class FunctionBuilder:
                 color='black',
                 transform=None
             )
-            self.patch = self.app.ax.add_patch(self.poly)
+            self.patch = self.app.ax.add_line(self.poly)
             
             self.app.blit_manager.artists.append(self)
         
@@ -104,9 +109,9 @@ class FunctionBuilder:
             """Triggered when CustomTool is enabled,
             Uses BlitManager for faster rendering of DragObjects.
             """
-
+            self.fitter = self.function_builder.copy().build().fitter_instance
             super().enable()
-            self.fitter = self.function_builder.build().fitter_instance
+            
 
         def disable(self,*args):
             """Triggered when CustomTool is disabled.

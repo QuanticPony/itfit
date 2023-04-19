@@ -134,6 +134,11 @@ class DragGaussianManager(DragPointCollection):
 class GaussianFitter(GenericFitter):
     """Gaussian function fitter."""
     name = 'gaussian'
+    manager = DragGaussianManager
+    
+    @staticmethod
+    def get_function_string():
+        return r"A \cdot e^{-\frac{(x-m)^2}{2s^2}}"
 
     def __init__(self,app,data: DataSelection):
         """ Gaussian fitter following function `f(x) = A*exp(0.5*(x-m)^2/s^2)`
@@ -175,14 +180,13 @@ class GaussianTool(GenericFitterTool):
 
     # default_keymap = ''
     description = 'Gauss me please'
+    fitter = GaussianFitter
 
     def enable(self,*args):
         """Triggered when GaussianTool is enabled,
         Uses BlitManager for faster rendering of DragObjects.
         """
-
         super().enable()
-        self.fitter = GaussianFitter(self.app,self.data)
 
     def disable(self,*args):
         """Triggered when GaussianTool is disabled.

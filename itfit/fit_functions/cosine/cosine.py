@@ -70,6 +70,7 @@ class DragCosineManager(DragPointCollection):
         dfdd = 1
         return np.array ([[dfda], [dfdb], [dfdc], [dfdd]])
 
+    @staticmethod
     def get_args_length():
         """Gets number of arguments of `function`.
 
@@ -128,6 +129,11 @@ class DragCosineManager(DragPointCollection):
 class CosineFitter(GenericFitter):
     """Cosine function fitter."""
     name = 'cosine'
+    manager = DragCosineManager
+
+    @staticmethod
+    def get_function_string():
+        return r"a \cdot \cos(bx+c)+d"
 
     def __init__(self, app, data: DataSelection):
         """Cosine fitter following function 'f(x) = a*cos(b*x+b)'.
@@ -168,14 +174,13 @@ class CosineTool(GenericFitterTool):
 
     # default_keymap = ''
     description = 'Cosine me please'
+    fitter = CosineFitter
 
     def enable(self,*args):
         """Triggered when CosineTool is enabled.
         Uses BlitManager for faster rendering of DragObjects.
         """
-
         super().enable()
-        self.fitter = CosineFitter(self.app,self.data)
     
     def disable(self, *args):
         """Triggered when CosineTool is disabled.

@@ -123,6 +123,11 @@ class DragLorentzianManager(DragPointCollection):
 class LorentzianFitter(GenericFitter):
     """Lorentzian function fitter."""
     name = 'lorentzian'
+    manager = DragLorentzianManager
+
+    @staticmethod
+    def get_function_string():
+        return r"\frac{A·FWHM}{(\pi ·(x-x0)^2 + (\frac{FWHM}{2})^2)}"
 
     def __init__(self,app,data: DataSelection):
         """ Lorentzian fitter following function `f(x) = A/pi*(FWHM/2)/((x-x0)^2+(FWHM/2)^2)`
@@ -173,13 +178,13 @@ class LorentzianTool(GenericFitterTool):
 
     # default_keymap = ''
     description = 'Lorentz me please'
+    fitter = LorentzianFitter
 
     def enable(self,*args):
         """Triggered when LorentzianTool is enabled,
         Uses BlitManager for faster rendering of DragObjects.
         """
         super().enable()
-        self.fitter = LorentzianFitter(self.app,self.data)
 
     def disable(self,*args):
         """Triggered when LorentzianTool is disabled.

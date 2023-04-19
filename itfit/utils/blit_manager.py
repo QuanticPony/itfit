@@ -11,10 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .. import Fitter
+
 
 class BlitManager:
     """**Do not use this class unless you know what blitting is and you are familiar with the rest of the code.**"""
-    def __init__(self, app):
+    def __init__(self, app: Fitter):
         """Class for managing blitting. DragObjects must be appended to `self.artists`.
         BlitManager must be manualy enabled and disabled.
         `with` statements can be used to enable or disable blitting temporaly.
@@ -41,10 +46,9 @@ class BlitManager:
             a.poly.set_visible(False)
         
         for a in self.ax.artists:
-            self.ax.draw_artists(a)
+            self.ax.draw_artist(a)
             
         self.canvas.blit()
-
         return self.canvas.copy_from_bbox(self.ax.bbox)
     
     def update_background(self):

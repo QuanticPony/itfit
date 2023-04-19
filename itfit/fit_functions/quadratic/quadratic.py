@@ -122,6 +122,11 @@ class DragQuadraticManager(DragPointCollection):
 class QuadraticFitter(GenericFitter):
     """Quadratic function fitter."""
     name = 'quadratic'
+    manager = DragQuadraticManager
+    
+    @staticmethod
+    def get_function_string():
+        return "ax^2 + bx + c"
     
     def __init__(self, app, data: DataSelection):
         """Quadratic fitter following function `f(x)=a*x^2 + b*x + c`
@@ -163,13 +168,13 @@ class QuadraticTool(GenericFitterTool):
     
     # default_keymap = ''
     description = 'Quadratic me please'
+    fitter = QuadraticFitter
 
     def enable(self, *args):
         """Triggered when QuadraticTool is enabled.
         Uses BlitManager for faster rendering of DragObjects.
         """
         super().enable()
-        self.fitter = QuadraticFitter(self.app, self.data)
 
     def disable(self, *args):
         """Triggered when QuadraticTool is disabled.

@@ -38,13 +38,14 @@ function_builder = itfit.FunctionBuilder(fitter)
 
 function_builder.define(Sine / Quadratic)
 
-fitter()
 fitter.add_custom_fit_function(function_builder)
-plt.show()
+fitter()
+
+
 
 plot_builder = fitter.get_plot_builder()
 
-plot_builder.plot_fit(color="pink").plot_fit(color="red").with_data()
+plot_builder.plot_fit(color="pink").plot_fit_errors().with_data()
 
 
 plt.show()
